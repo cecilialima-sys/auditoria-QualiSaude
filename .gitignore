@@ -1,0 +1,16 @@
+node_modules
+.next
+next-build
+out
+.env
+.env.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+next-dev*.log
+Captura de tela*.png
+*.tsbuildinfo
+data/access-store.json
+data/watchdog.pid
+logs

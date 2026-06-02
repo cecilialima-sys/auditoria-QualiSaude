@@ -1,0 +1,46 @@
+{
+  "name": "qualisaude-hospitalar",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "site:always-on": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-sisapec-always-on.ps1",
+    "site:stop": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/stop-sisapec-always-on.ps1",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.18.0",
+    "bcryptjs": "latest",
+    "clsx": "latest",
+    "exceljs": "latest",
+    "jsonwebtoken": "latest",
+    "lucide-react": "latest",
+    "next": "latest",
+    "puppeteer": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-hook-form": "latest",
+    "recharts": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "prisma": "^6.18.0",
+    "tailwindcss": "latest",
+    "tsx": "latest",
+    "typescript": "latest"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}

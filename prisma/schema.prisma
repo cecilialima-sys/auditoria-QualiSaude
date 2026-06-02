@@ -1,0 +1,312 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleName {
+  ADMIN
+  COORDENADOR
+  AUDITOR
+  ENFERMEIRO
+  VISUALIZADOR
+  USUARIO_COMUM
+}
+
+enum ItemStatus {
+  COMPLIANT
+  NON_COMPLIANT
+  PARTIALLY_COMPLIANT
+  NOT_APPLICABLE
+  NOT_OBSERVED
+}
+
+enum RiskLevel {
+  LOW
+  MODERATE
+  HIGH
+  CRITICAL
+}
+
+enum AuditFinalStatus {
+  DRAFT
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum ActionPlanStatus {
+  OPEN
+  IN_PROGRESS
+  AWAITING_VALIDATION
+  COMPLETED
+  OVERDUE
+  CANCELED
+}
+
+model Role {
+  id          String    @id @default(cuid())
+  name        RoleName  @unique
+  users       User[]
+  permissions RolePermission[]
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  @@map("roles")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  active       Boolean   @default(true)
+  isPrimaryAdmin Boolean @default(false) @map("is_primary_admin")
+  mustChangePassword Boolean @default(false) @map("must_change_password")
+  roleId       String    @map("role_id")
+  role         Role      @relation(fields: [roleId], references: [id])
+  permissions  UserPermission[]
+  audits       Audit[]
+  auditLogs    AuditLog[]
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
+
+  @@map("users")
+}
+
+model Permission {
+  id          String    @id @default(cuid())
+  key         String    @unique
+  label       String
+  description String?
+  roleLinks   RolePermission[]
+  userLinks   UserPermission[]
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  id           String     @id @default(cuid())
+  roleId       String     @map("role_id")
+  role         Role       @relation(fields: [roleId], references: [id])
+  permissionId String     @map("permission_id")
+  permission   Permission @relation(fields: [permissionId], references: [id])
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  @@unique([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model UserPermission {
+  id           String     @id @default(cuid())
+  userId       String     @map("user_id")
+  user         User       @relation(fields: [userId], references: [id])
+  permissionId String     @map("permission_id")
+  permission   Permission @relation(fields: [permissionId], references: [id])
+  allowed      Boolean    @default(true)
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  @@unique([userId, permissionId])
+  @@map("user_permissions")
+}
+
+model Sector {
+  id             String          @id @default(cuid())
+  name           String          @unique
+  description    String?
+  active         Boolean         @default(true)
+  audits         Audit[]
+  checklistItems ChecklistItem[]
+  actionPlans    ActionPlan[]
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  deletedAt      DateTime?       @map("deleted_at")
+
+  @@map("sectors")
+}
+
+model Checklist {
+  id        String          @id @default(cuid())
+  name      String
+  category  String
+  items     ChecklistItem[]
+  createdAt DateTime        @default(now()) @map("created_at")
+  updatedAt DateTime        @updatedAt @map("updated_at")
+  deletedAt DateTime?       @map("deleted_at")
+
+  @@map("checklists")
+}
+
+model ChecklistItem {
+  id          String          @id @default(cuid())
+  checklistId String          @map("checklist_id")
+  checklist   Checklist       @relation(fields: [checklistId], references: [id])
+  sectorId    String?         @map("sector_id")
+  sector      Sector?         @relation(fields: [sectorId], references: [id])
+  category    String
+  item        String
+  criterion   String
+  responses   AuditResponse[]
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+  deletedAt   DateTime?       @map("deleted_at")
+
+  @@map("checklist_items")
+}
+
+model Audit {
+  id                String           @id @default(cuid())
+  sectorId          String           @map("sector_id")
+  sector            Sector           @relation(fields: [sectorId], references: [id])
+  auditorId         String           @map("auditor_id")
+  auditor           User             @relation(fields: [auditorId], references: [id])
+  sectorResponsible String           @map("sector_responsible")
+  auditType         String           @map("audit_type")
+  category          String
+  finalStatus       AuditFinalStatus @default(DRAFT) @map("final_status")
+  responses         AuditResponse[]
+  reports           Report[]
+  evidences         Evidence[]
+  nonConformities   NonConformity[]
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+  deletedAt         DateTime?        @map("deleted_at")
+
+  @@map("audits")
+}
+
+model AuditResponse {
+  id               String        @id @default(cuid())
+  auditId          String        @map("audit_id")
+  audit            Audit         @relation(fields: [auditId], references: [id])
+  checklistItemId  String        @map("checklist_item_id")
+  checklistItem    ChecklistItem @relation(fields: [checklistItemId], references: [id])
+  status           ItemStatus
+  evidenceObserved String?       @map("evidence_observed")
+  observation      String?
+  riskLevel        RiskLevel?    @map("risk_level")
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
+  deletedAt        DateTime?     @map("deleted_at")
+
+  @@map("audit_responses")
+}
+
+model NonConformity {
+  id          String       @id @default(cuid())
+  auditId     String       @map("audit_id")
+  audit       Audit        @relation(fields: [auditId], references: [id])
+  sectorId    String       @map("sector_id")
+  description String
+  riskLevel   RiskLevel    @map("risk_level")
+  resolvedAt  DateTime?    @map("resolved_at")
+  actionPlans ActionPlan[]
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+  deletedAt   DateTime?    @map("deleted_at")
+
+  @@map("non_conformities")
+}
+
+model ActionPlan {
+  id                String           @id @default(cuid())
+  nonConformityId   String           @map("non_conformity_id")
+  nonConformity     NonConformity    @relation(fields: [nonConformityId], references: [id])
+  sectorId          String           @map("sector_id")
+  sector            Sector           @relation(fields: [sectorId], references: [id])
+  correctiveAction  String           @map("corrective_action")
+  responsible       String
+  deadline          DateTime
+  status            ActionPlanStatus @default(OPEN)
+  completedAt       DateTime?        @map("completed_at")
+  auditorValidation String?          @map("auditor_validation")
+  evidences         Evidence[]
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+  deletedAt         DateTime?        @map("deleted_at")
+
+  @@map("action_plans")
+}
+
+model Evidence {
+  id           String      @id @default(cuid())
+  auditId      String?     @map("audit_id")
+  audit        Audit?      @relation(fields: [auditId], references: [id])
+  actionPlanId String?     @map("action_plan_id")
+  actionPlan   ActionPlan? @relation(fields: [actionPlanId], references: [id])
+  fileName     String      @map("file_name")
+  mimeType     String      @map("mime_type")
+  sizeBytes    Int         @map("size_bytes")
+  storageKey   String      @map("storage_key")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+  deletedAt    DateTime?   @map("deleted_at")
+
+  @@map("evidences")
+}
+
+model Report {
+  id                   String   @id @default(cuid())
+  auditId              String   @map("audit_id")
+  audit                Audit    @relation(fields: [auditId], references: [id])
+  compliancePercentage Int      @map("compliance_percentage")
+  nonCompliancePercent Int      @map("non_compliance_percent")
+  classification       String
+  automaticConclusion  String   @map("automatic_conclusion")
+  finalConsiderations  String?  @map("final_considerations")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+  deletedAt            DateTime? @map("deleted_at")
+
+  @@map("reports")
+}
+
+model Metric {
+  id        String   @id @default(cuid())
+  key       String
+  value     Float
+  scope     String
+  period    String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("metrics")
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  title     String
+  message   String
+  type      String
+  readAt    DateTime? @map("read_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("notifications")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  action    String
+  entity    String
+  entityId  String?  @map("entity_id")
+  ipAddress String?  @map("ip_address")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("audit_logs")
+}
