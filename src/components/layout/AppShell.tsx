@@ -55,17 +55,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <div style={{ fontSize: 13, opacity: 0.82 }}>Auditoria Hospitalar</div>
             </div>
           </div>
-          <nav className="nav-list" aria-label="Navegação principal">
-            {visibleItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link className="nav-item" href={item.href} key={item.href}>
-                  <Icon size={18} aria-hidden="true" />
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
+          <div className="sidebar-scroll">
+            <nav className="nav-list" aria-label="Navegação principal">
+              {visibleItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link className="nav-item" href={item.href} key={item.href}>
+                    <Icon size={18} aria-hidden="true" />
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
           <div className="sidebar-footer">
             <button className="nav-item logout-button" onClick={logout} type="button">
               <LogOut size={18} aria-hidden="true" />
