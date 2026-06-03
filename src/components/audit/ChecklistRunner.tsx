@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import { FileDown, Save, Send } from "lucide-react";
@@ -102,13 +102,13 @@ export function ChecklistRunner() {
             <div className="metric-value">{compliance.percentage}%</div>
           </article>
           <article>
-            <div className="muted">Classificacao</div>
-            <span className={`badge ${compliance.classification === "Critico" ? "danger" : compliance.classification === "Atencao" ? "warning" : "success"}`}>
+            <div className="muted">Classificação</div>
+            <span className={`badge ${compliance.classification === "Crítico" ? "danger" : compliance.classification === "Atenção" ? "warning" : "success"}`}>
               {compliance.classification}
             </span>
           </article>
           <article>
-            <div className="muted">Itens aplicaveis</div>
+            <div className="muted">Itens aplicáveis</div>
             <div className="metric-value">{compliance.applicable}</div>
           </article>
         </div>
@@ -118,7 +118,7 @@ export function ChecklistRunner() {
       </section>
 
       <section className="card" aria-labelledby="audit-identification-title">
-        <h2 className="section-title" id="audit-identification-title">Identificacao da auditoria</h2>
+        <h2 className="section-title" id="audit-identification-title">Identificação da auditoria</h2>
         <div className="grid grid-3">
           <div className="field">
             <label htmlFor="audit-sector">Setor auditado</label>
@@ -129,8 +129,8 @@ export function ChecklistRunner() {
             <input className="input" id="audit-auditor" placeholder="Nome do auditor" />
           </div>
           <div className="field">
-            <label htmlFor="audit-manager">Responsavel pelo setor</label>
-            <input className="input" id="audit-manager" placeholder="Responsavel pelo setor" />
+            <label htmlFor="audit-manager">Responsável pelo setor</label>
+            <input className="input" id="audit-manager" placeholder="Responsável pelo setor" />
           </div>
           <div className="field">
             <label htmlFor="audit-date">Data</label>
@@ -195,11 +195,11 @@ export function ChecklistRunner() {
                   </select>
                 </div>
                 <div className="field">
-                  <label htmlFor={`${item.id}-deadline`}>Prazo para correcao</label>
+                  <label htmlFor={`${item.id}-deadline`}>Prazo para correção</label>
                   <input className="input" id={`${item.id}-deadline`} type="date" value={responses[item.id].deadline} onChange={(event) => update(item.id, { deadline: event.target.value })} />
                 </div>
                 <div className="field field-wide">
-                  <label htmlFor={`${item.id}-observation`}>Observacao do auditor</label>
+                  <label htmlFor={`${item.id}-observation`}>Observação do auditor</label>
                   <input className="input" id={`${item.id}-observation`} value={responses[item.id].observation} onChange={(event) => update(item.id, { observation: event.target.value })} />
                 </div>
               </div>
@@ -209,23 +209,23 @@ export function ChecklistRunner() {
           <article className="card empty-state">
             <h3>Nenhum checklist cadastrado</h3>
             <p className="muted">
-              A estrutura da tela esta pronta. Os checklists devem ser adicionados em `src/lib/checklists/checklist-template.ts`, organizados por setor, categoria, pergunta, criterio e explicacao.
+              A estrutura da tela está pronta. Os checklists devem ser adicionados em `src/lib/checklists/checklist-template.ts`, organizados por setor, categoria, pergunta, critério e explicação.
             </p>
           </article>
         )}
       </section>
 
       <section className="card" aria-labelledby="automatic-report-title">
-        <h2 className="section-title" id="automatic-report-title">Relatorio automatico</h2>
+        <h2 className="section-title" id="automatic-report-title">Relatório automático</h2>
         <div className="grid grid-4">
           <div>Conformes: <strong>{counts["Conforme"] ?? 0}</strong></div>
-          <div>Nao conformes: <strong>{counts["Nao conforme"] ?? 0}</strong></div>
-          <div>Nao aplicaveis: <strong>{counts["Nao se aplica"] ?? 0}</strong></div>
+          <div>Não conformes: <strong>{counts["Não conforme"] ?? 0}</strong></div>
+          <div>Não aplicáveis: <strong>{counts["Não se aplica"] ?? 0}</strong></div>
         </div>
         <p>{intelligentConclusion(compliance.classification)}</p>
         <label className="inline-check">
           <input checked={signed} onChange={(event) => setSigned(event.target.checked)} type="checkbox" />
-          Confirmo digitalmente a finalizacao desta auditoria.
+          Confirmo digitalmente a finalização desta auditoria.
         </label>
         <div className="button-row">
           <button className="button secondary" type="button">
@@ -249,3 +249,4 @@ export function ChecklistRunner() {
     </div>
   );
 }
+

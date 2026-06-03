@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   sheet.columns = [
     { header: "Setor", key: "setor", width: 28 },
     { header: "Conformidade", key: "conformidade", width: 16 },
-    { header: "NÃ£o conformidades", key: "naoConformidades", width: 20 },
+    { header: "Não conformidades", key: "naoConformidades", width: 20 },
     { header: "Risco", key: "risco", width: 14 }
   ];
   sheet.addRows([]);

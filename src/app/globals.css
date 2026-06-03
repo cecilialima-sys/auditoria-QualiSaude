@@ -58,6 +58,8 @@ textarea {
   height: 100vh;
   padding: 24px 18px;
   color: white;
+  display: flex;
+  flex-direction: column;
 }
 
 .brand {
@@ -97,6 +99,11 @@ textarea {
   gap: 7px;
 }
 
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 18px;
+}
+
 .nav-item {
   display: flex;
   align-items: center;
@@ -105,6 +112,13 @@ textarea {
   padding: 10px 12px;
   border-radius: 8px;
   color: rgba(255, 255, 255, 0.86);
+}
+
+.logout-button {
+  width: 100%;
+  border: 0;
+  background: rgba(255, 255, 255, 0.12);
+  cursor: pointer;
 }
 
 .nav-item:hover,

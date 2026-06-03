@@ -1,7 +1,8 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { LogOut } from "lucide-react";
 import { appRoutes, mainFallbackRoutes } from "@/lib/navigation/routes";
 import { hasPermission } from "@/lib/permissions/permissions";
 
@@ -36,8 +37,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <>
       <header className="mobile-nav sisapec-gradient">
         <div className="mobile-brand">
-          <img src="/qualisaude-logo.png" alt="QualiSaude" />
-          <strong>QualiSaude</strong>
+          <img src="/qualisaude-logo.png" alt="QualiSaúde" />
+          <strong>QualiSaúde</strong>
         </div>
         <button className="button secondary" onClick={logout} type="button">
           Sair
@@ -47,14 +48,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <aside className="sidebar sisapec-gradient" aria-label="Menu lateral">
           <div className="brand">
             <div className="brand-logo">
-              <img src="/qualisaude-logo.png" alt="QualiSaude Hospitalar" />
+              <img src="/qualisaude-logo.png" alt="QualiSaúde Hospitalar" />
             </div>
             <div>
-              <strong>QualiSaude</strong>
+              <strong>QualiSaúde</strong>
               <div style={{ fontSize: 13, opacity: 0.82 }}>Auditoria Hospitalar</div>
             </div>
           </div>
-          <nav className="nav-list" aria-label="Navegacao principal">
+          <nav className="nav-list" aria-label="Navegação principal">
             {visibleItems.map((item) => {
               const Icon = item.icon;
               return (
@@ -65,10 +66,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               );
             })}
           </nav>
+          <div className="sidebar-footer">
+            <button className="nav-item logout-button" onClick={logout} type="button">
+              <LogOut size={18} aria-hidden="true" />
+              Sair
+            </button>
+          </div>
         </aside>
         <main className="main">{children}</main>
       </div>
-      <nav className="bottom-nav" aria-label="Navegacao mobile">
+      <nav className="bottom-nav" aria-label="Navegação mobile">
         {mobileItems.map((item) => {
           const Icon = item.icon;
           return (
@@ -82,3 +89,4 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     </>
   );
 }
+

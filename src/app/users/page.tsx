@@ -1,4 +1,4 @@
-import { ResourcePage } from "@/components/ui/ResourcePage";
+﻿import { ResourcePage } from "@/components/ui/ResourcePage";
 
 const rows: Array<{ nome: string; email: string; perfil: string; setor: string; status: string }> = [];
 
@@ -6,8 +6,8 @@ export default function UsersPage() {
   return (
     <ResourcePage
       eyebrow="Controle de acesso"
-      title="Usuarios"
-      description="Gerencie usuarios reais pelo painel administrativo de acessos."
+      title="Usuários"
+      description="Gerencie usuários reais pelo painel administrativo de acessos."
       actionLabel="Novo usuario"
       columns={[
         { key: "nome", label: "Nome" },
@@ -20,3 +20,4 @@ export default function UsersPage() {
     />
   );
 }
+

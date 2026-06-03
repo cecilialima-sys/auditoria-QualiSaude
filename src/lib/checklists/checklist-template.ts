@@ -24,13 +24,13 @@ export type ChecklistGroup = {
 
 export const checklistTemplateGroups: ChecklistGroup[] = [
     {
-        "id":  "2-1-internacao-ala-3",
+        "id":  "2-1-internação-ala-3",
         "sourceFile":  "2.1 Internação Ala 3 OK.docx",
         "sector":  "Internação Ala 3",
         "category":  "Internação Ala 3",
         "questions":  [
                           {
-                              "id":  "2-1-internacao-ala-3-r01",
+                              "id":  "2-1-internação-ala-3-r01",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Identifica o perfil assistencial.",
                               "explicacao":  "Identifica e utiliza o perfil epidemiológico, análise de demanda e das necessidades de clientes atendidos para definir o modelo assistenciale demonstrar sua efetividade. Perfil epidemiológico atualizado da unidade mapeado (patologia prevalente, complexidade, faixa etária, origem dos pacientes, outras informações importantes para a tomada de decisão como definição de protocolos, planejamento do cuidado, dimensionamento, direcionamento e capacitação da equipe, disponibilização de recursos)",
@@ -43,7 +43,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  1
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r02",
+                              "id":  "2-1-internação-ala-3-r02",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Dimensiona recursos humanos, tecnológicos e insumos de acordo com a necessidade do serviço.",
                               "explicacao":  "Recursos humanos dimensionado (quantidade, disponibilidade, habilitação) conforme o perfil e a complexidade; Recursos tecnológicos dimensionados (quantidade, disponibilidade, especificação) conforme o perfil e a complexidade; Insumos para a execução das atividades de atenção dimensionados (quantidade, disponibilidade, especificação) conforme o perfil e a complexidade. Apresenta o método de dimensionamento das equipes multidisciplinares, demonstra a padronização e dimensionamento de materiais e equipamentos conforme perfil da unidade.",
@@ -56,7 +56,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  2
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r03",
+                              "id":  "2-1-internação-ala-3-r03",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Dispõe de profissionais com competências e capacitação compatíveis com a necessidade do serviço.",
                               "explicacao":  "Considerar as competências e as necessidades do serviço na contratação conforme o cargo/função ocupado alinhado a Politica de Gestão de Pessoas. Apresenta coerência entre a descrição de cargos e habilitações especificas. São observáveis diplomas de graduação, registro ativo no respectivo conselho referente a profissão e títulos de capacitações especificas exigidos pelo cargo/função.",
@@ -69,7 +69,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  3
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r04",
+                              "id":  "2-1-internação-ala-3-r04",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Planeja as atividades, avaliando as condições operacionais e de infraestrutura, viabilizando a execução dos processos de trabalho de forma segura.",
                               "explicacao":  "A gestão da unidade avalia periodicamente as condições operacionais e de infraestrutura viabilizando recursos para a execução dos processos de trabalho de forma segura. Apresenta evidência de avaliação de condições operacionais e de infraestrutura conforme a complexidade tais como: iluminação, sinalização, gases, estrutura predial, equipamentos, insumos, EPIs, etc.",
@@ -82,7 +82,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  4
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r05",
+                              "id":  "2-1-internação-ala-3-r05",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Acompanha a manutenção preventiva e corretiva das instalações e dos equipamentos, incluindo a calibração.",
                               "explicacao":  "A gestão da unidade acompanha a periodicidade da calibração e manutenção preventiva e corretiva das instalações e dos equipamentos. Apresenta evidência de acompanhamento como por exemplo, comunicação formal com os responsáveis do processo tais como cronogramas, checklists, etiquetas, sistemas informatizados, entre outros.",
@@ -95,7 +95,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  5
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r06",
+                              "id":  "2-1-internação-ala-3-r06",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Estabelece protocolos assistenciais/clínicos alinhados ao perfil epidemiológico",
                               "explicacao":  "Protocolos definidos e implantados baseados no conhecimento científico atual, no perfil epidemiológico, gravidade, risco, prevalência e custo, com base em diretrizes e evidências científicas. Protocolos clínicos/assistencial de acordo com o perfil da unidade e estar inserida nos protocolos institucionais quando aplicáveis (Ex: AVC; Sepse; Dor torácica).",
@@ -108,7 +108,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  6
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r07",
+                              "id":  "2-1-internação-ala-3-r07",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências",
                               "explicacao":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências Apresenta procedimento para a identificação precoce dos sinais de alerta de deterioração clinica baseado em evidências cientificas. Demonstra fluxo de atendimento as urgências e emergências.",
@@ -121,7 +121,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  7
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r08",
+                              "id":  "2-1-internação-ala-3-r08",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Considera as características individuais dos pacientes/clientes e acompanhantes, respeitando suas tradições culturais, crenças, diversidades, valores pessoais e privacidade para o planejamento do cuidado.",
                               "explicacao":  "A equipe multidisciplinar, quando aplicável, considera as características individuais dos pacientes/clientes e acompanhantes, respeitando suas tradições culturais, crenças, sexualidade, valores pessoais e privacidade para o planejamento do cuidado Apresenta o registro da utilização de características individuais no plano interdisciplinar tais como nome social, respeito a restrição a procedimentos por motivos religiosos, culturais, alterações imunológicas, por desejo pessoal previamente declarado, entre outros.",
@@ -134,7 +134,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  8
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r09",
+                              "id":  "2-1-internação-ala-3-r09",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Dispõe de prontuário com registros multidisciplinares atualizados sobre a evolução do paciente/cliente, que promova a continuidade da assistência.",
                               "explicacao":  "A equipe multidisciplinar quando aplicável mantem registros atualizados, considerando diagnósticos, procedimentos e morbidades, sobre a evolução do paciente/cliente, que promova a continuidade da assistência. Apresenta prontuários organizados e atualizados tais como com profissionaisidentificados, identificação do paciente/cliente, considerando as avaliações e reavaliações, registros dos procedimentos realizados, registro de decisão clínica e demonstrando integração entre os profissionais",
@@ -147,7 +147,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  9
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r10",
+                              "id":  "2-1-internação-ala-3-r10",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Estabelece, acompanha, avalia e adequa, se necessário,o plano terapêutico individualizado considerando diagnósticos, procedimentos e morbidades.",
                               "explicacao":  "A equipe assistencial estabelece todas as etapas do plano terapêutico individualizado. Apresenta o registro do planejamento da assistência em prontuário tais como plano de condutas definidas, metas, necessidade de avaliações de outras especialidades, exames e procedimentos, previsão de alta.",
@@ -160,7 +160,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  10
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r11",
+                              "id":  "2-1-internação-ala-3-r11",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Estabelece plano interdisciplinar da assistência, com base no plano terapêutico definido, considerando o grau de complexidade e dependência.",
                               "explicacao":  "A equipe assistencial estabelece todas as etapas do plano de cuidados individualizado, quando aplicável, alinhado ao plano terapêutico. Apresenta o registro do plano interdisciplinar em prontuário conforme os riscos e necessidades do paciente.",
@@ -173,7 +173,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  11
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r12",
+                              "id":  "2-1-internação-ala-3-r12",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Dispõe de plano de alta multidisciplinar de conhecimento do paciente/cliente e/ou acompanhantes para a continuidade do cuidado extra-hospitalar considerando diagnósticos, procedimentos e morbidades.",
                               "explicacao":  "Planeja e oferece plano educacional para o paciente/cliente e acompanhante para continuidade do cuidado extra-hospitalar. Registro em prontuário do planejamento multidisciplinar de alta com definição de metas e prazos, antecipando as necessidades relacionadas a alta do paciente; Oferece registro sobre os cuidados que o paciente/acompanhante deverá utilizar para continuidade na alta;Oferece resumo de alta.",
@@ -186,7 +186,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  12
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r13",
+                              "id":  "2-1-internação-ala-3-r13",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Promove o envolvimento do paciente/cliente e/ou acompanhante a respeito dos seus procedimentos, riscos e plano terapêutico.",
                               "explicacao":  "A equipe multidisciplinar registra e compartilha as decisões importantes relacionadas ao cuidado A equipe multidisciplinar demonstra comunicação entre a equipe de profissionais epacientes/clientes e/ou acompanhantes sobre as decisões importantes relacionados ao cuidadoTais como registros em prontuários, documentos informativos, conhecimento do paciente/acompanhante a respeito do tratamento.",
@@ -199,20 +199,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  13
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r14",
+                              "id":  "2-1-internação-ala-3-r14",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
-                              "explicacao":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explicacao":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  14,
                               "text":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
                               "criterion":  "",
-                              "explanation":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explanation":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "order":  14
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r15",
+                              "id":  "2-1-internação-ala-3-r15",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Cumpre com as diretrizes dos protocolos de segurança do paciente, alinhados a política Institucional",
                               "explicacao":  "A unidade adere as diretrizes dos protocolos de segurança do paciente e prevenção de infecções relacionadas a assistência a saúde definidos na Politica de Segurança do Paciente baseados no conhecimento científico atual e no perfil epidemiológico da instituição. Demonstra a adesão dos Protocolos de segurança do paciente e prevenção infecções relacionadas a assistência a saúde definidos e implantados.",
@@ -225,7 +225,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  15
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r16",
+                              "id":  "2-1-internação-ala-3-r16",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Cumpre os protocolos de prevenção e controle de infecção e biossegurança.",
                               "explicacao":  "Adere os protocolos de prevenção e controle de infecções relacionadas a assistência à saúde e biossegurança, tais como infecções relacionadas a corrente sanguínea, infecção do trato urinário, higienização das mãos, dentre outros. Demonstra evidência de cumprimento dos protocolos estabelecidos.",
@@ -238,7 +238,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  16
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r17",
+                              "id":  "2-1-internação-ala-3-r17",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Cumpre diretrizes de transmissão de informação na transição de cuidado, bem como nas transferências internas e externas.",
                               "explicacao":  "A equipe multidisciplinaradere as diretrizes, metodologias ou padronizações nos momentos de transição do cuidado e transferências internas e externas para promover a comunicação efetiva. Apresenta registro da comunicação para tomada de decisão clinica e outras informações importantes relacionadas ao fluxo do paciente.Tais comoregistro de passagem de plantão, relatórios das condições clinicas nas transferências internas e externas, informes clínicos e resultados críticos de exames/pareceres entre outros.",
@@ -251,7 +251,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  17
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r18",
+                              "id":  "2-1-internação-ala-3-r18",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Identifica sinais de deterioração clínica e cumpre o protocolo de atendimento destes pacientes/clientes.",
                               "explicacao":  "A equipe assistencial identifica os pacientes com sinais clínicos deevolução desfavorável e adere as diretrizes de atendimento. Demonstra a identificação do paciente comsinais clínicos de evolução desfavorável e a inclusão do mesmo nos fluxos de atendimentos específicosTais como utilização de escore, inteligência artificial, Protocolos ou fluxos de atendimento a urgências e emergências.",
@@ -264,7 +264,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  18
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r19",
+                              "id":  "2-1-internação-ala-3-r19",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Estabelece protocolo para atendimento de urgências e emergências, com base em diretrizes e evidências científicas.",
                               "explicacao":  "A unidade define protocolos e procedimentos de atendimento para pacientes classificados como urgência e emergência baseado nas diretrizes e evidências cientificas. Demonstra conhecimento e aplicação de Protocolos e procedimentos para atendimento aos pacientes classificados como urgência e emergência conforme estabelecido pela unidade, tais como atendimento a Parada Cardio Respiratória, convulsão, reação alérgica grave, entre outros.",
@@ -277,20 +277,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  19
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r20",
+                              "id":  "2-1-internação-ala-3-r20",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
-                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das praticas definidas.",
+                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das práticas definidas.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  20,
                               "text":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
                               "criterion":  "",
-                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das praticas definidas.",
+                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das práticas definidas.",
                               "order":  20
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r21",
+                              "id":  "2-1-internação-ala-3-r21",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Cumpre as diretrizes de notificação de hemovigilância, farmacovigilância, tecnovigilância e biovigilância.",
                               "explicacao":  "A unidade adere as diretrizes de notificação de hemovigilância, farmacovigilância, tecnovigilância e biovigilância. Demonstra conhecimento e aplicação das diretrizes de notificação, tais como ferramentas de notificação, registro nos órgãos competentes, analise de prontuário e busca ativa.",
@@ -303,7 +303,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  21
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r22",
+                              "id":  "2-1-internação-ala-3-r22",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Cumpre as diretrizes de notificação deincidentes e eventos adversos.",
                               "explicacao":  "Cumpre a prática de notificações de incidentes, circunstância de risco, quase erros, eventos sem dano, eventos adversos, reações adversas e não conformidades. Apresentar o fluxo de notificação descrito e disseminado; Relatório das notificações; Reconhecimento da equipe sobre o fluxo e tratativas, evidenciado em entrevista com a equipe.",
@@ -316,7 +316,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  22
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r23",
+                              "id":  "2-1-internação-ala-3-r23",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Cumpre os critérios e procedimentos de segurança para a utilização de equipamentos.",
                               "explicacao":  "A equipe adere aos procedimentos de segurança na utilização dos equipamentos. Evidencia treinamentos relacionados a utilização dos equipamentos;Demonstra conhecimento e aplicação na utilização dos equipamentos, tais como: laringoscópios, desfibrilador, bomba de infusão, marca-passo externo, cateteres entre outros.",
@@ -329,7 +329,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  23
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r24",
+                              "id":  "2-1-internação-ala-3-r24",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Cumpre os critérios e procedimentos de segurança para a utilização de materiais críticos.",
                               "explicacao":  "A equipe adere aos procedimentos de segurança na utilização de materiais críticos. Evidencia treinamentos relacionados a utilização de materiais críticos;Demonstra conhecimento e aplicação na utilização de materiais críticos como equipo, entre outros.",
@@ -342,20 +342,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  24
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r25",
+                              "id":  "2-1-internação-ala-3-r25",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Cumpre o protocolo multidisciplinar para a segurança na cadeia medicamentosa.",
-                              "explicacao":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas praticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
+                              "explicacao":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas práticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  25,
                               "text":  "Cumpre o protocolo multidisciplinar para a segurança na cadeia medicamentosa.",
                               "criterion":  "",
-                              "explanation":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas praticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
+                              "explanation":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas práticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
                               "order":  25
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r26",
+                              "id":  "2-1-internação-ala-3-r26",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Aplica termo de consentimento para procedimentos de risco.",
                               "explicacao":  "A unidade aplica, por meio de profissional capacitado, termo de consentimento para procedimentos de risco, conforme Politica institucional. Apresenta, junto ao prontuário, o termo de consentimento aplicado e assinado para procedimentos de risco tais como, cirúrgico, anestésico, hemocomponentes, uso de contraste,entre outros procedimentos invasivos.O paciente/acompanhante demonstra conhecimentos sobre os riscos relacionados ao procedimento a ser realizado.",
@@ -368,7 +368,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  26
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r27",
+                              "id":  "2-1-internação-ala-3-r27",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Identifica necessidade de treinamentos e capacitação frente às demandas assistenciais.",
                               "explicacao":  "A gestão da unidade identifica as necessidades de treinamento e promove a capacitação frente às demandas assistenciais. Apresenta evidências da identificação da necessidade e da realização dos treinamentos conforme perfil, tais comotreinamentos em função de notificação de incidentes, novos equipamentos, materiais, procedimentos, protocolos, entre outros.",
@@ -381,7 +381,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  27
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r28",
+                              "id":  "2-1-internação-ala-3-r28",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Cumpre com as determinações do plano de gerenciamento de resíduos.",
                               "explicacao":  "A organização deve garantir a segregação, retirada e descarte dos resíduos gerados conforme estabelecido em seu plano de gerenciamento de resíduos. O plano de gerenciamento de resíduos deve estar elaborado conforme a complexidade dos cuidados e risco de resíduos gerados, especificando como cada tipo de resíduo será classificado. Observar o descarte correto dos resíduoslixeiras, caixa de perfuros cortantes, entre outros. Relatórios de auditorias, notificação de Não Conformidades, registro de retiradas e adequação dos abrigos.",
@@ -394,7 +394,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  28
                           },
                           {
-                              "id":  "2-1-internacao-ala-3-r29",
+                              "id":  "2-1-internação-ala-3-r29",
                               "area":  "Internação Ala 3",
                               "pergunta":  "Estabelece protocolo de identificação, prevenção e acompanhamento de risco para suicídio.",
                               "explicacao":  "A unidade define protocolo de identificação, prevenção e acompanhamento de risco para suicídio. A equipe demonstra conhecimento e aplicação do fluxo de identificação e procedimentos para o acompanhamento do protocolo de risco para suicídio, tais como uso de ferramenta para identificação do risco, proporciona ambiente seguro para os pacientes identificados, definição de monitoramento do paciente (presença de acompanhante, local de fácil vigilância).",
@@ -409,13 +409,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                       ]
     },
     {
-        "id":  "internacao-ala-a",
+        "id":  "internação-ala-a",
         "sourceFile":  "Duplicado de 2.1 Internação Ala A OK.docx",
         "sector":  "Internação Ala A",
         "category":  "Internação Ala A",
         "questions":  [
                           {
-                              "id":  "internacao-ala-a-r01",
+                              "id":  "internação-ala-a-r01",
                               "area":  "Internação Ala A",
                               "pergunta":  "Identifica o perfil assistencial.",
                               "explicacao":  "Identifica e utiliza o perfil epidemiológico, análise de demanda e das necessidades de clientes atendidos para definir o modelo assistenciale demonstrar sua efetividade. Perfil epidemiológico atualizado da unidade mapeado (patologia prevalente, complexidade, faixa etária, origem dos pacientes, outras informações importantes para a tomada de decisão como definição de protocolos, planejamento do cuidado, dimensionamento, direcionamento e capacitação da equipe, disponibilização de recursos)",
@@ -428,7 +428,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  1
                           },
                           {
-                              "id":  "internacao-ala-a-r02",
+                              "id":  "internação-ala-a-r02",
                               "area":  "Internação Ala A",
                               "pergunta":  "Dimensiona recursos humanos, tecnológicos e insumos de acordo com a necessidade do serviço.",
                               "explicacao":  "Recursos humanos dimensionado (quantidade, disponibilidade, habilitação) conforme o perfil e a complexidade; Recursos tecnológicos dimensionados (quantidade, disponibilidade, especificação) conforme o perfil e a complexidade; Insumos para a execução das atividades de atenção dimensionados (quantidade, disponibilidade, especificação) conforme o perfil e a complexidade. Apresenta o método de dimensionamento das equipes multidisciplinares, demonstra a padronização e dimensionamento de materiais e equipamentos conforme perfil da unidade.",
@@ -441,7 +441,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  2
                           },
                           {
-                              "id":  "internacao-ala-a-r03",
+                              "id":  "internação-ala-a-r03",
                               "area":  "Internação Ala A",
                               "pergunta":  "Dispõe de profissionais com competências e capacitação compatíveis com a necessidade do serviço.",
                               "explicacao":  "Considerar as competências e as necessidades do serviço na contratação conforme o cargo/função ocupado alinhado a Politica de Gestão de Pessoas. Apresenta coerência entre a descrição de cargos e habilitações especificas. São observáveis diplomas de graduação, registro ativo no respectivo conselho referente a profissão e títulos de capacitações especificas exigidos pelo cargo/função.",
@@ -454,7 +454,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  3
                           },
                           {
-                              "id":  "internacao-ala-a-r04",
+                              "id":  "internação-ala-a-r04",
                               "area":  "Internação Ala A",
                               "pergunta":  "Planeja as atividades, avaliando as condições operacionais e de infraestrutura, viabilizando a execução dos processos de trabalho de forma segura.",
                               "explicacao":  "A gestão da unidade avalia periodicamente as condições operacionais e de infraestrutura viabilizando recursos para a execução dos processos de trabalho de forma segura. Apresenta evidência de avaliação de condições operacionais e de infraestrutura conforme a complexidade tais como: iluminação, sinalização, gases, estrutura predial, equipamentos, insumos, EPIs, etc.",
@@ -467,7 +467,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  4
                           },
                           {
-                              "id":  "internacao-ala-a-r05",
+                              "id":  "internação-ala-a-r05",
                               "area":  "Internação Ala A",
                               "pergunta":  "Acompanha a manutenção preventiva e corretiva das instalações e dos equipamentos, incluindo a calibração.",
                               "explicacao":  "A gestão da unidade acompanha a periodicidade da calibração e manutenção preventiva e corretiva das instalações e dos equipamentos. Apresenta evidência de acompanhamento como por exemplo, comunicação formal com os responsáveis do processo tais como cronogramas, checklists, etiquetas, sistemas informatizados, entre outros.",
@@ -480,7 +480,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  5
                           },
                           {
-                              "id":  "internacao-ala-a-r06",
+                              "id":  "internação-ala-a-r06",
                               "area":  "Internação Ala A",
                               "pergunta":  "Estabelece protocolos assistenciais/clínicos alinhados ao perfil epidemiológico",
                               "explicacao":  "Protocolos definidos e implantados baseados no conhecimento científico atual, no perfil epidemiológico, gravidade, risco, prevalência e custo, com base em diretrizes e evidências científicas. Protocolos clínicos/assistencial de acordo com o perfil da unidade e estar inserida nos protocolos institucionais quando aplicáveis (Ex: AVC; Sepse; Dor torácica).",
@@ -493,7 +493,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  6
                           },
                           {
-                              "id":  "internacao-ala-a-r07",
+                              "id":  "internação-ala-a-r07",
                               "area":  "Internação Ala A",
                               "pergunta":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências",
                               "explicacao":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências Apresenta procedimento para a identificação precoce dos sinais de alerta de deterioração clinica baseado em evidências cientificas. Demonstra fluxo de atendimento as urgências e emergências.",
@@ -506,7 +506,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  7
                           },
                           {
-                              "id":  "internacao-ala-a-r08",
+                              "id":  "internação-ala-a-r08",
                               "area":  "Internação Ala A",
                               "pergunta":  "Considera as características individuais dos pacientes/clientes e acompanhantes, respeitando suas tradições culturais, crenças, diversidades, valores pessoais e privacidade para o planejamento do cuidado.",
                               "explicacao":  "A equipe multidisciplinar, quando aplicável, considera as características individuais dos pacientes/clientes e acompanhantes, respeitando suas tradições culturais, crenças, sexualidade, valores pessoais e privacidade para o planejamento do cuidado Apresenta o registro da utilização de características individuais no plano interdisciplinar tais como nome social, respeito a restrição a procedimentos por motivos religiosos, culturais, alterações imunológicas, por desejo pessoal previamente declarado, entre outros.",
@@ -519,7 +519,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  8
                           },
                           {
-                              "id":  "internacao-ala-a-r09",
+                              "id":  "internação-ala-a-r09",
                               "area":  "Internação Ala A",
                               "pergunta":  "Dispõe de prontuário com registros multidisciplinares atualizados sobre a evolução do paciente/cliente, que promova a continuidade da assistência.",
                               "explicacao":  "A equipe multidisciplinar quando aplicável mantem registros atualizados, considerando diagnósticos, procedimentos e morbidades, sobre a evolução do paciente/cliente, que promova a continuidade da assistência. Apresenta prontuários organizados e atualizados tais como com profissionaisidentificados, identificação do paciente/cliente, considerando as avaliações e reavaliações, registros dos procedimentos realizados, registro de decisão clínica e demonstrando integração entre os profissionais",
@@ -532,7 +532,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  9
                           },
                           {
-                              "id":  "internacao-ala-a-r10",
+                              "id":  "internação-ala-a-r10",
                               "area":  "Internação Ala A",
                               "pergunta":  "Estabelece, acompanha, avalia e adequa, se necessário,o plano terapêutico individualizado considerando diagnósticos, procedimentos e morbidades.",
                               "explicacao":  "A equipe assistencial estabelece todas as etapas do plano terapêutico individualizado. Apresenta o registro do planejamento da assistência em prontuário tais como plano de condutas definidas, metas, necessidade de avaliações de outras especialidades, exames e procedimentos, previsão de alta.",
@@ -545,7 +545,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  10
                           },
                           {
-                              "id":  "internacao-ala-a-r11",
+                              "id":  "internação-ala-a-r11",
                               "area":  "Internação Ala A",
                               "pergunta":  "Estabelece plano interdisciplinar da assistência, com base no plano terapêutico definido, considerando o grau de complexidade e dependência.",
                               "explicacao":  "A equipe assistencial estabelece todas as etapas do plano de cuidados individualizado, quando aplicável, alinhado ao plano terapêutico. Apresenta o registro do plano interdisciplinar em prontuário conforme os riscos e necessidades do paciente.",
@@ -558,7 +558,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  11
                           },
                           {
-                              "id":  "internacao-ala-a-r12",
+                              "id":  "internação-ala-a-r12",
                               "area":  "Internação Ala A",
                               "pergunta":  "Dispõe de plano de alta multidisciplinar de conhecimento do paciente/cliente e/ou acompanhantes para a continuidade do cuidado extra-hospitalar considerando diagnósticos, procedimentos e morbidades.",
                               "explicacao":  "Planeja e oferece plano educacional para o paciente/cliente e acompanhante para continuidade do cuidado extra-hospitalar. Registro em prontuário do planejamento multidisciplinar de alta com definição de metas e prazos, antecipando as necessidades relacionadas a alta do paciente; Oferece registro sobre os cuidados que o paciente/acompanhante deverá utilizar para continuidade na alta;Oferece resumo de alta.",
@@ -571,7 +571,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  12
                           },
                           {
-                              "id":  "internacao-ala-a-r13",
+                              "id":  "internação-ala-a-r13",
                               "area":  "Internação Ala A",
                               "pergunta":  "Promove o envolvimento do paciente/cliente e/ou acompanhante a respeito dos seus procedimentos, riscos e plano terapêutico.",
                               "explicacao":  "A equipe multidisciplinar registra e compartilha as decisões importantes relacionadas ao cuidado A equipe multidisciplinar demonstra comunicação entre a equipe de profissionais epacientes/clientes e/ou acompanhantes sobre as decisões importantes relacionados ao cuidadoTais como registros em prontuários, documentos informativos, conhecimento do paciente/acompanhante a respeito do tratamento.",
@@ -584,20 +584,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  13
                           },
                           {
-                              "id":  "internacao-ala-a-r14",
+                              "id":  "internação-ala-a-r14",
                               "area":  "Internação Ala A",
                               "pergunta":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
-                              "explicacao":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explicacao":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  14,
                               "text":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
                               "criterion":  "",
-                              "explanation":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explanation":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "order":  14
                           },
                           {
-                              "id":  "internacao-ala-a-r15",
+                              "id":  "internação-ala-a-r15",
                               "area":  "Internação Ala A",
                               "pergunta":  "Cumpre com as diretrizes dos protocolos de segurança do paciente, alinhados a política Institucional",
                               "explicacao":  "A unidade adere as diretrizes dos protocolos de segurança do paciente e prevenção de infecções relacionadas a assistência a saúde definidos na Politica de Segurança do Paciente baseados no conhecimento científico atual e no perfil epidemiológico da instituição. Demonstra a adesão dos Protocolos de segurança do paciente e prevenção infecções relacionadas a assistência a saúde definidos e implantados.",
@@ -610,7 +610,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  15
                           },
                           {
-                              "id":  "internacao-ala-a-r16",
+                              "id":  "internação-ala-a-r16",
                               "area":  "Internação Ala A",
                               "pergunta":  "Cumpre os protocolos de prevenção e controle de infecção e biossegurança.",
                               "explicacao":  "Adere os protocolos de prevenção e controle de infecções relacionadas a assistência à saúde e biossegurança, tais como infecções relacionadas a corrente sanguínea, infecção do trato urinário, higienização das mãos, dentre outros. Demonstra evidência de cumprimento dos protocolos estabelecidos.",
@@ -623,7 +623,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  16
                           },
                           {
-                              "id":  "internacao-ala-a-r17",
+                              "id":  "internação-ala-a-r17",
                               "area":  "Internação Ala A",
                               "pergunta":  "Cumpre diretrizes de transmissão de informação na transição de cuidado, bem como nas transferências internas e externas.",
                               "explicacao":  "A equipe multidisciplinaradere as diretrizes, metodologias ou padronizações nos momentos de transição do cuidado e transferências internas e externas para promover a comunicação efetiva. Apresenta registro da comunicação para tomada de decisão clinica e outras informações importantes relacionadas ao fluxo do paciente.Tais comoregistro de passagem de plantão, relatórios das condições clinicas nas transferências internas e externas, informes clínicos e resultados críticos de exames/pareceres entre outros.",
@@ -636,7 +636,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  17
                           },
                           {
-                              "id":  "internacao-ala-a-r18",
+                              "id":  "internação-ala-a-r18",
                               "area":  "Internação Ala A",
                               "pergunta":  "Identifica sinais de deterioração clínica e cumpre o protocolo de atendimento destes pacientes/clientes.",
                               "explicacao":  "A equipe assistencial identifica os pacientes com sinais clínicos deevolução desfavorável e adere as diretrizes de atendimento. Demonstra a identificação do paciente comsinais clínicos de evolução desfavorável e a inclusão do mesmo nos fluxos de atendimentos específicosTais como utilização de escore, inteligência artificial, Protocolos ou fluxos de atendimento a urgências e emergências.",
@@ -649,7 +649,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  18
                           },
                           {
-                              "id":  "internacao-ala-a-r19",
+                              "id":  "internação-ala-a-r19",
                               "area":  "Internação Ala A",
                               "pergunta":  "Estabelece protocolo para atendimento de urgências e emergências, com base em diretrizes e evidências científicas.",
                               "explicacao":  "A unidade define protocolos e procedimentos de atendimento para pacientes classificados como urgência e emergência baseado nas diretrizes e evidências cientificas. Demonstra conhecimento e aplicação de Protocolos e procedimentos para atendimento aos pacientes classificados como urgência e emergência conforme estabelecido pela unidade, tais como atendimento a Parada Cardio Respiratória, convulsão, reação alérgica grave, entre outros.",
@@ -662,20 +662,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  19
                           },
                           {
-                              "id":  "internacao-ala-a-r20",
+                              "id":  "internação-ala-a-r20",
                               "area":  "Internação Ala A",
                               "pergunta":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
-                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das praticas definidas.",
+                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das práticas definidas.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  20,
                               "text":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
                               "criterion":  "",
-                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das praticas definidas.",
+                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das práticas definidas.",
                               "order":  20
                           },
                           {
-                              "id":  "internacao-ala-a-r21",
+                              "id":  "internação-ala-a-r21",
                               "area":  "Internação Ala A",
                               "pergunta":  "Cumpre as diretrizes de notificação de hemovigilância, farmacovigilância, tecnovigilância e biovigilância.",
                               "explicacao":  "A unidade adere as diretrizes de notificação de hemovigilância, farmacovigilância, tecnovigilância e biovigilância. Demonstra conhecimento e aplicação das diretrizes de notificação, tais como ferramentas de notificação, registro nos órgãos competentes, analise de prontuário e busca ativa.",
@@ -688,7 +688,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  21
                           },
                           {
-                              "id":  "internacao-ala-a-r22",
+                              "id":  "internação-ala-a-r22",
                               "area":  "Internação Ala A",
                               "pergunta":  "Cumpre as diretrizes de notificação deincidentes e eventos adversos.",
                               "explicacao":  "Cumpre a prática de notificações de incidentes, circunstância de risco, quase erros, eventos sem dano, eventos adversos, reações adversas e não conformidades. Apresentar o fluxo de notificação descrito e disseminado; Relatório das notificações; Reconhecimento da equipe sobre o fluxo e tratativas, evidenciado em entrevista com a equipe.",
@@ -701,7 +701,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  22
                           },
                           {
-                              "id":  "internacao-ala-a-r23",
+                              "id":  "internação-ala-a-r23",
                               "area":  "Internação Ala A",
                               "pergunta":  "Cumpre os critérios e procedimentos de segurança para a utilização de equipamentos.",
                               "explicacao":  "A equipe adere aos procedimentos de segurança na utilização dos equipamentos. Evidencia treinamentos relacionados a utilização dos equipamentos;Demonstra conhecimento e aplicação na utilização dos equipamentos, tais como: laringoscópios, desfibrilador, bomba de infusão, marca-passo externo, cateteres entre outros.",
@@ -714,7 +714,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  23
                           },
                           {
-                              "id":  "internacao-ala-a-r24",
+                              "id":  "internação-ala-a-r24",
                               "area":  "Internação Ala A",
                               "pergunta":  "Cumpre os critérios e procedimentos de segurança para a utilização de materiais críticos.",
                               "explicacao":  "A equipe adere aos procedimentos de segurança na utilização de materiais críticos. Evidencia treinamentos relacionados a utilização de materiais críticos;Demonstra conhecimento e aplicação na utilização de materiais críticos como equipo, entre outros.",
@@ -727,20 +727,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  24
                           },
                           {
-                              "id":  "internacao-ala-a-r25",
+                              "id":  "internação-ala-a-r25",
                               "area":  "Internação Ala A",
                               "pergunta":  "Cumpre o protocolo multidisciplinar para a segurança na cadeia medicamentosa.",
-                              "explicacao":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas praticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
+                              "explicacao":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas práticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  25,
                               "text":  "Cumpre o protocolo multidisciplinar para a segurança na cadeia medicamentosa.",
                               "criterion":  "",
-                              "explanation":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas praticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
+                              "explanation":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas práticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
                               "order":  25
                           },
                           {
-                              "id":  "internacao-ala-a-r26",
+                              "id":  "internação-ala-a-r26",
                               "area":  "Internação Ala A",
                               "pergunta":  "Aplica termo de consentimento para procedimentos de risco.",
                               "explicacao":  "A unidade aplica, por meio de profissional capacitado, termo de consentimento para procedimentos de risco, conforme Politica institucional. Apresenta, junto ao prontuário, o termo de consentimento aplicado e assinado para procedimentos de risco tais como, cirúrgico, anestésico, hemocomponentes, uso de contraste,entre outros procedimentos invasivos.O paciente/acompanhante demonstra conhecimentos sobre os riscos relacionados ao procedimento a ser realizado.",
@@ -753,7 +753,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  26
                           },
                           {
-                              "id":  "internacao-ala-a-r27",
+                              "id":  "internação-ala-a-r27",
                               "area":  "Internação Ala A",
                               "pergunta":  "Identifica necessidade de treinamentos e capacitação frente às demandas assistenciais.",
                               "explicacao":  "A gestão da unidade identifica as necessidades de treinamento e promove a capacitação frente às demandas assistenciais. Apresenta evidências da identificação da necessidade e da realização dos treinamentos conforme perfil, tais comotreinamentos em função de notificação de incidentes, novos equipamentos, materiais, procedimentos, protocolos, entre outros.",
@@ -766,7 +766,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  27
                           },
                           {
-                              "id":  "internacao-ala-a-r28",
+                              "id":  "internação-ala-a-r28",
                               "area":  "Internação Ala A",
                               "pergunta":  "Cumpre com as determinações do plano de gerenciamento de resíduos.",
                               "explicacao":  "A organização deve garantir a segregação, retirada e descarte dos resíduos gerados conforme estabelecido em seu plano de gerenciamento de resíduos. O plano de gerenciamento de resíduos deve estar elaborado conforme a complexidade dos cuidados e risco de resíduos gerados, especificando como cada tipo de resíduo será classificado. Observar o descarte correto dos resíduoslixeiras, caixa de perfuros cortantes, entre outros. Relatórios de auditorias, notificação de Não Conformidades, registro de retiradas e adequação dos abrigos.",
@@ -779,7 +779,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  28
                           },
                           {
-                              "id":  "internacao-ala-a-r29",
+                              "id":  "internação-ala-a-r29",
                               "area":  "Internação Ala A",
                               "pergunta":  "Estabelece protocolo de identificação, prevenção e acompanhamento de risco para suicídio.",
                               "explicacao":  "A unidade define protocolo de identificação, prevenção e acompanhamento de risco para suicídio. A equipe demonstra conhecimento e aplicação do fluxo de identificação e procedimentos para o acompanhamento do protocolo de risco para suicídio, tais como uso de ferramenta para identificação do risco, proporciona ambiente seguro para os pacientes identificados, definição de monitoramento do paciente (presença de acompanhante, local de fácil vigilância).",
@@ -794,13 +794,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                       ]
     },
     {
-        "id":  "internacao-ala-d",
+        "id":  "internação-ala-d",
         "sourceFile":  "Duplicado de 2.1 Internação Ala D OK.docx",
         "sector":  "Internação Ala D",
         "category":  "Internação Ala D",
         "questions":  [
                           {
-                              "id":  "internacao-ala-d-r01",
+                              "id":  "internação-ala-d-r01",
                               "area":  "Internação Ala D",
                               "pergunta":  "Identifica o perfil assistencial.",
                               "explicacao":  "Identifica e utiliza o perfil epidemiológico, análise de demanda e das necessidades de clientes atendidos para definir o modelo assistenciale demonstrar sua efetividade. Perfil epidemiológico atualizado da unidade mapeado (patologia prevalente, complexidade, faixa etária, origem dos pacientes, outras informações importantes para a tomada de decisão como definição de protocolos, planejamento do cuidado, dimensionamento, direcionamento e capacitação da equipe, disponibilização de recursos)",
@@ -813,7 +813,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  1
                           },
                           {
-                              "id":  "internacao-ala-d-r02",
+                              "id":  "internação-ala-d-r02",
                               "area":  "Internação Ala D",
                               "pergunta":  "Dimensiona recursos humanos, tecnológicos e insumos de acordo com a necessidade do serviço.",
                               "explicacao":  "Recursos humanos dimensionado (quantidade, disponibilidade, habilitação) conforme o perfil e a complexidade; Recursos tecnológicos dimensionados (quantidade, disponibilidade, especificação) conforme o perfil e a complexidade; Insumos para a execução das atividades de atenção dimensionados (quantidade, disponibilidade, especificação) conforme o perfil e a complexidade. Apresenta o método de dimensionamento das equipes multidisciplinares, demonstra a padronização e dimensionamento de materiais e equipamentos conforme perfil da unidade.",
@@ -826,7 +826,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  2
                           },
                           {
-                              "id":  "internacao-ala-d-r03",
+                              "id":  "internação-ala-d-r03",
                               "area":  "Internação Ala D",
                               "pergunta":  "Dispõe de profissionais com competências e capacitação compatíveis com a necessidade do serviço.",
                               "explicacao":  "Considerar as competências e as necessidades do serviço na contratação conforme o cargo/função ocupado alinhado a Politica de Gestão de Pessoas. Apresenta coerência entre a descrição de cargos e habilitações especificas. São observáveis diplomas de graduação, registro ativo no respectivo conselho referente a profissão e títulos de capacitações especificas exigidos pelo cargo/função.",
@@ -839,7 +839,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  3
                           },
                           {
-                              "id":  "internacao-ala-d-r04",
+                              "id":  "internação-ala-d-r04",
                               "area":  "Internação Ala D",
                               "pergunta":  "Planeja as atividades, avaliando as condições operacionais e de infraestrutura, viabilizando a execução dos processos de trabalho de forma segura.",
                               "explicacao":  "A gestão da unidade avalia periodicamente as condições operacionais e de infraestrutura viabilizando recursos para a execução dos processos de trabalho de forma segura. Apresenta evidência de avaliação de condições operacionais e de infraestrutura conforme a complexidade tais como: iluminação, sinalização, gases, estrutura predial, equipamentos, insumos, EPIs, etc.",
@@ -852,7 +852,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  4
                           },
                           {
-                              "id":  "internacao-ala-d-r05",
+                              "id":  "internação-ala-d-r05",
                               "area":  "Internação Ala D",
                               "pergunta":  "Acompanha a manutenção preventiva e corretiva das instalações e dos equipamentos, incluindo a calibração.",
                               "explicacao":  "A gestão da unidade acompanha a periodicidade da calibração e manutenção preventiva e corretiva das instalações e dos equipamentos. Apresenta evidência de acompanhamento como por exemplo, comunicação formal com os responsáveis do processo tais como cronogramas, checklists, etiquetas, sistemas informatizados, entre outros.",
@@ -865,7 +865,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  5
                           },
                           {
-                              "id":  "internacao-ala-d-r06",
+                              "id":  "internação-ala-d-r06",
                               "area":  "Internação Ala D",
                               "pergunta":  "Estabelece protocolos assistenciais/clínicos alinhados ao perfil epidemiológico",
                               "explicacao":  "Protocolos definidos e implantados baseados no conhecimento científico atual, no perfil epidemiológico, gravidade, risco, prevalência e custo, com base em diretrizes e evidências científicas. Protocolos clínicos/assistencial de acordo com o perfil da unidade e estar inserida nos protocolos institucionais quando aplicáveis (Ex: AVC; Sepse; Dor torácica).",
@@ -878,7 +878,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  6
                           },
                           {
-                              "id":  "internacao-ala-d-r07",
+                              "id":  "internação-ala-d-r07",
                               "area":  "Internação Ala D",
                               "pergunta":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências",
                               "explicacao":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências Apresenta procedimento para a identificação precoce dos sinais de alerta de deterioração clinica baseado em evidências cientificas. Demonstra fluxo de atendimento as urgências e emergências.",
@@ -891,7 +891,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  7
                           },
                           {
-                              "id":  "internacao-ala-d-r08",
+                              "id":  "internação-ala-d-r08",
                               "area":  "Internação Ala D",
                               "pergunta":  "Considera as características individuais dos pacientes/clientes e acompanhantes, respeitando suas tradições culturais, crenças, diversidades, valores pessoais e privacidade para o planejamento do cuidado.",
                               "explicacao":  "A equipe multidisciplinar, quando aplicável, considera as características individuais dos pacientes/clientes e acompanhantes, respeitando suas tradições culturais, crenças, sexualidade, valores pessoais e privacidade para o planejamento do cuidado Apresenta o registro da utilização de características individuais no plano interdisciplinar tais como nome social, respeito a restrição a procedimentos por motivos religiosos, culturais, alterações imunológicas, por desejo pessoal previamente declarado, entre outros.",
@@ -904,7 +904,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  8
                           },
                           {
-                              "id":  "internacao-ala-d-r09",
+                              "id":  "internação-ala-d-r09",
                               "area":  "Internação Ala D",
                               "pergunta":  "Dispõe de prontuário com registros multidisciplinares atualizados sobre a evolução do paciente/cliente, que promova a continuidade da assistência.",
                               "explicacao":  "A equipe multidisciplinar quando aplicável mantem registros atualizados, considerando diagnósticos, procedimentos e morbidades, sobre a evolução do paciente/cliente, que promova a continuidade da assistência. Apresenta prontuários organizados e atualizados tais como com profissionaisidentificados, identificação do paciente/cliente, considerando as avaliações e reavaliações, registros dos procedimentos realizados, registro de decisão clínica e demonstrando integração entre os profissionais",
@@ -917,7 +917,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  9
                           },
                           {
-                              "id":  "internacao-ala-d-r10",
+                              "id":  "internação-ala-d-r10",
                               "area":  "Internação Ala D",
                               "pergunta":  "Estabelece, acompanha, avalia e adequa, se necessário,o plano terapêutico individualizado considerando diagnósticos, procedimentos e morbidades.",
                               "explicacao":  "A equipe assistencial estabelece todas as etapas do plano terapêutico individualizado. Apresenta o registro do planejamento da assistência em prontuário tais como plano de condutas definidas, metas, necessidade de avaliações de outras especialidades, exames e procedimentos, previsão de alta.",
@@ -930,7 +930,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  10
                           },
                           {
-                              "id":  "internacao-ala-d-r11",
+                              "id":  "internação-ala-d-r11",
                               "area":  "Internação Ala D",
                               "pergunta":  "Estabelece plano interdisciplinar da assistência, com base no plano terapêutico definido, considerando o grau de complexidade e dependência.",
                               "explicacao":  "A equipe assistencial estabelece todas as etapas do plano de cuidados individualizado, quando aplicável, alinhado ao plano terapêutico. Apresenta o registro do plano interdisciplinar em prontuário conforme os riscos e necessidades do paciente.",
@@ -943,7 +943,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  11
                           },
                           {
-                              "id":  "internacao-ala-d-r12",
+                              "id":  "internação-ala-d-r12",
                               "area":  "Internação Ala D",
                               "pergunta":  "Dispõe de plano de alta multidisciplinar de conhecimento do paciente/cliente e/ou acompanhantes para a continuidade do cuidado extra-hospitalar considerando diagnósticos, procedimentos e morbidades.",
                               "explicacao":  "Planeja e oferece plano educacional para o paciente/cliente e acompanhante para continuidade do cuidado extra-hospitalar. Registro em prontuário do planejamento multidisciplinar de alta com definição de metas e prazos, antecipando as necessidades relacionadas a alta do paciente; Oferece registro sobre os cuidados que o paciente/acompanhante deverá utilizar para continuidade na alta;Oferece resumo de alta.",
@@ -956,7 +956,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  12
                           },
                           {
-                              "id":  "internacao-ala-d-r13",
+                              "id":  "internação-ala-d-r13",
                               "area":  "Internação Ala D",
                               "pergunta":  "Promove o envolvimento do paciente/cliente e/ou acompanhante a respeito dos seus procedimentos, riscos e plano terapêutico.",
                               "explicacao":  "A equipe multidisciplinar registra e compartilha as decisões importantes relacionadas ao cuidado A equipe multidisciplinar demonstra comunicação entre a equipe de profissionais epacientes/clientes e/ou acompanhantes sobre as decisões importantes relacionados ao cuidadoTais como registros em prontuários, documentos informativos, conhecimento do paciente/acompanhante a respeito do tratamento.",
@@ -969,20 +969,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  13
                           },
                           {
-                              "id":  "internacao-ala-d-r14",
+                              "id":  "internação-ala-d-r14",
                               "area":  "Internação Ala D",
                               "pergunta":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
-                              "explicacao":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explicacao":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  14,
                               "text":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
                               "criterion":  "",
-                              "explanation":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explanation":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "order":  14
                           },
                           {
-                              "id":  "internacao-ala-d-r15",
+                              "id":  "internação-ala-d-r15",
                               "area":  "Internação Ala D",
                               "pergunta":  "Cumpre com as diretrizes dos protocolos de segurança do paciente, alinhados a política Institucional",
                               "explicacao":  "A unidade adere as diretrizes dos protocolos de segurança do paciente e prevenção de infecções relacionadas a assistência a saúde definidos na Politica de Segurança do Paciente baseados no conhecimento científico atual e no perfil epidemiológico da instituição. Demonstra a adesão dos Protocolos de segurança do paciente e prevenção infecções relacionadas a assistência a saúde definidos e implantados.",
@@ -995,7 +995,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  15
                           },
                           {
-                              "id":  "internacao-ala-d-r16",
+                              "id":  "internação-ala-d-r16",
                               "area":  "Internação Ala D",
                               "pergunta":  "Cumpre os protocolos de prevenção e controle de infecção e biossegurança.",
                               "explicacao":  "Adere os protocolos de prevenção e controle de infecções relacionadas a assistência à saúde e biossegurança, tais como infecções relacionadas a corrente sanguínea, infecção do trato urinário, higienização das mãos, dentre outros. Demonstra evidência de cumprimento dos protocolos estabelecidos.",
@@ -1008,7 +1008,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  16
                           },
                           {
-                              "id":  "internacao-ala-d-r17",
+                              "id":  "internação-ala-d-r17",
                               "area":  "Internação Ala D",
                               "pergunta":  "Cumpre diretrizes de transmissão de informação na transição de cuidado, bem como nas transferências internas e externas.",
                               "explicacao":  "A equipe multidisciplinaradere as diretrizes, metodologias ou padronizações nos momentos de transição do cuidado e transferências internas e externas para promover a comunicação efetiva. Apresenta registro da comunicação para tomada de decisão clinica e outras informações importantes relacionadas ao fluxo do paciente.Tais comoregistro de passagem de plantão, relatórios das condições clinicas nas transferências internas e externas, informes clínicos e resultados críticos de exames/pareceres entre outros.",
@@ -1021,7 +1021,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  17
                           },
                           {
-                              "id":  "internacao-ala-d-r18",
+                              "id":  "internação-ala-d-r18",
                               "area":  "Internação Ala D",
                               "pergunta":  "Identifica sinais de deterioração clínica e cumpre o protocolo de atendimento destes pacientes/clientes.",
                               "explicacao":  "A equipe assistencial identifica os pacientes com sinais clínicos deevolução desfavorável e adere as diretrizes de atendimento. Demonstra a identificação do paciente comsinais clínicos de evolução desfavorável e a inclusão do mesmo nos fluxos de atendimentos específicosTais como utilização de escore, inteligência artificial, Protocolos ou fluxos de atendimento a urgências e emergências.",
@@ -1034,7 +1034,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  18
                           },
                           {
-                              "id":  "internacao-ala-d-r19",
+                              "id":  "internação-ala-d-r19",
                               "area":  "Internação Ala D",
                               "pergunta":  "Estabelece protocolo para atendimento de urgências e emergências, com base em diretrizes e evidências científicas.",
                               "explicacao":  "A unidade define protocolos e procedimentos de atendimento para pacientes classificados como urgência e emergência baseado nas diretrizes e evidências cientificas. Demonstra conhecimento e aplicação de Protocolos e procedimentos para atendimento aos pacientes classificados como urgência e emergência conforme estabelecido pela unidade, tais como atendimento a Parada Cardio Respiratória, convulsão, reação alérgica grave, entre outros.",
@@ -1047,20 +1047,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  19
                           },
                           {
-                              "id":  "internacao-ala-d-r20",
+                              "id":  "internação-ala-d-r20",
                               "area":  "Internação Ala D",
                               "pergunta":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
-                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das praticas definidas.",
+                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das práticas definidas.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  20,
                               "text":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
                               "criterion":  "",
-                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das praticas definidas.",
+                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das práticas definidas.",
                               "order":  20
                           },
                           {
-                              "id":  "internacao-ala-d-r21",
+                              "id":  "internação-ala-d-r21",
                               "area":  "Internação Ala D",
                               "pergunta":  "Cumpre as diretrizes de notificação de hemovigilância, farmacovigilância, tecnovigilância e biovigilância.",
                               "explicacao":  "A unidade adere as diretrizes de notificação de hemovigilância, farmacovigilância, tecnovigilância e biovigilância. Demonstra conhecimento e aplicação das diretrizes de notificação, tais como ferramentas de notificação, registro nos órgãos competentes, analise de prontuário e busca ativa.",
@@ -1073,7 +1073,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  21
                           },
                           {
-                              "id":  "internacao-ala-d-r22",
+                              "id":  "internação-ala-d-r22",
                               "area":  "Internação Ala D",
                               "pergunta":  "Cumpre as diretrizes de notificação deincidentes e eventos adversos.",
                               "explicacao":  "Cumpre a prática de notificações de incidentes, circunstância de risco, quase erros, eventos sem dano, eventos adversos, reações adversas e não conformidades. Apresentar o fluxo de notificação descrito e disseminado; Relatório das notificações; Reconhecimento da equipe sobre o fluxo e tratativas, evidenciado em entrevista com a equipe.",
@@ -1086,7 +1086,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  22
                           },
                           {
-                              "id":  "internacao-ala-d-r23",
+                              "id":  "internação-ala-d-r23",
                               "area":  "Internação Ala D",
                               "pergunta":  "Cumpre os critérios e procedimentos de segurança para a utilização de equipamentos.",
                               "explicacao":  "A equipe adere aos procedimentos de segurança na utilização dos equipamentos. Evidencia treinamentos relacionados a utilização dos equipamentos;Demonstra conhecimento e aplicação na utilização dos equipamentos, tais como: laringoscópios, desfibrilador, bomba de infusão, marca-passo externo, cateteres entre outros.",
@@ -1099,7 +1099,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  23
                           },
                           {
-                              "id":  "internacao-ala-d-r24",
+                              "id":  "internação-ala-d-r24",
                               "area":  "Internação Ala D",
                               "pergunta":  "Cumpre os critérios e procedimentos de segurança para a utilização de materiais críticos.",
                               "explicacao":  "A equipe adere aos procedimentos de segurança na utilização de materiais críticos. Evidencia treinamentos relacionados a utilização de materiais críticos;Demonstra conhecimento e aplicação na utilização de materiais críticos como equipo, entre outros.",
@@ -1112,20 +1112,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  24
                           },
                           {
-                              "id":  "internacao-ala-d-r25",
+                              "id":  "internação-ala-d-r25",
                               "area":  "Internação Ala D",
                               "pergunta":  "Cumpre o protocolo multidisciplinar para a segurança na cadeia medicamentosa.",
-                              "explicacao":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas praticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
+                              "explicacao":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas práticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  25,
                               "text":  "Cumpre o protocolo multidisciplinar para a segurança na cadeia medicamentosa.",
                               "criterion":  "",
-                              "explanation":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas praticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
+                              "explanation":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas práticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
                               "order":  25
                           },
                           {
-                              "id":  "internacao-ala-d-r26",
+                              "id":  "internação-ala-d-r26",
                               "area":  "Internação Ala D",
                               "pergunta":  "Aplica termo de consentimento para procedimentos de risco.",
                               "explicacao":  "A unidade aplica, por meio de profissional capacitado, termo de consentimento para procedimentos de risco, conforme Politica institucional. Apresenta, junto ao prontuário, o termo de consentimento aplicado e assinado para procedimentos de risco tais como, cirúrgico, anestésico, hemocomponentes, uso de contraste,entre outros procedimentos invasivos.O paciente/acompanhante demonstra conhecimentos sobre os riscos relacionados ao procedimento a ser realizado.",
@@ -1138,7 +1138,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  26
                           },
                           {
-                              "id":  "internacao-ala-d-r27",
+                              "id":  "internação-ala-d-r27",
                               "area":  "Internação Ala D",
                               "pergunta":  "Identifica necessidade de treinamentos e capacitação frente às demandas assistenciais.",
                               "explicacao":  "A gestão da unidade identifica as necessidades de treinamento e promove a capacitação frente às demandas assistenciais. Apresenta evidências da identificação da necessidade e da realização dos treinamentos conforme perfil, tais comotreinamentos em função de notificação de incidentes, novos equipamentos, materiais, procedimentos, protocolos, entre outros.",
@@ -1151,7 +1151,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  27
                           },
                           {
-                              "id":  "internacao-ala-d-r28",
+                              "id":  "internação-ala-d-r28",
                               "area":  "Internação Ala D",
                               "pergunta":  "Cumpre com as determinações do plano de gerenciamento de resíduos.",
                               "explicacao":  "A organização deve garantir a segregação, retirada e descarte dos resíduos gerados conforme estabelecido em seu plano de gerenciamento de resíduos. O plano de gerenciamento de resíduos deve estar elaborado conforme a complexidade dos cuidados e risco de resíduos gerados, especificando como cada tipo de resíduo será classificado. Observar o descarte correto dos resíduoslixeiras, caixa de perfuros cortantes, entre outros. Relatórios de auditorias, notificação de Não Conformidades, registro de retiradas e adequação dos abrigos.",
@@ -1164,7 +1164,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  28
                           },
                           {
-                              "id":  "internacao-ala-d-r29",
+                              "id":  "internação-ala-d-r29",
                               "area":  "Internação Ala D",
                               "pergunta":  "Estabelece protocolo de identificação, prevenção e acompanhamento de risco para suicídio.",
                               "explicacao":  "A unidade define protocolo de identificação, prevenção e acompanhamento de risco para suicídio. A equipe demonstra conhecimento e aplicação do fluxo de identificação e procedimentos para o acompanhamento do protocolo de risco para suicídio, tais como uso de ferramenta para identificação do risco, proporciona ambiente seguro para os pacientes identificados, definição de monitoramento do paciente (presença de acompanhante, local de fácil vigilância).",
@@ -1179,13 +1179,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                       ]
     },
     {
-        "id":  "internacao-ala-c",
+        "id":  "internação-ala-c",
         "sourceFile":  "Duplicado de 2.1 Internação Ala C OK.docx",
         "sector":  "Internação Ala C",
         "category":  "Internação Ala C",
         "questions":  [
                           {
-                              "id":  "internacao-ala-c-r01",
+                              "id":  "internação-ala-c-r01",
                               "area":  "Internação Ala C",
                               "pergunta":  "Identifica o perfil assistencial.",
                               "explicacao":  "Identifica e utiliza o perfil epidemiológico, análise de demanda e das necessidades de clientes atendidos para definir o modelo assistenciale demonstrar sua efetividade. Perfil epidemiológico atualizado da unidade mapeado (patologia prevalente, complexidade, faixa etária, origem dos pacientes, outras informações importantes para a tomada de decisão como definição de protocolos, planejamento do cuidado, dimensionamento, direcionamento e capacitação da equipe, disponibilização de recursos)",
@@ -1198,7 +1198,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  1
                           },
                           {
-                              "id":  "internacao-ala-c-r02",
+                              "id":  "internação-ala-c-r02",
                               "area":  "Internação Ala C",
                               "pergunta":  "Dimensiona recursos humanos, tecnológicos e insumos de acordo com a necessidade do serviço.",
                               "explicacao":  "Recursos humanos dimensionado (quantidade, disponibilidade, habilitação) conforme o perfil e a complexidade; Recursos tecnológicos dimensionados (quantidade, disponibilidade, especificação) conforme o perfil e a complexidade; Insumos para a execução das atividades de atenção dimensionados (quantidade, disponibilidade, especificação) conforme o perfil e a complexidade. Apresenta o método de dimensionamento das equipes multidisciplinares, demonstra a padronização e dimensionamento de materiais e equipamentos conforme perfil da unidade.",
@@ -1211,7 +1211,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  2
                           },
                           {
-                              "id":  "internacao-ala-c-r03",
+                              "id":  "internação-ala-c-r03",
                               "area":  "Internação Ala C",
                               "pergunta":  "Dispõe de profissionais com competências e capacitação compatíveis com a necessidade do serviço.",
                               "explicacao":  "Considerar as competências e as necessidades do serviço na contratação conforme o cargo/função ocupado alinhado a Politica de Gestão de Pessoas. Apresenta coerência entre a descrição de cargos e habilitações especificas. São observáveis diplomas de graduação, registro ativo no respectivo conselho referente a profissão e títulos de capacitações especificas exigidos pelo cargo/função.",
@@ -1224,7 +1224,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  3
                           },
                           {
-                              "id":  "internacao-ala-c-r04",
+                              "id":  "internação-ala-c-r04",
                               "area":  "Internação Ala C",
                               "pergunta":  "Planeja as atividades, avaliando as condições operacionais e de infraestrutura, viabilizando a execução dos processos de trabalho de forma segura.",
                               "explicacao":  "A gestão da unidade avalia periodicamente as condições operacionais e de infraestrutura viabilizando recursos para a execução dos processos de trabalho de forma segura. Apresenta evidência de avaliação de condições operacionais e de infraestrutura conforme a complexidade tais como: iluminação, sinalização, gases, estrutura predial, equipamentos, insumos, EPIs, etc.",
@@ -1237,7 +1237,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  4
                           },
                           {
-                              "id":  "internacao-ala-c-r05",
+                              "id":  "internação-ala-c-r05",
                               "area":  "Internação Ala C",
                               "pergunta":  "Acompanha a manutenção preventiva e corretiva das instalações e dos equipamentos, incluindo a calibração.",
                               "explicacao":  "A gestão da unidade acompanha a periodicidade da calibração e manutenção preventiva e corretiva das instalações e dos equipamentos. Apresenta evidência de acompanhamento como por exemplo, comunicação formal com os responsáveis do processo tais como cronogramas, checklists, etiquetas, sistemas informatizados, entre outros.",
@@ -1250,7 +1250,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  5
                           },
                           {
-                              "id":  "internacao-ala-c-r06",
+                              "id":  "internação-ala-c-r06",
                               "area":  "Internação Ala C",
                               "pergunta":  "Estabelece protocolos assistenciais/clínicos alinhados ao perfil epidemiológico",
                               "explicacao":  "Protocolos definidos e implantados baseados no conhecimento científico atual, no perfil epidemiológico, gravidade, risco, prevalência e custo, com base em diretrizes e evidências científicas. Protocolos clínicos/assistencial de acordo com o perfil da unidade e estar inserida nos protocolos institucionais quando aplicáveis (Ex: AVC; Sepse; Dor torácica).",
@@ -1263,7 +1263,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  6
                           },
                           {
-                              "id":  "internacao-ala-c-r07",
+                              "id":  "internação-ala-c-r07",
                               "area":  "Internação Ala C",
                               "pergunta":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências",
                               "explicacao":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências Apresenta procedimento para a identificação precoce dos sinais de alerta de deterioração clinica baseado em evidências cientificas. Demonstra fluxo de atendimento as urgências e emergências.",
@@ -1276,7 +1276,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  7
                           },
                           {
-                              "id":  "internacao-ala-c-r08",
+                              "id":  "internação-ala-c-r08",
                               "area":  "Internação Ala C",
                               "pergunta":  "Considera as características individuais dos pacientes/clientes e acompanhantes, respeitando suas tradições culturais, crenças, diversidades, valores pessoais e privacidade para o planejamento do cuidado.",
                               "explicacao":  "A equipe multidisciplinar, quando aplicável, considera as características individuais dos pacientes/clientes e acompanhantes, respeitando suas tradições culturais, crenças, sexualidade, valores pessoais e privacidade para o planejamento do cuidado Apresenta o registro da utilização de características individuais no plano interdisciplinar tais como nome social, respeito a restrição a procedimentos por motivos religiosos, culturais, alterações imunológicas, por desejo pessoal previamente declarado, entre outros.",
@@ -1289,7 +1289,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  8
                           },
                           {
-                              "id":  "internacao-ala-c-r09",
+                              "id":  "internação-ala-c-r09",
                               "area":  "Internação Ala C",
                               "pergunta":  "Dispõe de prontuário com registros multidisciplinares atualizados sobre a evolução do paciente/cliente, que promova a continuidade da assistência.",
                               "explicacao":  "A equipe multidisciplinar quando aplicável mantem registros atualizados, considerando diagnósticos, procedimentos e morbidades, sobre a evolução do paciente/cliente, que promova a continuidade da assistência. Apresenta prontuários organizados e atualizados tais como com profissionaisidentificados, identificação do paciente/cliente, considerando as avaliações e reavaliações, registros dos procedimentos realizados, registro de decisão clínica e demonstrando integração entre os profissionais",
@@ -1302,7 +1302,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  9
                           },
                           {
-                              "id":  "internacao-ala-c-r10",
+                              "id":  "internação-ala-c-r10",
                               "area":  "Internação Ala C",
                               "pergunta":  "Estabelece, acompanha, avalia e adequa, se necessário,o plano terapêutico individualizado considerando diagnósticos, procedimentos e morbidades.",
                               "explicacao":  "A equipe assistencial estabelece todas as etapas do plano terapêutico individualizado. Apresenta o registro do planejamento da assistência em prontuário tais como plano de condutas definidas, metas, necessidade de avaliações de outras especialidades, exames e procedimentos, previsão de alta.",
@@ -1315,7 +1315,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  10
                           },
                           {
-                              "id":  "internacao-ala-c-r11",
+                              "id":  "internação-ala-c-r11",
                               "area":  "Internação Ala C",
                               "pergunta":  "Estabelece plano interdisciplinar da assistência, com base no plano terapêutico definido, considerando o grau de complexidade e dependência.",
                               "explicacao":  "A equipe assistencial estabelece todas as etapas do plano de cuidados individualizado, quando aplicável, alinhado ao plano terapêutico. Apresenta o registro do plano interdisciplinar em prontuário conforme os riscos e necessidades do paciente.",
@@ -1328,7 +1328,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  11
                           },
                           {
-                              "id":  "internacao-ala-c-r12",
+                              "id":  "internação-ala-c-r12",
                               "area":  "Internação Ala C",
                               "pergunta":  "Dispõe de plano de alta multidisciplinar de conhecimento do paciente/cliente e/ou acompanhantes para a continuidade do cuidado extra-hospitalar considerando diagnósticos, procedimentos e morbidades.",
                               "explicacao":  "Planeja e oferece plano educacional para o paciente/cliente e acompanhante para continuidade do cuidado extra-hospitalar. Registro em prontuário do planejamento multidisciplinar de alta com definição de metas e prazos, antecipando as necessidades relacionadas a alta do paciente; Oferece registro sobre os cuidados que o paciente/acompanhante deverá utilizar para continuidade na alta;Oferece resumo de alta.",
@@ -1341,7 +1341,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  12
                           },
                           {
-                              "id":  "internacao-ala-c-r13",
+                              "id":  "internação-ala-c-r13",
                               "area":  "Internação Ala C",
                               "pergunta":  "Promove o envolvimento do paciente/cliente e/ou acompanhante a respeito dos seus procedimentos, riscos e plano terapêutico.",
                               "explicacao":  "A equipe multidisciplinar registra e compartilha as decisões importantes relacionadas ao cuidado A equipe multidisciplinar demonstra comunicação entre a equipe de profissionais epacientes/clientes e/ou acompanhantes sobre as decisões importantes relacionados ao cuidadoTais como registros em prontuários, documentos informativos, conhecimento do paciente/acompanhante a respeito do tratamento.",
@@ -1354,20 +1354,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  13
                           },
                           {
-                              "id":  "internacao-ala-c-r14",
+                              "id":  "internação-ala-c-r14",
                               "area":  "Internação Ala C",
                               "pergunta":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
-                              "explicacao":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explicacao":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  14,
                               "text":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
                               "criterion":  "",
-                              "explanation":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explanation":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "order":  14
                           },
                           {
-                              "id":  "internacao-ala-c-r15",
+                              "id":  "internação-ala-c-r15",
                               "area":  "Internação Ala C",
                               "pergunta":  "Cumpre com as diretrizes dos protocolos de segurança do paciente, alinhados a política Institucional",
                               "explicacao":  "A unidade adere as diretrizes dos protocolos de segurança do paciente e prevenção de infecções relacionadas a assistência a saúde definidos na Politica de Segurança do Paciente baseados no conhecimento científico atual e no perfil epidemiológico da instituição. Demonstra a adesão dos Protocolos de segurança do paciente e prevenção infecções relacionadas a assistência a saúde definidos e implantados.",
@@ -1380,7 +1380,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  15
                           },
                           {
-                              "id":  "internacao-ala-c-r16",
+                              "id":  "internação-ala-c-r16",
                               "area":  "Internação Ala C",
                               "pergunta":  "Cumpre os protocolos de prevenção e controle de infecção e biossegurança.",
                               "explicacao":  "Adere os protocolos de prevenção e controle de infecções relacionadas a assistência à saúde e biossegurança, tais como infecções relacionadas a corrente sanguínea, infecção do trato urinário, higienização das mãos, dentre outros. Demonstra evidência de cumprimento dos protocolos estabelecidos.",
@@ -1393,7 +1393,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  16
                           },
                           {
-                              "id":  "internacao-ala-c-r17",
+                              "id":  "internação-ala-c-r17",
                               "area":  "Internação Ala C",
                               "pergunta":  "Cumpre diretrizes de transmissão de informação na transição de cuidado, bem como nas transferências internas e externas.",
                               "explicacao":  "A equipe multidisciplinaradere as diretrizes, metodologias ou padronizações nos momentos de transição do cuidado e transferências internas e externas para promover a comunicação efetiva. Apresenta registro da comunicação para tomada de decisão clinica e outras informações importantes relacionadas ao fluxo do paciente.Tais comoregistro de passagem de plantão, relatórios das condições clinicas nas transferências internas e externas, informes clínicos e resultados críticos de exames/pareceres entre outros.",
@@ -1406,7 +1406,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  17
                           },
                           {
-                              "id":  "internacao-ala-c-r18",
+                              "id":  "internação-ala-c-r18",
                               "area":  "Internação Ala C",
                               "pergunta":  "Identifica sinais de deterioração clínica e cumpre o protocolo de atendimento destes pacientes/clientes.",
                               "explicacao":  "A equipe assistencial identifica os pacientes com sinais clínicos deevolução desfavorável e adere as diretrizes de atendimento. Demonstra a identificação do paciente comsinais clínicos de evolução desfavorável e a inclusão do mesmo nos fluxos de atendimentos específicosTais como utilização de escore, inteligência artificial, Protocolos ou fluxos de atendimento a urgências e emergências.",
@@ -1419,7 +1419,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  18
                           },
                           {
-                              "id":  "internacao-ala-c-r19",
+                              "id":  "internação-ala-c-r19",
                               "area":  "Internação Ala C",
                               "pergunta":  "Estabelece protocolo para atendimento de urgências e emergências, com base em diretrizes e evidências científicas.",
                               "explicacao":  "A unidade define protocolos e procedimentos de atendimento para pacientes classificados como urgência e emergência baseado nas diretrizes e evidências cientificas. Demonstra conhecimento e aplicação de Protocolos e procedimentos para atendimento aos pacientes classificados como urgência e emergência conforme estabelecido pela unidade, tais como atendimento a Parada Cardio Respiratória, convulsão, reação alérgica grave, entre outros.",
@@ -1432,20 +1432,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  19
                           },
                           {
-                              "id":  "internacao-ala-c-r20",
+                              "id":  "internação-ala-c-r20",
                               "area":  "Internação Ala C",
                               "pergunta":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
-                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das praticas definidas.",
+                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das práticas definidas.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  20,
                               "text":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
                               "criterion":  "",
-                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das praticas definidas.",
+                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das práticas definidas.",
                               "order":  20
                           },
                           {
-                              "id":  "internacao-ala-c-r21",
+                              "id":  "internação-ala-c-r21",
                               "area":  "Internação Ala C",
                               "pergunta":  "Cumpre as diretrizes de notificação de hemovigilância, farmacovigilância, tecnovigilância e biovigilância.",
                               "explicacao":  "A unidade adere as diretrizes de notificação de hemovigilância, farmacovigilância, tecnovigilância e biovigilância. Demonstra conhecimento e aplicação das diretrizes de notificação, tais como ferramentas de notificação, registro nos órgãos competentes, analise de prontuário e busca ativa.",
@@ -1458,7 +1458,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  21
                           },
                           {
-                              "id":  "internacao-ala-c-r22",
+                              "id":  "internação-ala-c-r22",
                               "area":  "Internação Ala C",
                               "pergunta":  "Cumpre as diretrizes de notificação deincidentes e eventos adversos.",
                               "explicacao":  "Cumpre a prática de notificações de incidentes, circunstância de risco, quase erros, eventos sem dano, eventos adversos, reações adversas e não conformidades. Apresentar o fluxo de notificação descrito e disseminado; Relatório das notificações; Reconhecimento da equipe sobre o fluxo e tratativas, evidenciado em entrevista com a equipe.",
@@ -1471,7 +1471,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  22
                           },
                           {
-                              "id":  "internacao-ala-c-r23",
+                              "id":  "internação-ala-c-r23",
                               "area":  "Internação Ala C",
                               "pergunta":  "Cumpre os critérios e procedimentos de segurança para a utilização de equipamentos.",
                               "explicacao":  "A equipe adere aos procedimentos de segurança na utilização dos equipamentos. Evidencia treinamentos relacionados a utilização dos equipamentos;Demonstra conhecimento e aplicação na utilização dos equipamentos, tais como: laringoscópios, desfibrilador, bomba de infusão, marca-passo externo, cateteres entre outros.",
@@ -1484,7 +1484,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  23
                           },
                           {
-                              "id":  "internacao-ala-c-r24",
+                              "id":  "internação-ala-c-r24",
                               "area":  "Internação Ala C",
                               "pergunta":  "Cumpre os critérios e procedimentos de segurança para a utilização de materiais críticos.",
                               "explicacao":  "A equipe adere aos procedimentos de segurança na utilização de materiais críticos. Evidencia treinamentos relacionados a utilização de materiais críticos;Demonstra conhecimento e aplicação na utilização de materiais críticos como equipo, entre outros.",
@@ -1497,20 +1497,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  24
                           },
                           {
-                              "id":  "internacao-ala-c-r25",
+                              "id":  "internação-ala-c-r25",
                               "area":  "Internação Ala C",
                               "pergunta":  "Cumpre o protocolo multidisciplinar para a segurança na cadeia medicamentosa.",
-                              "explicacao":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas praticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
+                              "explicacao":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas práticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  25,
                               "text":  "Cumpre o protocolo multidisciplinar para a segurança na cadeia medicamentosa.",
                               "criterion":  "",
-                              "explanation":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas praticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
+                              "explanation":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas práticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
                               "order":  25
                           },
                           {
-                              "id":  "internacao-ala-c-r26",
+                              "id":  "internação-ala-c-r26",
                               "area":  "Internação Ala C",
                               "pergunta":  "Aplica termo de consentimento para procedimentos de risco.",
                               "explicacao":  "A unidade aplica, por meio de profissional capacitado, termo de consentimento para procedimentos de risco, conforme Politica institucional. Apresenta, junto ao prontuário, o termo de consentimento aplicado e assinado para procedimentos de risco tais como, cirúrgico, anestésico, hemocomponentes, uso de contraste,entre outros procedimentos invasivos.O paciente/acompanhante demonstra conhecimentos sobre os riscos relacionados ao procedimento a ser realizado.",
@@ -1523,7 +1523,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  26
                           },
                           {
-                              "id":  "internacao-ala-c-r27",
+                              "id":  "internação-ala-c-r27",
                               "area":  "Internação Ala C",
                               "pergunta":  "Identifica necessidade de treinamentos e capacitação frente às demandas assistenciais.",
                               "explicacao":  "A gestão da unidade identifica as necessidades de treinamento e promove a capacitação frente às demandas assistenciais. Apresenta evidências da identificação da necessidade e da realização dos treinamentos conforme perfil, tais comotreinamentos em função de notificação de incidentes, novos equipamentos, materiais, procedimentos, protocolos, entre outros.",
@@ -1536,7 +1536,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  27
                           },
                           {
-                              "id":  "internacao-ala-c-r28",
+                              "id":  "internação-ala-c-r28",
                               "area":  "Internação Ala C",
                               "pergunta":  "Cumpre com as determinações do plano de gerenciamento de resíduos.",
                               "explicacao":  "A organização deve garantir a segregação, retirada e descarte dos resíduos gerados conforme estabelecido em seu plano de gerenciamento de resíduos. O plano de gerenciamento de resíduos deve estar elaborado conforme a complexidade dos cuidados e risco de resíduos gerados, especificando como cada tipo de resíduo será classificado. Observar o descarte correto dos resíduoslixeiras, caixa de perfuros cortantes, entre outros. Relatórios de auditorias, notificação de Não Conformidades, registro de retiradas e adequação dos abrigos.",
@@ -1549,7 +1549,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  28
                           },
                           {
-                              "id":  "internacao-ala-c-r29",
+                              "id":  "internação-ala-c-r29",
                               "area":  "Internação Ala C",
                               "pergunta":  "Estabelece protocolo de identificação, prevenção e acompanhamento de risco para suicídio.",
                               "explicacao":  "A unidade define protocolo de identificação, prevenção e acompanhamento de risco para suicídio. A equipe demonstra conhecimento e aplicação do fluxo de identificação e procedimentos para o acompanhamento do protocolo de risco para suicídio, tais como uso de ferramenta para identificação do risco, proporciona ambiente seguro para os pacientes identificados, definição de monitoramento do paciente (presença de acompanhante, local de fácil vigilância).",
@@ -1564,13 +1564,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                       ]
     },
     {
-        "id":  "2-1-internacao-ala-g",
+        "id":  "2-1-internação-ala-g",
         "sourceFile":  "2.1 Internação Ala G OK.docx",
         "sector":  "Internação Ala G",
         "category":  "Internação Ala G",
         "questions":  [
                           {
-                              "id":  "2-1-internacao-ala-g-r01",
+                              "id":  "2-1-internação-ala-g-r01",
                               "area":  "Internação Ala G",
                               "pergunta":  "Identifica o perfil assistencial.",
                               "explicacao":  "Identifica e utiliza o perfil epidemiológico, análise de demanda e das necessidades de clientes atendidos para definir o modelo assistenciale demonstrar sua efetividade. Perfil epidemiológico atualizado da unidade mapeado (patologia prevalente, complexidade, faixa etária, origem dos pacientes, outras informações importantes para a tomada de decisão como definição de protocolos, planejamento do cuidado, dimensionamento, direcionamento e capacitação da equipe, disponibilização de recursos)",
@@ -1583,7 +1583,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  1
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r02",
+                              "id":  "2-1-internação-ala-g-r02",
                               "area":  "Internação Ala G",
                               "pergunta":  "Dimensiona recursos humanos, tecnológicos e insumos de acordo com a necessidade do serviço.",
                               "explicacao":  "Recursos humanos dimensionado (quantidade, disponibilidade, habilitação) conforme o perfil e a complexidade; Recursos tecnológicos dimensionados (quantidade, disponibilidade, especificação) conforme o perfil e a complexidade; Insumos para a execução das atividades de atenção dimensionados (quantidade, disponibilidade, especificação) conforme o perfil e a complexidade. Apresenta o método de dimensionamento das equipes multidisciplinares, demonstra a padronização e dimensionamento de materiais e equipamentos conforme perfil da unidade.",
@@ -1596,7 +1596,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  2
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r03",
+                              "id":  "2-1-internação-ala-g-r03",
                               "area":  "Internação Ala G",
                               "pergunta":  "Dispõe de profissionais com competências e capacitação compatíveis com a necessidade do serviço.",
                               "explicacao":  "Considerar as competências e as necessidades do serviço na contratação conforme o cargo/função ocupado alinhado a Politica de Gestão de Pessoas. Apresenta coerência entre a descrição de cargos e habilitações especificas. São observáveis diplomas de graduação, registro ativo no respectivo conselho referente a profissão e títulos de capacitações especificas exigidos pelo cargo/função.",
@@ -1609,7 +1609,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  3
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r04",
+                              "id":  "2-1-internação-ala-g-r04",
                               "area":  "Internação Ala G",
                               "pergunta":  "Planeja as atividades, avaliando as condições operacionais e de infraestrutura, viabilizando a execução dos processos de trabalho de forma segura.",
                               "explicacao":  "A gestão da unidade avalia periodicamente as condições operacionais e de infraestrutura viabilizando recursos para a execução dos processos de trabalho de forma segura. Apresenta evidência de avaliação de condições operacionais e de infraestrutura conforme a complexidade tais como: iluminação, sinalização, gases, estrutura predial, equipamentos, insumos, EPIs, etc.",
@@ -1622,7 +1622,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  4
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r05",
+                              "id":  "2-1-internação-ala-g-r05",
                               "area":  "Internação Ala G",
                               "pergunta":  "Acompanha a manutenção preventiva e corretiva das instalações e dos equipamentos, incluindo a calibração.",
                               "explicacao":  "A gestão da unidade acompanha a periodicidade da calibração e manutenção preventiva e corretiva das instalações e dos equipamentos. Apresenta evidência de acompanhamento como por exemplo, comunicação formal com os responsáveis do processo tais como cronogramas, checklists, etiquetas, sistemas informatizados, entre outros.",
@@ -1635,7 +1635,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  5
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r06",
+                              "id":  "2-1-internação-ala-g-r06",
                               "area":  "Internação Ala G",
                               "pergunta":  "Estabelece protocolos assistenciais/clínicos alinhados ao perfil epidemiológico",
                               "explicacao":  "Protocolos definidos e implantados baseados no conhecimento científico atual, no perfil epidemiológico, gravidade, risco, prevalência e custo, com base em diretrizes e evidências científicas. Protocolos clínicos/assistencial de acordo com o perfil da unidade e estar inserida nos protocolos institucionais quando aplicáveis (Ex: AVC; Sepse; Dor torácica).",
@@ -1648,7 +1648,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  6
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r07",
+                              "id":  "2-1-internação-ala-g-r07",
                               "area":  "Internação Ala G",
                               "pergunta":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências",
                               "explicacao":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências Apresenta procedimento para a identificação precoce dos sinais de alerta de deterioração clinica baseado em evidências cientificas. Demonstra fluxo de atendimento as urgências e emergências.",
@@ -1661,7 +1661,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  7
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r08",
+                              "id":  "2-1-internação-ala-g-r08",
                               "area":  "Internação Ala G",
                               "pergunta":  "Considera as características individuais dos pacientes/clientes e acompanhantes, respeitando suas tradições culturais, crenças, diversidades, valores pessoais e privacidade para o planejamento do cuidado.",
                               "explicacao":  "A equipe multidisciplinar, quando aplicável, considera as características individuais dos pacientes/clientes e acompanhantes, respeitando suas tradições culturais, crenças, sexualidade, valores pessoais e privacidade para o planejamento do cuidado Apresenta o registro da utilização de características individuais no plano interdisciplinar tais como nome social, respeito a restrição a procedimentos por motivos religiosos, culturais, alterações imunológicas, por desejo pessoal previamente declarado, entre outros.",
@@ -1674,7 +1674,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  8
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r09",
+                              "id":  "2-1-internação-ala-g-r09",
                               "area":  "Internação Ala G",
                               "pergunta":  "Dispõe de prontuário com registros multidisciplinares atualizados sobre a evolução do paciente/cliente, que promova a continuidade da assistência.",
                               "explicacao":  "A equipe multidisciplinar quando aplicável mantem registros atualizados, considerando diagnósticos, procedimentos e morbidades, sobre a evolução do paciente/cliente, que promova a continuidade da assistência. Apresenta prontuários organizados e atualizados tais como com profissionaisidentificados, identificação do paciente/cliente, considerando as avaliações e reavaliações, registros dos procedimentos realizados, registro de decisão clínica e demonstrando integração entre os profissionais",
@@ -1687,7 +1687,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  9
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r10",
+                              "id":  "2-1-internação-ala-g-r10",
                               "area":  "Internação Ala G",
                               "pergunta":  "Estabelece, acompanha, avalia e adequa, se necessário,o plano terapêutico individualizado considerando diagnósticos, procedimentos e morbidades.",
                               "explicacao":  "A equipe assistencial estabelece todas as etapas do plano terapêutico individualizado. Apresenta o registro do planejamento da assistência em prontuário tais como plano de condutas definidas, metas, necessidade de avaliações de outras especialidades, exames e procedimentos, previsão de alta.",
@@ -1700,7 +1700,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  10
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r11",
+                              "id":  "2-1-internação-ala-g-r11",
                               "area":  "Internação Ala G",
                               "pergunta":  "Estabelece plano interdisciplinar da assistência, com base no plano terapêutico definido, considerando o grau de complexidade e dependência.",
                               "explicacao":  "A equipe assistencial estabelece todas as etapas do plano de cuidados individualizado, quando aplicável, alinhado ao plano terapêutico. Apresenta o registro do plano interdisciplinar em prontuário conforme os riscos e necessidades do paciente.",
@@ -1713,7 +1713,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  11
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r12",
+                              "id":  "2-1-internação-ala-g-r12",
                               "area":  "Internação Ala G",
                               "pergunta":  "Dispõe de plano de alta multidisciplinar de conhecimento do paciente/cliente e/ou acompanhantes para a continuidade do cuidado extra-hospitalar considerando diagnósticos, procedimentos e morbidades.",
                               "explicacao":  "Planeja e oferece plano educacional para o paciente/cliente e acompanhante para continuidade do cuidado extra-hospitalar. Registro em prontuário do planejamento multidisciplinar de alta com definição de metas e prazos, antecipando as necessidades relacionadas a alta do paciente; Oferece registro sobre os cuidados que o paciente/acompanhante deverá utilizar para continuidade na alta;Oferece resumo de alta.",
@@ -1726,7 +1726,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  12
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r13",
+                              "id":  "2-1-internação-ala-g-r13",
                               "area":  "Internação Ala G",
                               "pergunta":  "Promove o envolvimento do paciente/cliente e/ou acompanhante a respeito dos seus procedimentos, riscos e plano terapêutico.",
                               "explicacao":  "A equipe multidisciplinar registra e compartilha as decisões importantes relacionadas ao cuidado A equipe multidisciplinar demonstra comunicação entre a equipe de profissionais epacientes/clientes e/ou acompanhantes sobre as decisões importantes relacionados ao cuidadoTais como registros em prontuários, documentos informativos, conhecimento do paciente/acompanhante a respeito do tratamento.",
@@ -1739,20 +1739,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  13
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r14",
+                              "id":  "2-1-internação-ala-g-r14",
                               "area":  "Internação Ala G",
                               "pergunta":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
-                              "explicacao":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explicacao":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  14,
                               "text":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
                               "criterion":  "",
-                              "explanation":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explanation":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "order":  14
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r15",
+                              "id":  "2-1-internação-ala-g-r15",
                               "area":  "Internação Ala G",
                               "pergunta":  "Cumpre com as diretrizes dos protocolos de segurança do paciente, alinhados a política Institucional",
                               "explicacao":  "A unidade adere as diretrizes dos protocolos de segurança do paciente e prevenção de infecções relacionadas a assistência a saúde definidos na Politica de Segurança do Paciente baseados no conhecimento científico atual e no perfil epidemiológico da instituição. Demonstra a adesão dos Protocolos de segurança do paciente e prevenção infecções relacionadas a assistência a saúde definidos e implantados.",
@@ -1765,7 +1765,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  15
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r16",
+                              "id":  "2-1-internação-ala-g-r16",
                               "area":  "Internação Ala G",
                               "pergunta":  "Cumpre os protocolos de prevenção e controle de infecção e biossegurança.",
                               "explicacao":  "Adere os protocolos de prevenção e controle de infecções relacionadas a assistência à saúde e biossegurança, tais como infecções relacionadas a corrente sanguínea, infecção do trato urinário, higienização das mãos, dentre outros. Demonstra evidência de cumprimento dos protocolos estabelecidos.",
@@ -1778,7 +1778,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  16
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r17",
+                              "id":  "2-1-internação-ala-g-r17",
                               "area":  "Internação Ala G",
                               "pergunta":  "Cumpre diretrizes de transmissão de informação na transição de cuidado, bem como nas transferências internas e externas.",
                               "explicacao":  "A equipe multidisciplinaradere as diretrizes, metodologias ou padronizações nos momentos de transição do cuidado e transferências internas e externas para promover a comunicação efetiva. Apresenta registro da comunicação para tomada de decisão clinica e outras informações importantes relacionadas ao fluxo do paciente.Tais comoregistro de passagem de plantão, relatórios das condições clinicas nas transferências internas e externas, informes clínicos e resultados críticos de exames/pareceres entre outros.",
@@ -1791,7 +1791,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  17
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r18",
+                              "id":  "2-1-internação-ala-g-r18",
                               "area":  "Internação Ala G",
                               "pergunta":  "Identifica sinais de deterioração clínica e cumpre o protocolo de atendimento destes pacientes/clientes.",
                               "explicacao":  "A equipe assistencial identifica os pacientes com sinais clínicos deevolução desfavorável e adere as diretrizes de atendimento. Demonstra a identificação do paciente comsinais clínicos de evolução desfavorável e a inclusão do mesmo nos fluxos de atendimentos específicosTais como utilização de escore, inteligência artificial, Protocolos ou fluxos de atendimento a urgências e emergências.",
@@ -1804,7 +1804,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  18
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r19",
+                              "id":  "2-1-internação-ala-g-r19",
                               "area":  "Internação Ala G",
                               "pergunta":  "Estabelece protocolo para atendimento de urgências e emergências, com base em diretrizes e evidências científicas.",
                               "explicacao":  "A unidade define protocolos e procedimentos de atendimento para pacientes classificados como urgência e emergência baseado nas diretrizes e evidências cientificas. Demonstra conhecimento e aplicação de Protocolos e procedimentos para atendimento aos pacientes classificados como urgência e emergência conforme estabelecido pela unidade, tais como atendimento a Parada Cardio Respiratória, convulsão, reação alérgica grave, entre outros.",
@@ -1817,20 +1817,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  19
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r20",
+                              "id":  "2-1-internação-ala-g-r20",
                               "area":  "Internação Ala G",
                               "pergunta":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
-                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das praticas definidas.",
+                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das práticas definidas.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  20,
                               "text":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
                               "criterion":  "",
-                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das praticas definidas.",
+                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das práticas definidas.",
                               "order":  20
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r21",
+                              "id":  "2-1-internação-ala-g-r21",
                               "area":  "Internação Ala G",
                               "pergunta":  "Cumpre as diretrizes de notificação de hemovigilância, farmacovigilância, tecnovigilância e biovigilância.",
                               "explicacao":  "A unidade adere as diretrizes de notificação de hemovigilância, farmacovigilância, tecnovigilância e biovigilância. Demonstra conhecimento e aplicação das diretrizes de notificação, tais como ferramentas de notificação, registro nos órgãos competentes, analise de prontuário e busca ativa.",
@@ -1843,7 +1843,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  21
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r22",
+                              "id":  "2-1-internação-ala-g-r22",
                               "area":  "Internação Ala G",
                               "pergunta":  "Cumpre as diretrizes de notificação deincidentes e eventos adversos.",
                               "explicacao":  "Cumpre a prática de notificações de incidentes, circunstância de risco, quase erros, eventos sem dano, eventos adversos, reações adversas e não conformidades. Apresentar o fluxo de notificação descrito e disseminado; Relatório das notificações; Reconhecimento da equipe sobre o fluxo e tratativas, evidenciado em entrevista com a equipe.",
@@ -1856,7 +1856,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  22
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r23",
+                              "id":  "2-1-internação-ala-g-r23",
                               "area":  "Internação Ala G",
                               "pergunta":  "Cumpre os critérios e procedimentos de segurança para a utilização de equipamentos.",
                               "explicacao":  "A equipe adere aos procedimentos de segurança na utilização dos equipamentos. Evidencia treinamentos relacionados a utilização dos equipamentos;Demonstra conhecimento e aplicação na utilização dos equipamentos, tais como: laringoscópios, desfibrilador, bomba de infusão, marca-passo externo, cateteres entre outros.",
@@ -1869,7 +1869,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  23
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r24",
+                              "id":  "2-1-internação-ala-g-r24",
                               "area":  "Internação Ala G",
                               "pergunta":  "Cumpre os critérios e procedimentos de segurança para a utilização de materiais críticos.",
                               "explicacao":  "A equipe adere aos procedimentos de segurança na utilização de materiais críticos. Evidencia treinamentos relacionados a utilização de materiais críticos;Demonstra conhecimento e aplicação na utilização de materiais críticos como equipo, entre outros.",
@@ -1882,20 +1882,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  24
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r25",
+                              "id":  "2-1-internação-ala-g-r25",
                               "area":  "Internação Ala G",
                               "pergunta":  "Cumpre o protocolo multidisciplinar para a segurança na cadeia medicamentosa.",
-                              "explicacao":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas praticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
+                              "explicacao":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas práticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  25,
                               "text":  "Cumpre o protocolo multidisciplinar para a segurança na cadeia medicamentosa.",
                               "criterion":  "",
-                              "explanation":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas praticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
+                              "explanation":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas práticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
                               "order":  25
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r26",
+                              "id":  "2-1-internação-ala-g-r26",
                               "area":  "Internação Ala G",
                               "pergunta":  "Aplica termo de consentimento para procedimentos de risco.",
                               "explicacao":  "A unidade aplica, por meio de profissional capacitado, termo de consentimento para procedimentos de risco, conforme Politica institucional. Apresenta, junto ao prontuário, o termo de consentimento aplicado e assinado para procedimentos de risco tais como, cirúrgico, anestésico, hemocomponentes, uso de contraste,entre outros procedimentos invasivos.O paciente/acompanhante demonstra conhecimentos sobre os riscos relacionados ao procedimento a ser realizado.",
@@ -1908,7 +1908,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  26
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r27",
+                              "id":  "2-1-internação-ala-g-r27",
                               "area":  "Internação Ala G",
                               "pergunta":  "Identifica necessidade de treinamentos e capacitação frente às demandas assistenciais.",
                               "explicacao":  "A gestão da unidade identifica as necessidades de treinamento e promove a capacitação frente às demandas assistenciais. Apresenta evidências da identificação da necessidade e da realização dos treinamentos conforme perfil, tais comotreinamentos em função de notificação de incidentes, novos equipamentos, materiais, procedimentos, protocolos, entre outros.",
@@ -1921,7 +1921,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  27
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r28",
+                              "id":  "2-1-internação-ala-g-r28",
                               "area":  "Internação Ala G",
                               "pergunta":  "Cumpre com as determinações do plano de gerenciamento de resíduos.",
                               "explicacao":  "A organização deve garantir a segregação, retirada e descarte dos resíduos gerados conforme estabelecido em seu plano de gerenciamento de resíduos. O plano de gerenciamento de resíduos deve estar elaborado conforme a complexidade dos cuidados e risco de resíduos gerados, especificando como cada tipo de resíduo será classificado. Observar o descarte correto dos resíduoslixeiras, caixa de perfuros cortantes, entre outros. Relatórios de auditorias, notificação de Não Conformidades, registro de retiradas e adequação dos abrigos.",
@@ -1934,7 +1934,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  28
                           },
                           {
-                              "id":  "2-1-internacao-ala-g-r29",
+                              "id":  "2-1-internação-ala-g-r29",
                               "area":  "Internação Ala G",
                               "pergunta":  "Estabelece protocolo de identificação, prevenção e acompanhamento de risco para suicídio.",
                               "explicacao":  "A unidade define protocolo de identificação, prevenção e acompanhamento de risco para suicídio. A equipe demonstra conhecimento e aplicação do fluxo de identificação e procedimentos para o acompanhamento do protocolo de risco para suicídio, tais como uso de ferramenta para identificação do risco, proporciona ambiente seguro para os pacientes identificados, definição de monitoramento do paciente (presença de acompanhante, local de fácil vigilância).",
@@ -1949,13 +1949,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                       ]
     },
     {
-        "id":  "2-1-internacao-maternidade",
+        "id":  "2-1-internação-maternidade",
         "sourceFile":  "2.1 Internação Maternidade OK.docx",
         "sector":  "Internação Maternidade",
         "category":  "Internação Maternidade",
         "questions":  [
                           {
-                              "id":  "2-1-internacao-maternidade-r01",
+                              "id":  "2-1-internação-maternidade-r01",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Identifica o perfil assistencial.",
                               "explicacao":  "Identifica e utiliza o perfil epidemiológico, análise de demanda e das necessidades de clientes atendidos para definir o modelo assistenciale demonstrar sua efetividade. Perfil epidemiológico atualizado da unidade mapeado (patologia prevalente, complexidade, faixa etária, origem dos pacientes, outras informações importantes para a tomada de decisão como definição de protocolos, planejamento do cuidado, dimensionamento, direcionamento e capacitação da equipe, disponibilização de recursos)",
@@ -1968,7 +1968,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  1
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r02",
+                              "id":  "2-1-internação-maternidade-r02",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Dimensiona recursos humanos, tecnológicos e insumos de acordo com a necessidade do serviço.",
                               "explicacao":  "Recursos humanos dimensionado (quantidade, disponibilidade, habilitação) conforme o perfil e a complexidade; Recursos tecnológicos dimensionados (quantidade, disponibilidade, especificação) conforme o perfil e a complexidade; Insumos para a execução das atividades de atenção dimensionados (quantidade, disponibilidade, especificação) conforme o perfil e a complexidade. Apresenta o método de dimensionamento das equipes multidisciplinares, demonstra a padronização e dimensionamento de materiais e equipamentos conforme perfil da unidade.",
@@ -1981,7 +1981,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  2
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r03",
+                              "id":  "2-1-internação-maternidade-r03",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Dispõe de profissionais com competências e capacitação compatíveis com a necessidade do serviço.",
                               "explicacao":  "Considerar as competências e as necessidades do serviço na contratação conforme o cargo/função ocupado alinhado a Politica de Gestão de Pessoas. Apresenta coerência entre a descrição de cargos e habilitações especificas. São observáveis diplomas de graduação, registro ativo no respectivo conselho referente a profissão e títulos de capacitações especificas exigidos pelo cargo/função.",
@@ -1994,7 +1994,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  3
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r04",
+                              "id":  "2-1-internação-maternidade-r04",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Planeja as atividades, avaliando as condições operacionais e de infraestrutura, viabilizando a execução dos processos de trabalho de forma segura.",
                               "explicacao":  "A gestão da unidade avalia periodicamente as condições operacionais e de infraestrutura viabilizando recursos para a execução dos processos de trabalho de forma segura. Apresenta evidência de avaliação de condições operacionais e de infraestrutura conforme a complexidade tais como: iluminação, sinalização, gases, estrutura predial, equipamentos, insumos, EPIs, etc.",
@@ -2007,7 +2007,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  4
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r05",
+                              "id":  "2-1-internação-maternidade-r05",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Acompanha a manutenção preventiva e corretiva das instalações e dos equipamentos, incluindo a calibração.",
                               "explicacao":  "A gestão da unidade acompanha a periodicidade da calibração e manutenção preventiva e corretiva das instalações e dos equipamentos. Apresenta evidência de acompanhamento como por exemplo, comunicação formal com os responsáveis do processo tais como cronogramas, checklists, etiquetas, sistemas informatizados, entre outros.",
@@ -2020,7 +2020,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  5
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r06",
+                              "id":  "2-1-internação-maternidade-r06",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Estabelece protocolos assistenciais/clínicos alinhados ao perfil epidemiológico",
                               "explicacao":  "Protocolos definidos e implantados baseados no conhecimento científico atual, no perfil epidemiológico, gravidade, risco, prevalência e custo, com base em diretrizes e evidências científicas. Protocolos clínicos/assistencial de acordo com o perfil da unidade e estar inserida nos protocolos institucionais quando aplicáveis (Ex: AVC; Sepse; Dor torácica).",
@@ -2033,7 +2033,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  6
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r07",
+                              "id":  "2-1-internação-maternidade-r07",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências",
                               "explicacao":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências Apresenta procedimento para a identificação precoce dos sinais de alerta de deterioração clinica baseado em evidências cientificas. Demonstra fluxo de atendimento as urgências e emergências.",
@@ -2046,7 +2046,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  7
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r08",
+                              "id":  "2-1-internação-maternidade-r08",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Considera as características individuais dos pacientes/clientes e acompanhantes, respeitando suas tradições culturais, crenças, diversidades, valores pessoais e privacidade para o planejamento do cuidado.",
                               "explicacao":  "A equipe multidisciplinar, quando aplicável, considera as características individuais dos pacientes/clientes e acompanhantes, respeitando suas tradições culturais, crenças, sexualidade, valores pessoais e privacidade para o planejamento do cuidado Apresenta o registro da utilização de características individuais no plano interdisciplinar tais como nome social, respeito a restrição a procedimentos por motivos religiosos, culturais, alterações imunológicas, por desejo pessoal previamente declarado, entre outros.",
@@ -2059,7 +2059,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  8
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r09",
+                              "id":  "2-1-internação-maternidade-r09",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Dispõe de prontuário com registros multidisciplinares atualizados sobre a evolução do paciente/cliente, que promova a continuidade da assistência.",
                               "explicacao":  "A equipe multidisciplinar quando aplicável mantem registros atualizados, considerando diagnósticos, procedimentos e morbidades, sobre a evolução do paciente/cliente, que promova a continuidade da assistência. Apresenta prontuários organizados e atualizados tais como com profissionaisidentificados, identificação do paciente/cliente, considerando as avaliações e reavaliações, registros dos procedimentos realizados, registro de decisão clínica e demonstrando integração entre os profissionais",
@@ -2072,7 +2072,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  9
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r10",
+                              "id":  "2-1-internação-maternidade-r10",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Estabelece, acompanha, avalia e adequa, se necessário,o plano terapêutico individualizado considerando diagnósticos, procedimentos e morbidades.",
                               "explicacao":  "A equipe assistencial estabelece todas as etapas do plano terapêutico individualizado. Apresenta o registro do planejamento da assistência em prontuário tais como plano de condutas definidas, metas, necessidade de avaliações de outras especialidades, exames e procedimentos, previsão de alta.",
@@ -2085,7 +2085,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  10
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r11",
+                              "id":  "2-1-internação-maternidade-r11",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Estabelece plano interdisciplinar da assistência, com base no plano terapêutico definido, considerando o grau de complexidade e dependência.",
                               "explicacao":  "A equipe assistencial estabelece todas as etapas do plano de cuidados individualizado, quando aplicável, alinhado ao plano terapêutico. Apresenta o registro do plano interdisciplinar em prontuário conforme os riscos e necessidades do paciente.",
@@ -2098,7 +2098,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  11
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r12",
+                              "id":  "2-1-internação-maternidade-r12",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Dispõe de plano de alta multidisciplinar de conhecimento do paciente/cliente e/ou acompanhantes para a continuidade do cuidado extra-hospitalar considerando diagnósticos, procedimentos e morbidades.",
                               "explicacao":  "Planeja e oferece plano educacional para o paciente/cliente e acompanhante para continuidade do cuidado extra-hospitalar. Registro em prontuário do planejamento multidisciplinar de alta com definição de metas e prazos, antecipando as necessidades relacionadas a alta do paciente; Oferece registro sobre os cuidados que o paciente/acompanhante deverá utilizar para continuidade na alta;Oferece resumo de alta.",
@@ -2111,7 +2111,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  12
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r13",
+                              "id":  "2-1-internação-maternidade-r13",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Promove o envolvimento do paciente/cliente e/ou acompanhante a respeito dos seus procedimentos, riscos e plano terapêutico.",
                               "explicacao":  "A equipe multidisciplinar registra e compartilha as decisões importantes relacionadas ao cuidado A equipe multidisciplinar demonstra comunicação entre a equipe de profissionais epacientes/clientes e/ou acompanhantes sobre as decisões importantes relacionados ao cuidadoTais como registros em prontuários, documentos informativos, conhecimento do paciente/acompanhante a respeito do tratamento.",
@@ -2124,20 +2124,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  13
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r14",
+                              "id":  "2-1-internação-maternidade-r14",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
-                              "explicacao":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explicacao":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  14,
                               "text":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
                               "criterion":  "",
-                              "explanation":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explanation":  "A unidade identifica os riscos assistenciais do paciente/cliente conforme as Politicas de Gestão Qualidade eSegurança do Paciente e a Gestão de Risco Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente e a Gestão de Risco.tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "order":  14
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r15",
+                              "id":  "2-1-internação-maternidade-r15",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Cumpre com as diretrizes dos protocolos de segurança do paciente, alinhados a política Institucional",
                               "explicacao":  "A unidade adere as diretrizes dos protocolos de segurança do paciente e prevenção de infecções relacionadas a assistência a saúde definidos na Politica de Segurança do Paciente baseados no conhecimento científico atual e no perfil epidemiológico da instituição. Demonstra a adesão dos Protocolos de segurança do paciente e prevenção infecções relacionadas a assistência a saúde definidos e implantados.",
@@ -2150,7 +2150,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  15
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r16",
+                              "id":  "2-1-internação-maternidade-r16",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Cumpre os protocolos de prevenção e controle de infecção e biossegurança.",
                               "explicacao":  "Adere os protocolos de prevenção e controle de infecções relacionadas a assistência à saúde e biossegurança, tais como infecções relacionadas a corrente sanguínea, infecção do trato urinário, higienização das mãos, dentre outros. Demonstra evidência de cumprimento dos protocolos estabelecidos.",
@@ -2163,7 +2163,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  16
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r17",
+                              "id":  "2-1-internação-maternidade-r17",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Cumpre diretrizes de transmissão de informação na transição de cuidado, bem como nas transferências internas e externas.",
                               "explicacao":  "A equipe multidisciplinaradere as diretrizes, metodologias ou padronizações nos momentos de transição do cuidado e transferências internas e externas para promover a comunicação efetiva. Apresenta registro da comunicação para tomada de decisão clinica e outras informações importantes relacionadas ao fluxo do paciente.Tais comoregistro de passagem de plantão, relatórios das condições clinicas nas transferências internas e externas, informes clínicos e resultados críticos de exames/pareceres entre outros.",
@@ -2176,7 +2176,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  17
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r18",
+                              "id":  "2-1-internação-maternidade-r18",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Identifica sinais de deterioração clínica e cumpre o protocolo de atendimento destes pacientes/clientes.",
                               "explicacao":  "A equipe assistencial identifica os pacientes com sinais clínicos deevolução desfavorável e adere as diretrizes de atendimento. Demonstra a identificação do paciente comsinais clínicos de evolução desfavorável e a inclusão do mesmo nos fluxos de atendimentos específicosTais como utilização de escore, inteligência artificial, Protocolos ou fluxos de atendimento a urgências e emergências.",
@@ -2189,7 +2189,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  18
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r19",
+                              "id":  "2-1-internação-maternidade-r19",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Estabelece protocolo para atendimento de urgências e emergências, com base em diretrizes e evidências científicas.",
                               "explicacao":  "A unidade define protocolos e procedimentos de atendimento para pacientes classificados como urgência e emergência baseado nas diretrizes e evidências cientificas. Demonstra conhecimento e aplicação de Protocolos e procedimentos para atendimento aos pacientes classificados como urgência e emergência conforme estabelecido pela unidade, tais como atendimento a Parada Cardio Respiratória, convulsão, reação alérgica grave, entre outros.",
@@ -2202,20 +2202,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  19
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r20",
+                              "id":  "2-1-internação-maternidade-r20",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
-                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das praticas definidas.",
+                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das práticas definidas.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  20,
                               "text":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
                               "criterion":  "",
-                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das praticas definidas.",
+                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalarDemonstra conhecimento e aplicação das práticas definidas.",
                               "order":  20
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r21",
+                              "id":  "2-1-internação-maternidade-r21",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Cumpre as diretrizes de notificação de hemovigilância, farmacovigilância, tecnovigilância e biovigilância.",
                               "explicacao":  "A unidade adere as diretrizes de notificação de hemovigilância, farmacovigilância, tecnovigilância e biovigilância. Demonstra conhecimento e aplicação das diretrizes de notificação, tais como ferramentas de notificação, registro nos órgãos competentes, analise de prontuário e busca ativa.",
@@ -2228,7 +2228,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  21
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r22",
+                              "id":  "2-1-internação-maternidade-r22",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Cumpre as diretrizes de notificação deincidentes e eventos adversos.",
                               "explicacao":  "Cumpre a prática de notificações de incidentes, circunstância de risco, quase erros, eventos sem dano, eventos adversos, reações adversas e não conformidades. Apresentar o fluxo de notificação descrito e disseminado; Relatório das notificações; Reconhecimento da equipe sobre o fluxo e tratativas, evidenciado em entrevista com a equipe.",
@@ -2241,7 +2241,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  22
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r23",
+                              "id":  "2-1-internação-maternidade-r23",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Cumpre os critérios e procedimentos de segurança para a utilização de equipamentos.",
                               "explicacao":  "A equipe adere aos procedimentos de segurança na utilização dos equipamentos. Evidencia treinamentos relacionados a utilização dos equipamentos;Demonstra conhecimento e aplicação na utilização dos equipamentos, tais como: laringoscópios, desfibrilador, bomba de infusão, marca-passo externo, cateteres entre outros.",
@@ -2254,7 +2254,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  23
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r24",
+                              "id":  "2-1-internação-maternidade-r24",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Cumpre os critérios e procedimentos de segurança para a utilização de materiais críticos.",
                               "explicacao":  "A equipe adere aos procedimentos de segurança na utilização de materiais críticos. Evidencia treinamentos relacionados a utilização de materiais críticos;Demonstra conhecimento e aplicação na utilização de materiais críticos como equipo, entre outros.",
@@ -2267,20 +2267,20 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  24
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r25",
+                              "id":  "2-1-internação-maternidade-r25",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Cumpre o protocolo multidisciplinar para a segurança na cadeia medicamentosa.",
-                              "explicacao":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas praticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
+                              "explicacao":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas práticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  25,
                               "text":  "Cumpre o protocolo multidisciplinar para a segurança na cadeia medicamentosa.",
                               "criterion":  "",
-                              "explanation":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas praticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
+                              "explanation":  "A unidade adere ao Protocolo de Segurança na Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, considerando controle de medicamentos de alta vigilância e medicamentos controlados,além de, recebimento, armazenamento e controle de estoque, rastreabilidade, boas práticas de infusão/administração, validação de prescrição, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos, entre outros.",
                               "order":  25
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r26",
+                              "id":  "2-1-internação-maternidade-r26",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Aplica termo de consentimento para procedimentos de risco.",
                               "explicacao":  "A unidade aplica, por meio de profissional capacitado, termo de consentimento para procedimentos de risco, conforme Politica institucional. Apresenta, junto ao prontuário, o termo de consentimento aplicado e assinado para procedimentos de risco tais como, cirúrgico, anestésico, hemocomponentes, uso de contraste,entre outros procedimentos invasivos.O paciente/acompanhante demonstra conhecimentos sobre os riscos relacionados ao procedimento a ser realizado.",
@@ -2293,7 +2293,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  26
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r27",
+                              "id":  "2-1-internação-maternidade-r27",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Identifica necessidade de treinamentos e capacitação frente às demandas assistenciais.",
                               "explicacao":  "A gestão da unidade identifica as necessidades de treinamento e promove a capacitação frente às demandas assistenciais. Apresenta evidências da identificação da necessidade e da realização dos treinamentos conforme perfil, tais comotreinamentos em função de notificação de incidentes, novos equipamentos, materiais, procedimentos, protocolos, entre outros.",
@@ -2306,7 +2306,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  27
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r28",
+                              "id":  "2-1-internação-maternidade-r28",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Cumpre com as determinações do plano de gerenciamento de resíduos.",
                               "explicacao":  "A organização deve garantir a segregação, retirada e descarte dos resíduos gerados conforme estabelecido em seu plano de gerenciamento de resíduos. O plano de gerenciamento de resíduos deve estar elaborado conforme a complexidade dos cuidados e risco de resíduos gerados, especificando como cada tipo de resíduo será classificado. Observar o descarte correto dos resíduoslixeiras, caixa de perfuros cortantes, entre outros. Relatórios de auditorias, notificação de Não Conformidades, registro de retiradas e adequação dos abrigos.",
@@ -2319,7 +2319,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "order":  28
                           },
                           {
-                              "id":  "2-1-internacao-maternidade-r29",
+                              "id":  "2-1-internação-maternidade-r29",
                               "area":  "Internação Maternidade",
                               "pergunta":  "Estabelece protocolo de identificação, prevenção e acompanhamento de risco para suicídio.",
                               "explicacao":  "A unidade define protocolo de identificação, prevenção e acompanhamento de risco para suicídio. A equipe demonstra conhecimento e aplicação do fluxo de identificação e procedimentos para o acompanhamento do protocolo de risco para suicídio, tais como uso de ferramenta para identificação do risco, proporciona ambiente seguro para os pacientes identificados, definição de monitoramento do paciente (presença de acompanhante, local de fácil vigilância).",
@@ -2485,14 +2485,14 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                           {
                               "id":  "2-10-assistencia-oncologica-e-terapia-antineoplasica-r12",
                               "area":  "Assistência Oncológica e Terapia Antineoplásica",
-                              "pergunta":  "Dispõe de procedimento seguro para a identificação, rastreabilidade, conservação e descarte apropriado dos insumos.",
-                              "explicacao":  "Critérios devem ser definidos para a validação,controle (incluindo rastreabilidade e prazo de validade), conservação e descarte dos insumos (considerando também contrato estabelecido com empresa de destinação de resíduos). Verificação do processo de recebimento, rastreabilidade e utilização de medicamentos e materiais; Verificação do controle de rastreabilidade e vencimento; Verificação do descarte apropriado e contrato com empresa de destinação de resíduos.",
+                              "pergunta":  "Dispõe de procedimento seguro para a identificação, rastreabilidade, conservação e descarte aprópriado dos insumos.",
+                              "explicacao":  "Critérios devem ser definidos para a validação,controle (incluindo rastreabilidade e prazo de validade), conservação e descarte dos insumos (considerando também contrato estabelecido com empresa de destinação de resíduos). Verificação do processo de recebimento, rastreabilidade e utilização de medicamentos e materiais; Verificação do controle de rastreabilidade e vencimento; Verificação do descarte aprópriado e contrato com empresa de destinação de resíduos.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  12,
-                              "text":  "Dispõe de procedimento seguro para a identificação, rastreabilidade, conservação e descarte apropriado dos insumos.",
+                              "text":  "Dispõe de procedimento seguro para a identificação, rastreabilidade, conservação e descarte aprópriado dos insumos.",
                               "criterion":  "",
-                              "explanation":  "Critérios devem ser definidos para a validação,controle (incluindo rastreabilidade e prazo de validade), conservação e descarte dos insumos (considerando também contrato estabelecido com empresa de destinação de resíduos). Verificação do processo de recebimento, rastreabilidade e utilização de medicamentos e materiais; Verificação do controle de rastreabilidade e vencimento; Verificação do descarte apropriado e contrato com empresa de destinação de resíduos.",
+                              "explanation":  "Critérios devem ser definidos para a validação,controle (incluindo rastreabilidade e prazo de validade), conservação e descarte dos insumos (considerando também contrato estabelecido com empresa de destinação de resíduos). Verificação do processo de recebimento, rastreabilidade e utilização de medicamentos e materiais; Verificação do controle de rastreabilidade e vencimento; Verificação do descarte aprópriado e contrato com empresa de destinação de resíduos.",
                               "order":  12
                           },
                           {
@@ -2525,13 +2525,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-10-assistencia-oncologica-e-terapia-antineoplasica-r15",
                               "area":  "Assistência Oncológica e Terapia Antineoplásica",
                               "pergunta":  "Estabelece protocolos assistenciais/clínicos alinhados ao perfil epidemiológico.",
-                              "explicacao":  "Protocolos assistenciais são definidos, das doenças de maior prevalência/gravidade/risco, alinhados ao perfil epidemiológico e com base em diretrizes e evidências científicas, para planejamento da assistência aos pacientes (adulto e/ou pediátrico; ambulatorial ou hospitalar) em terapia oncológica clínica ou cirúrgica. Formalização de protocolos assistenciais atualizados, tais como: terapia venosa (infusão gravitacional e contínua ou por bomba eslastomérica), intramuscular, subcutânea, intratecal, intravesical, tópica, oral ou mista; concomitante com radioterapia; imunoterapia, hematologia, transplante de medula óssea, cuidados paliativos e/ou terminalidade, neutropenia febril, manejo da dor, antibioticoterapia, manejo de efeitos colaterais; Entrevista com a equipe assistencial para avaliação sobre o entendimento dos protocolos estabelecidos; Plano de capacitação para desdobramento das diretrizes; Aplicação dos protocolos em prontuários; Metodologia estabelecida para monitoramento da adesão da equipe assistencial quanto aos protocolos estabelecidos.",
+                              "explicacao":  "Protocolos assistenciais são definidos, das doenças de maior prevalência/gravidade/risco, alinhados ao perfil epidemiológico e com base em diretrizes e evidências científicas, para planejamento da assistência aos pacientes (adulto e/ou pediátrico; ambulatorial ou hospitalar) em terapia oncológica clínica ou cirúrgica. Formalização de protocolos assistenciais atualizados, tais como: terapia venosa (infusão gravitacional e contínua ou por bomba eslastomérica), intramuscular, subcutânea, intratecal, intravesical, tópica, oral ou mista; concomitante com radioterapia; imunoterapia, hematologia, transplante de medula óssea, cuidados paliativos e/ou terminalidade, neutropenia febril, manejo da dor, antibioticoterapia, manejo de efeitos colaterais; Entrevista com a equipe assistencial para avaliação sobre o entendimento dos protocolos estabelecidos; Plano de capacitação para desdobramento das diretrizes; Aplicação dos protocolos em prontuários; Métodologia estabelecida para monitoramento da adesão da equipe assistencial quanto aos protocolos estabelecidos.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  15,
                               "text":  "Estabelece protocolos assistenciais/clínicos alinhados ao perfil epidemiológico.",
                               "criterion":  "",
-                              "explanation":  "Protocolos assistenciais são definidos, das doenças de maior prevalência/gravidade/risco, alinhados ao perfil epidemiológico e com base em diretrizes e evidências científicas, para planejamento da assistência aos pacientes (adulto e/ou pediátrico; ambulatorial ou hospitalar) em terapia oncológica clínica ou cirúrgica. Formalização de protocolos assistenciais atualizados, tais como: terapia venosa (infusão gravitacional e contínua ou por bomba eslastomérica), intramuscular, subcutânea, intratecal, intravesical, tópica, oral ou mista; concomitante com radioterapia; imunoterapia, hematologia, transplante de medula óssea, cuidados paliativos e/ou terminalidade, neutropenia febril, manejo da dor, antibioticoterapia, manejo de efeitos colaterais; Entrevista com a equipe assistencial para avaliação sobre o entendimento dos protocolos estabelecidos; Plano de capacitação para desdobramento das diretrizes; Aplicação dos protocolos em prontuários; Metodologia estabelecida para monitoramento da adesão da equipe assistencial quanto aos protocolos estabelecidos.",
+                              "explanation":  "Protocolos assistenciais são definidos, das doenças de maior prevalência/gravidade/risco, alinhados ao perfil epidemiológico e com base em diretrizes e evidências científicas, para planejamento da assistência aos pacientes (adulto e/ou pediátrico; ambulatorial ou hospitalar) em terapia oncológica clínica ou cirúrgica. Formalização de protocolos assistenciais atualizados, tais como: terapia venosa (infusão gravitacional e contínua ou por bomba eslastomérica), intramuscular, subcutânea, intratecal, intravesical, tópica, oral ou mista; concomitante com radioterapia; imunoterapia, hematologia, transplante de medula óssea, cuidados paliativos e/ou terminalidade, neutropenia febril, manejo da dor, antibioticoterapia, manejo de efeitos colaterais; Entrevista com a equipe assistencial para avaliação sobre o entendimento dos protocolos estabelecidos; Plano de capacitação para desdobramento das diretrizes; Aplicação dos protocolos em prontuários; Métodologia estabelecida para monitoramento da adesão da equipe assistencial quanto aos protocolos estabelecidos.",
                               "order":  15
                           },
                           {
@@ -2798,13 +2798,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-10-assistencia-oncologica-e-terapia-antineoplasica-r36",
                               "area":  "Assistência Oncológica e Terapia Antineoplásica",
                               "pergunta":  "Estabelece e acompanha o plano interdisciplinar da assistência, com base no plano terapêutico definido.",
-                              "explicacao":  "Metodologia estabelecida para definição, desdobramento e monitoramento de plano terapêutico pela equipe multidisciplinar. Projeto Terapêutico. Formalizar no prontuário para continuidade do cuidado Avaliação das diretrizes estabelecidas para definição de plano terapêutico individualizado e monitoramento da adesão pela equipe multidisciplinar. Entrevista com a equipe multidisciplinar para avaliação do entendimento sobre as diretrizes estabelecidas. Avaliação de prontuários. Avaliação do monitoramento da adesão às diretrizes pela equipe multidisciplinar e ações estabelecidas para melhoria do processo assistencial.",
+                              "explicacao":  "Métodologia estabelecida para definição, desdobramento e monitoramento de plano terapêutico pela equipe multidisciplinar. Projeto Terapêutico. Formalizar no prontuário para continuidade do cuidado Avaliação das diretrizes estabelecidas para definição de plano terapêutico individualizado e monitoramento da adesão pela equipe multidisciplinar. Entrevista com a equipe multidisciplinar para avaliação do entendimento sobre as diretrizes estabelecidas. Avaliação de prontuários. Avaliação do monitoramento da adesão às diretrizes pela equipe multidisciplinar e ações estabelecidas para melhoria do processo assistencial.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  36,
                               "text":  "Estabelece e acompanha o plano interdisciplinar da assistência, com base no plano terapêutico definido.",
                               "criterion":  "",
-                              "explanation":  "Metodologia estabelecida para definição, desdobramento e monitoramento de plano terapêutico pela equipe multidisciplinar. Projeto Terapêutico. Formalizar no prontuário para continuidade do cuidado Avaliação das diretrizes estabelecidas para definição de plano terapêutico individualizado e monitoramento da adesão pela equipe multidisciplinar. Entrevista com a equipe multidisciplinar para avaliação do entendimento sobre as diretrizes estabelecidas. Avaliação de prontuários. Avaliação do monitoramento da adesão às diretrizes pela equipe multidisciplinar e ações estabelecidas para melhoria do processo assistencial.",
+                              "explanation":  "Métodologia estabelecida para definição, desdobramento e monitoramento de plano terapêutico pela equipe multidisciplinar. Projeto Terapêutico. Formalizar no prontuário para continuidade do cuidado Avaliação das diretrizes estabelecidas para definição de plano terapêutico individualizado e monitoramento da adesão pela equipe multidisciplinar. Entrevista com a equipe multidisciplinar para avaliação do entendimento sobre as diretrizes estabelecidas. Avaliação de prontuários. Avaliação do monitoramento da adesão às diretrizes pela equipe multidisciplinar e ações estabelecidas para melhoria do processo assistencial.",
                               "order":  36
                           },
                           {
@@ -2936,13 +2936,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-11-radioterapia-r09",
                               "area":  "Radioterapia",
                               "pergunta":  "Estabelece critérios para identificação dos pacientes/clientes classificados como críticos e fluxo para início de tratamento prioritário.",
-                              "explicacao":  "Critérios para identificação de pacientes/clientes críticos devem ser estabelecidos para definição de priorização do fluxo de atendimento e início de tratamento aos pacientes com necessidades imediatas. A equipe médica, através dos protocolos institucionais, deve ser responsável pela sinalização de criticidade. O fluxo de atendimento deve contemplar comunicação com fonte pagadora, serviços internos (autorização, compras, agendamento, equipe multidisciplinar), além de profissionais parceiros e SADT, quando aplicável. Formalização de protocolo e/ou fluxos atualizados para priorização de atendimento a pacientes classificados como críticos. Entrevista com a equipe assistencial, recepção/ agendamento, autorização, aquisição (compras) para avaliação sobre o entendimento dos protocolos / fluxos estabelecidos. Plano de capacitação para desdobramento das diretrizes. Aplicação do protocolo/ fluxo de atendimento através de rastreio em prontuários. Metodologia estabelecida para monitoramento da adesão da equipe assistencial quanto ao protocolo estabelecido.",
+                              "explicacao":  "Critérios para identificação de pacientes/clientes críticos devem ser estabelecidos para definição de priorização do fluxo de atendimento e início de tratamento aos pacientes com necessidades imediatas. A equipe médica, através dos protocolos institucionais, deve ser responsável pela sinalização de criticidade. O fluxo de atendimento deve contemplar comunicação com fonte pagadora, serviços internos (autorização, compras, agendamento, equipe multidisciplinar), além de profissionais parceiros e SADT, quando aplicável. Formalização de protocolo e/ou fluxos atualizados para priorização de atendimento a pacientes classificados como críticos. Entrevista com a equipe assistencial, recepção/ agendamento, autorização, aquisição (compras) para avaliação sobre o entendimento dos protocolos / fluxos estabelecidos. Plano de capacitação para desdobramento das diretrizes. Aplicação do protocolo/ fluxo de atendimento através de rastreio em prontuários. Métodologia estabelecida para monitoramento da adesão da equipe assistencial quanto ao protocolo estabelecido.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  9,
                               "text":  "Estabelece critérios para identificação dos pacientes/clientes classificados como críticos e fluxo para início de tratamento prioritário.",
                               "criterion":  "",
-                              "explanation":  "Critérios para identificação de pacientes/clientes críticos devem ser estabelecidos para definição de priorização do fluxo de atendimento e início de tratamento aos pacientes com necessidades imediatas. A equipe médica, através dos protocolos institucionais, deve ser responsável pela sinalização de criticidade. O fluxo de atendimento deve contemplar comunicação com fonte pagadora, serviços internos (autorização, compras, agendamento, equipe multidisciplinar), além de profissionais parceiros e SADT, quando aplicável. Formalização de protocolo e/ou fluxos atualizados para priorização de atendimento a pacientes classificados como críticos. Entrevista com a equipe assistencial, recepção/ agendamento, autorização, aquisição (compras) para avaliação sobre o entendimento dos protocolos / fluxos estabelecidos. Plano de capacitação para desdobramento das diretrizes. Aplicação do protocolo/ fluxo de atendimento através de rastreio em prontuários. Metodologia estabelecida para monitoramento da adesão da equipe assistencial quanto ao protocolo estabelecido.",
+                              "explanation":  "Critérios para identificação de pacientes/clientes críticos devem ser estabelecidos para definição de priorização do fluxo de atendimento e início de tratamento aos pacientes com necessidades imediatas. A equipe médica, através dos protocolos institucionais, deve ser responsável pela sinalização de criticidade. O fluxo de atendimento deve contemplar comunicação com fonte pagadora, serviços internos (autorização, compras, agendamento, equipe multidisciplinar), além de profissionais parceiros e SADT, quando aplicável. Formalização de protocolo e/ou fluxos atualizados para priorização de atendimento a pacientes classificados como críticos. Entrevista com a equipe assistencial, recepção/ agendamento, autorização, aquisição (compras) para avaliação sobre o entendimento dos protocolos / fluxos estabelecidos. Plano de capacitação para desdobramento das diretrizes. Aplicação do protocolo/ fluxo de atendimento através de rastreio em prontuários. Métodologia estabelecida para monitoramento da adesão da equipe assistencial quanto ao protocolo estabelecido.",
                               "order":  9
                           },
                           {
@@ -4070,13 +4070,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-2-atendimento-ambulatorial-oncologia-r13",
                               "area":  "Atendimento Ambulatorial Oncologia",
                               "pergunta":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
-                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intrae inter-hospitalar Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalar; Demonstra conhecimento e aplicação das praticas definidas.",
+                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intrae inter-hospitalar Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalar; Demonstra conhecimento e aplicação das práticas definidas.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  13,
                               "text":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
                               "criterion":  "",
-                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intrae inter-hospitalar Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalar; Demonstra conhecimento e aplicação das praticas definidas.",
+                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intrae inter-hospitalar Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalar; Demonstra conhecimento e aplicação das práticas definidas.",
                               "order":  13
                           },
                           {
@@ -4174,13 +4174,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-2-atendimento-ambulatorial-oncologia-r21",
                               "area":  "Atendimento Ambulatorial Oncologia",
                               "pergunta":  "Cumpre protocolo multidisciplinar para a segurança da cadeia medicamentosa.",
-                              "explicacao":  "A unidade adere ao Protocolo de Segurança da Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, tais como, rastreabilidade, controle de dispensação, controle de estoque, boas praticas de infusão/administração, acompanhamento farmacoterapêutico (quando aplicável)",
+                              "explicacao":  "A unidade adere ao Protocolo de Segurança da Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, tais como, rastreabilidade, controle de dispensação, controle de estoque, boas práticas de infusão/administração, acompanhamento farmacoterapêutico (quando aplicável)",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  21,
                               "text":  "Cumpre protocolo multidisciplinar para a segurança da cadeia medicamentosa.",
                               "criterion":  "",
-                              "explanation":  "A unidade adere ao Protocolo de Segurança da Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, tais como, rastreabilidade, controle de dispensação, controle de estoque, boas praticas de infusão/administração, acompanhamento farmacoterapêutico (quando aplicável)",
+                              "explanation":  "A unidade adere ao Protocolo de Segurança da Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, tais como, rastreabilidade, controle de dispensação, controle de estoque, boas práticas de infusão/administração, acompanhamento farmacoterapêutico (quando aplicável)",
                               "order":  21
                           },
                           {
@@ -4468,13 +4468,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-2-atendimento-ambulatorial-sinpain-r13",
                               "area":  "Atendimento Ambulatorial SINPAIN",
                               "pergunta":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
-                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intrae inter-hospitalar Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalar; Demonstra conhecimento e aplicação das praticas definidas.",
+                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intrae inter-hospitalar Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalar; Demonstra conhecimento e aplicação das práticas definidas.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  13,
                               "text":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
                               "criterion":  "",
-                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intrae inter-hospitalar Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalar; Demonstra conhecimento e aplicação das praticas definidas.",
+                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intrae inter-hospitalar Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalar; Demonstra conhecimento e aplicação das práticas definidas.",
                               "order":  13
                           },
                           {
@@ -4572,13 +4572,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-2-atendimento-ambulatorial-sinpain-r21",
                               "area":  "Atendimento Ambulatorial SINPAIN",
                               "pergunta":  "Cumpre protocolo multidisciplinar para a segurança da cadeia medicamentosa.",
-                              "explicacao":  "A unidade adere ao Protocolo de Segurança da Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, tais como, rastreabilidade, controle de dispensação, controle de estoque, boas praticas de infusão/administração, acompanhamento farmacoterapêutico (quando aplicável)",
+                              "explicacao":  "A unidade adere ao Protocolo de Segurança da Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, tais como, rastreabilidade, controle de dispensação, controle de estoque, boas práticas de infusão/administração, acompanhamento farmacoterapêutico (quando aplicável)",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  21,
                               "text":  "Cumpre protocolo multidisciplinar para a segurança da cadeia medicamentosa.",
                               "criterion":  "",
-                              "explanation":  "A unidade adere ao Protocolo de Segurança da Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, tais como, rastreabilidade, controle de dispensação, controle de estoque, boas praticas de infusão/administração, acompanhamento farmacoterapêutico (quando aplicável)",
+                              "explanation":  "A unidade adere ao Protocolo de Segurança da Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, tais como, rastreabilidade, controle de dispensação, controle de estoque, boas práticas de infusão/administração, acompanhamento farmacoterapêutico (quando aplicável)",
                               "order":  21
                           },
                           {
@@ -4892,13 +4892,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-3-atendimento-emergencial-ps-r15",
                               "area":  "Atendimento Emergencial PS",
                               "pergunta":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
-                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalar; Demonstra conhecimento e aplicação das praticas definidas.",
+                              "explicacao":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalar; Demonstra conhecimento e aplicação das práticas definidas.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  15,
                               "text":  "Estabelece critérios para a prática segura de transporte intra e inter-hospitalar dos pacientes/clientes.",
                               "criterion":  "",
-                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalar; Demonstra conhecimento e aplicação das praticas definidas.",
+                              "explanation":  "A equipe multidisciplinar adere as diretrizes relacionadas ao procedimento de transporte intra e inter-hospitalar. Apresenta padronização dos procedimentos definidospara a pratica segura de transporte intra e inter-hospitalar; Demonstra conhecimento e aplicação das práticas definidas.",
                               "order":  15
                           },
                           {
@@ -4970,13 +4970,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-3-atendimento-emergencial-ps-r21",
                               "area":  "Atendimento Emergencial PS",
                               "pergunta":  "Cumpre protocolo multidisciplinar para a segurança da cadeia medicamentosa.",
-                              "explicacao":  "A unidade adere ao Protocolo de Segurança da Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, tais como, armazenamento,rastreabilidade, controle de dispensação, controle de estoque, boas praticas de infusão/administração, validação de prescrição externa, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos.",
+                              "explicacao":  "A unidade adere ao Protocolo de Segurança da Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, tais como, armazenamento,rastreabilidade, controle de dispensação, controle de estoque, boas práticas de infusão/administração, validação de prescrição externa, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  21,
                               "text":  "Cumpre protocolo multidisciplinar para a segurança da cadeia medicamentosa.",
                               "criterion":  "",
-                              "explanation":  "A unidade adere ao Protocolo de Segurança da Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, tais como, armazenamento,rastreabilidade, controle de dispensação, controle de estoque, boas praticas de infusão/administração, validação de prescrição externa, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos.",
+                              "explanation":  "A unidade adere ao Protocolo de Segurança da Cadeia Medicamentosa. Apresenta evidências de aplicação do Protocolo de Segurança Medicamentosa, tais como, armazenamento,rastreabilidade, controle de dispensação, controle de estoque, boas práticas de infusão/administração, validação de prescrição externa, acompanhamento farmacoterapêutico, controle do carrinho de emergência, controle de amostra grátis e doações de medicamentos.",
                               "order":  21
                           },
                           {
@@ -5095,13 +5095,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-4-atendimento-cirurgico-r03",
                               "area":  "Atendimento Cirúrgico",
                               "pergunta":  "Dispõe de profissionais com competências e capacitação compatíveis com a necessidade do serviço.",
-                              "explicacao":  "Dimensionar recursos humanos levando em consideração qualificação e especificações necessários para atender integralmente ás necessidades assistenciais, considerando as variações na demanda incluindo planos de contingência. Recursos humanos dimensionado (qualificação e habilitação) com competências compatíveis com a estrutura e complexidade. (Ex: especialidades cirúrgicas com título de especialista correspondente, anestesista, Perfusionistas com titulação apropriada, equipe envolvida no processo de sedação, entre outros).",
+                              "explicacao":  "Dimensionar recursos humanos levando em consideração qualificação e especificações necessários para atender integralmente ás necessidades assistenciais, considerando as variações na demanda incluindo planos de contingência. Recursos humanos dimensionado (qualificação e habilitação) com competências compatíveis com a estrutura e complexidade. (Ex: especialidades cirúrgicas com título de especialista correspondente, anestesista, Perfusionistas com titulação aprópriada, equipe envolvida no processo de sedação, entre outros).",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  3,
                               "text":  "Dispõe de profissionais com competências e capacitação compatíveis com a necessidade do serviço.",
                               "criterion":  "",
-                              "explanation":  "Dimensionar recursos humanos levando em consideração qualificação e especificações necessários para atender integralmente ás necessidades assistenciais, considerando as variações na demanda incluindo planos de contingência. Recursos humanos dimensionado (qualificação e habilitação) com competências compatíveis com a estrutura e complexidade. (Ex: especialidades cirúrgicas com título de especialista correspondente, anestesista, Perfusionistas com titulação apropriada, equipe envolvida no processo de sedação, entre outros).",
+                              "explanation":  "Dimensionar recursos humanos levando em consideração qualificação e especificações necessários para atender integralmente ás necessidades assistenciais, considerando as variações na demanda incluindo planos de contingência. Recursos humanos dimensionado (qualificação e habilitação) com competências compatíveis com a estrutura e complexidade. (Ex: especialidades cirúrgicas com título de especialista correspondente, anestesista, Perfusionistas com titulação aprópriada, equipe envolvida no processo de sedação, entre outros).",
                               "order":  3
                           },
                           {
@@ -5523,14 +5523,14 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                           {
                               "id":  "2-4-atendimento-cirurgico-r36",
                               "area":  "Atendimento Cirúrgico",
-                              "pergunta":  "Dispõe de mecanismos e procedimentos para o armazenamento, conservação, transporte, rastreabilidade e disposição apropriada da amostra e do material biológico humano, visando a sua integridade e preservação.",
-                              "explicacao":  "Cumprimento dos procedimentos para o armazenamento, conservação, transporte, rastreabilidade e disposição apropriada da amostra e do material biológico humano, visando a sua integridade e preservação. Apresentar o documento com os critérios para o armazenamento, conservação, transporte, rastreabilidade e disposição apropriada da amostra e do material biológico humano tais como identificação de amostra cirúrgica, peça anatômica, registro de fluxo do material para rastreabilidade, entre outros. Demonstrar as condições adequadas de conservação tais como local adequado, exaustão, controle de temperatura e humidade, prazo e validade de materiais, soluções de conservação em volume adequada, entre outros.Entrevista com as equipes para evidenciar o conhecimento das práticas.",
+                              "pergunta":  "Dispõe de mecanismos e procedimentos para o armazenamento, conservação, transporte, rastreabilidade e disposição aprópriada da amostra e do material biológico humano, visando a sua integridade e preservação.",
+                              "explicacao":  "Cumprimento dos procedimentos para o armazenamento, conservação, transporte, rastreabilidade e disposição aprópriada da amostra e do material biológico humano, visando a sua integridade e preservação. Apresentar o documento com os critérios para o armazenamento, conservação, transporte, rastreabilidade e disposição aprópriada da amostra e do material biológico humano tais como identificação de amostra cirúrgica, peça anatômica, registro de fluxo do material para rastreabilidade, entre outros. Demonstrar as condições adequadas de conservação tais como local adequado, exaustão, controle de temperatura e humidade, prazo e validade de materiais, soluções de conservação em volume adequada, entre outros.Entrevista com as equipes para evidenciar o conhecimento das práticas.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  36,
-                              "text":  "Dispõe de mecanismos e procedimentos para o armazenamento, conservação, transporte, rastreabilidade e disposição apropriada da amostra e do material biológico humano, visando a sua integridade e preservação.",
+                              "text":  "Dispõe de mecanismos e procedimentos para o armazenamento, conservação, transporte, rastreabilidade e disposição aprópriada da amostra e do material biológico humano, visando a sua integridade e preservação.",
                               "criterion":  "",
-                              "explanation":  "Cumprimento dos procedimentos para o armazenamento, conservação, transporte, rastreabilidade e disposição apropriada da amostra e do material biológico humano, visando a sua integridade e preservação. Apresentar o documento com os critérios para o armazenamento, conservação, transporte, rastreabilidade e disposição apropriada da amostra e do material biológico humano tais como identificação de amostra cirúrgica, peça anatômica, registro de fluxo do material para rastreabilidade, entre outros. Demonstrar as condições adequadas de conservação tais como local adequado, exaustão, controle de temperatura e humidade, prazo e validade de materiais, soluções de conservação em volume adequada, entre outros.Entrevista com as equipes para evidenciar o conhecimento das práticas.",
+                              "explanation":  "Cumprimento dos procedimentos para o armazenamento, conservação, transporte, rastreabilidade e disposição aprópriada da amostra e do material biológico humano, visando a sua integridade e preservação. Apresentar o documento com os critérios para o armazenamento, conservação, transporte, rastreabilidade e disposição aprópriada da amostra e do material biológico humano tais como identificação de amostra cirúrgica, peça anatômica, registro de fluxo do material para rastreabilidade, entre outros. Demonstrar as condições adequadas de conservação tais como local adequado, exaustão, controle de temperatura e humidade, prazo e validade de materiais, soluções de conservação em volume adequada, entre outros.Entrevista com as equipes para evidenciar o conhecimento das práticas.",
                               "order":  36
                           },
                           {
@@ -5831,13 +5831,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-5-atendimento-obstetrico-r19",
                               "area":  "Atendimento Obstétrico",
                               "pergunta":  "Identifica sinais de deterioração clínica e cumpre o protocolo deurgências e emergências, com base em diretrizes e evidências científicas.",
-                              "explicacao":  "Define escala/critério/sinais de piora clinica,estabelecer fluxo para acionamento, atendimento apropriado, estabilização e encaminhamento á unidade com complexidade apropriada (quando necessário). Informação documental: Fluxo de acionamento; Parâmetros para acionamento (scores, alteração de sinais vitais); Responsáveis pelo atendimento; Fluxo de atendimento, com bade em diretrizes e evidencia cientifica.",
+                              "explicacao":  "Define escala/critério/sinais de piora clinica,estabelecer fluxo para acionamento, atendimento aprópriado, estabilização e encaminhamento á unidade com complexidade aprópriada (quando necessário). Informação documental: Fluxo de acionamento; Parâmetros para acionamento (scores, alteração de sinais vitais); Responsáveis pelo atendimento; Fluxo de atendimento, com bade em diretrizes e evidencia cientifica.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  19,
                               "text":  "Identifica sinais de deterioração clínica e cumpre o protocolo deurgências e emergências, com base em diretrizes e evidências científicas.",
                               "criterion":  "",
-                              "explanation":  "Define escala/critério/sinais de piora clinica,estabelecer fluxo para acionamento, atendimento apropriado, estabilização e encaminhamento á unidade com complexidade apropriada (quando necessário). Informação documental: Fluxo de acionamento; Parâmetros para acionamento (scores, alteração de sinais vitais); Responsáveis pelo atendimento; Fluxo de atendimento, com bade em diretrizes e evidencia cientifica.",
+                              "explanation":  "Define escala/critério/sinais de piora clinica,estabelecer fluxo para acionamento, atendimento aprópriado, estabilização e encaminhamento á unidade com complexidade aprópriada (quando necessário). Informação documental: Fluxo de acionamento; Parâmetros para acionamento (scores, alteração de sinais vitais); Responsáveis pelo atendimento; Fluxo de atendimento, com bade em diretrizes e evidencia cientifica.",
                               "order":  19
                           },
                           {
@@ -6104,13 +6104,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-5-atendimento-obstetrico-r40",
                               "area":  "Atendimento Obstétrico",
                               "pergunta":  "Dispõe de mecanismos e procedimentos para segurança no processo de manejo da amostra de material biológico humano.",
-                              "explicacao":  "Definir critérios para o processamento e a liberação dos diferentes tipos de material biológico humano. Critérios para aceitação, restrição e rejeição de células e tecidos, incluindo componentes sanguíneos. Definir mecanismos e procedimentos para o armazenamento, conservação, transporte, rastreabilidade e descarte apropriado da amostra e material biológico humano, visando a sua integridade e preservação. Definir mecanismos de validação do processo de rastreabilidade dos dados, relativos à amostra e a material biológico humano. Procedimento com as diretrizes para aceitação, restrição e rejeição de células e tecidos.Registros com os controles de aceitação e rejeição. Observar o transporte do material biológico humano, que deve obedecer às normas de biossegurança e de saúde do trabalhador, de forma a prevenir riscos de exposição direta dos profissionais envolvidos, dos transportadores, da população e do ambiente ao material biológico humano. Controle e conferência dos dados referentes ao pedido médico, frascos e fragmentos quanto as informações da amostra e do paciente. Controle de tempo de armazenamento e para o encaminhamento.Local de armazenamento. controles das peças, manipulação com formal (quando há), utilização de EPIs, identificação dos frascos. Fluxo de entrega de material ao paciente, com o registro das orientações entregues ao paciente/acompanhante.",
+                              "explicacao":  "Definir critérios para o processamento e a liberação dos diferentes tipos de material biológico humano. Critérios para aceitação, restrição e rejeição de células e tecidos, incluindo componentes sanguíneos. Definir mecanismos e procedimentos para o armazenamento, conservação, transporte, rastreabilidade e descarte aprópriado da amostra e material biológico humano, visando a sua integridade e preservação. Definir mecanismos de validação do processo de rastreabilidade dos dados, relativos à amostra e a material biológico humano. Procedimento com as diretrizes para aceitação, restrição e rejeição de células e tecidos.Registros com os controles de aceitação e rejeição. Observar o transporte do material biológico humano, que deve obedecer às normas de biossegurança e de saúde do trabalhador, de forma a prevenir riscos de exposição direta dos profissionais envolvidos, dos transportadores, da população e do ambiente ao material biológico humano. Controle e conferência dos dados referentes ao pedido médico, frascos e fragmentos quanto as informações da amostra e do paciente. Controle de tempo de armazenamento e para o encaminhamento.Local de armazenamento. controles das peças, manipulação com formal (quando há), utilização de EPIs, identificação dos frascos. Fluxo de entrega de material ao paciente, com o registro das orientações entregues ao paciente/acompanhante.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  40,
                               "text":  "Dispõe de mecanismos e procedimentos para segurança no processo de manejo da amostra de material biológico humano.",
                               "criterion":  "",
-                              "explanation":  "Definir critérios para o processamento e a liberação dos diferentes tipos de material biológico humano. Critérios para aceitação, restrição e rejeição de células e tecidos, incluindo componentes sanguíneos. Definir mecanismos e procedimentos para o armazenamento, conservação, transporte, rastreabilidade e descarte apropriado da amostra e material biológico humano, visando a sua integridade e preservação. Definir mecanismos de validação do processo de rastreabilidade dos dados, relativos à amostra e a material biológico humano. Procedimento com as diretrizes para aceitação, restrição e rejeição de células e tecidos.Registros com os controles de aceitação e rejeição. Observar o transporte do material biológico humano, que deve obedecer às normas de biossegurança e de saúde do trabalhador, de forma a prevenir riscos de exposição direta dos profissionais envolvidos, dos transportadores, da população e do ambiente ao material biológico humano. Controle e conferência dos dados referentes ao pedido médico, frascos e fragmentos quanto as informações da amostra e do paciente. Controle de tempo de armazenamento e para o encaminhamento.Local de armazenamento. controles das peças, manipulação com formal (quando há), utilização de EPIs, identificação dos frascos. Fluxo de entrega de material ao paciente, com o registro das orientações entregues ao paciente/acompanhante.",
+                              "explanation":  "Definir critérios para o processamento e a liberação dos diferentes tipos de material biológico humano. Critérios para aceitação, restrição e rejeição de células e tecidos, incluindo componentes sanguíneos. Definir mecanismos e procedimentos para o armazenamento, conservação, transporte, rastreabilidade e descarte aprópriado da amostra e material biológico humano, visando a sua integridade e preservação. Definir mecanismos de validação do processo de rastreabilidade dos dados, relativos à amostra e a material biológico humano. Procedimento com as diretrizes para aceitação, restrição e rejeição de células e tecidos.Registros com os controles de aceitação e rejeição. Observar o transporte do material biológico humano, que deve obedecer às normas de biossegurança e de saúde do trabalhador, de forma a prevenir riscos de exposição direta dos profissionais envolvidos, dos transportadores, da população e do ambiente ao material biológico humano. Controle e conferência dos dados referentes ao pedido médico, frascos e fragmentos quanto as informações da amostra e do paciente. Controle de tempo de armazenamento e para o encaminhamento.Local de armazenamento. controles das peças, manipulação com formal (quando há), utilização de EPIs, identificação dos frascos. Fluxo de entrega de material ao paciente, com o registro das orientações entregues ao paciente/acompanhante.",
                               "order":  40
                           },
                           {
@@ -6320,13 +6320,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-6-atendimento-neonatal-r14",
                               "area":  "Atendimento Neonatal",
                               "pergunta":  "Identifica evolução desfavorável e cumpre diretrizes de atendimento destes pacientes/clientes.",
-                              "explicacao":  "Definir escala/critério/sinais de piora clinica,estabelecer fluxo para acionamento, atendimento apropriado, estabilização e encaminhamento á unidade com complexidade apropriada, quando necessário. Observação os critérios de deterioração clínica aplica-se apenas as unidades de cuidados não intensivos. Informação documental: Fluxo de acionamento. Parâmetros para acionamento (scores, alteração de sinais vitais). Responsáveis pelo atendimento. Fluxo de atendimento, com base em diretrizes e evidencia cientifica.",
+                              "explicacao":  "Definir escala/critério/sinais de piora clinica,estabelecer fluxo para acionamento, atendimento aprópriado, estabilização e encaminhamento á unidade com complexidade aprópriada, quando necessário. Observação os critérios de deterioração clínica aplica-se apenas as unidades de cuidados não intensivos. Informação documental: Fluxo de acionamento. Parâmetros para acionamento (scores, alteração de sinais vitais). Responsáveis pelo atendimento. Fluxo de atendimento, com base em diretrizes e evidencia cientifica.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  14,
                               "text":  "Identifica evolução desfavorável e cumpre diretrizes de atendimento destes pacientes/clientes.",
                               "criterion":  "",
-                              "explanation":  "Definir escala/critério/sinais de piora clinica,estabelecer fluxo para acionamento, atendimento apropriado, estabilização e encaminhamento á unidade com complexidade apropriada, quando necessário. Observação os critérios de deterioração clínica aplica-se apenas as unidades de cuidados não intensivos. Informação documental: Fluxo de acionamento. Parâmetros para acionamento (scores, alteração de sinais vitais). Responsáveis pelo atendimento. Fluxo de atendimento, com base em diretrizes e evidencia cientifica.",
+                              "explanation":  "Definir escala/critério/sinais de piora clinica,estabelecer fluxo para acionamento, atendimento aprópriado, estabilização e encaminhamento á unidade com complexidade aprópriada, quando necessário. Observação os critérios de deterioração clínica aplica-se apenas as unidades de cuidados não intensivos. Informação documental: Fluxo de acionamento. Parâmetros para acionamento (scores, alteração de sinais vitais). Responsáveis pelo atendimento. Fluxo de atendimento, com base em diretrizes e evidencia cientifica.",
                               "order":  14
                           },
                           {
@@ -6744,13 +6744,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-7-cuidados-intensivos-r12",
                               "area":  "Cuidados Intensivos",
                               "pergunta":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
-                              "explicacao":  "Método de identificação de riscos assistenciais, considerando formas de comunicação com a equipe assistencial e paciente/ com envolvimento da família para planejamento de ações de prevenção de eventos adversos. Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente. Demonstra aestratégias para comunicação desses riscos entre a equipe tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explicacao":  "Método de identificação de riscos assistenciais, considerando formas de comunicação com a equipe assistencial e paciente/ com envolvimento da família para planejamento de ações de prevenção de eventos adversos. Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente. Demonstra aestratégias para comunicação desses riscos entre a equipe tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  12,
                               "text":  "Identifica os riscos assistenciais do paciente/cliente e estabelece ações de prevenção, para a redução da probabilidade de incidentes.",
                               "criterion":  "",
-                              "explanation":  "Método de identificação de riscos assistenciais, considerando formas de comunicação com a equipe assistencial e paciente/ com envolvimento da família para planejamento de ações de prevenção de eventos adversos. Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente. Demonstra aestratégias para comunicação desses riscos entre a equipe tais como padronização das praticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
+                              "explanation":  "Método de identificação de riscos assistenciais, considerando formas de comunicação com a equipe assistencial e paciente/ com envolvimento da família para planejamento de ações de prevenção de eventos adversos. Demonstra metodologia de identificação dos riscos assistenciais do paciente/cliente estabelecendo ações de prevenção e redução conforme as Politicas de Gestão Qualidade e Segurança do Paciente. Demonstra aestratégias para comunicação desses riscos entre a equipe tais como padronização das práticas de prevenção, escala de avaliação de níveis de riscos para as mais diferentes condições dos pacientes.",
                               "order":  12
                           },
                           {
@@ -6783,26 +6783,26 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-7-cuidados-intensivos-r15",
                               "area":  "Cuidados Intensivos",
                               "pergunta":  "Estabelece e monitora o plano e planejamento terapêutico individualizado.",
-                              "explicacao":  "Metodologia estabelecida para a definição de metas (prazos e objetivos a serem atingidos em determinado período de tempo), desdobramento e monitoramento de plano e planejamento terapêutico pela equipe multiprofissional. Demonstra as diretrizes estabelecidas para definição de plano e planejamento terapêutico individualizado e monitoramento da adesão pela equipe.",
+                              "explicacao":  "Métodologia estabelecida para a definição de metas (prazos e objetivos a serem atingidos em determinado período de tempo), desdobramento e monitoramento de plano e planejamento terapêutico pela equipe multiprofissional. Demonstra as diretrizes estabelecidas para definição de plano e planejamento terapêutico individualizado e monitoramento da adesão pela equipe.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  15,
                               "text":  "Estabelece e monitora o plano e planejamento terapêutico individualizado.",
                               "criterion":  "",
-                              "explanation":  "Metodologia estabelecida para a definição de metas (prazos e objetivos a serem atingidos em determinado período de tempo), desdobramento e monitoramento de plano e planejamento terapêutico pela equipe multiprofissional. Demonstra as diretrizes estabelecidas para definição de plano e planejamento terapêutico individualizado e monitoramento da adesão pela equipe.",
+                              "explanation":  "Métodologia estabelecida para a definição de metas (prazos e objetivos a serem atingidos em determinado período de tempo), desdobramento e monitoramento de plano e planejamento terapêutico pela equipe multiprofissional. Demonstra as diretrizes estabelecidas para definição de plano e planejamento terapêutico individualizado e monitoramento da adesão pela equipe.",
                               "order":  15
                           },
                           {
                               "id":  "2-7-cuidados-intensivos-r16",
                               "area":  "Cuidados Intensivos",
                               "pergunta":  "Estabelece plano interdisciplinar da assistência, com base no plano terapêutico definido, considerando o grau de complexidade e dependência.",
-                              "explicacao":  "Metodologia estabelecida para definição, desdobramento e monitoramento de plano terapêutico pela equipe multidisciplinar, estabelecido formalmente e segundo as necessidades individuais do paciente. Demonstra as diretrizes estabelecidas para definição de plano interdisciplinar baseado no plano terapêuticoindividualizado.",
+                              "explicacao":  "Métodologia estabelecida para definição, desdobramento e monitoramento de plano terapêutico pela equipe multidisciplinar, estabelecido formalmente e segundo as necessidades individuais do paciente. Demonstra as diretrizes estabelecidas para definição de plano interdisciplinar baseado no plano terapêuticoindividualizado.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  16,
                               "text":  "Estabelece plano interdisciplinar da assistência, com base no plano terapêutico definido, considerando o grau de complexidade e dependência.",
                               "criterion":  "",
-                              "explanation":  "Metodologia estabelecida para definição, desdobramento e monitoramento de plano terapêutico pela equipe multidisciplinar, estabelecido formalmente e segundo as necessidades individuais do paciente. Demonstra as diretrizes estabelecidas para definição de plano interdisciplinar baseado no plano terapêuticoindividualizado.",
+                              "explanation":  "Métodologia estabelecida para definição, desdobramento e monitoramento de plano terapêutico pela equipe multidisciplinar, estabelecido formalmente e segundo as necessidades individuais do paciente. Demonstra as diretrizes estabelecidas para definição de plano interdisciplinar baseado no plano terapêuticoindividualizado.",
                               "order":  16
                           },
                           {
@@ -6900,13 +6900,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-7-cuidados-intensivos-r24",
                               "area":  "Cuidados Intensivos",
                               "pergunta":  "Dispõe de prontuário com registros multidisciplinares atualizados sobre a evolução do paciente/cliente, que promova a continuidade da assistência.",
-                              "explicacao":  "Metodologia estabelecida para definição de composição, registros, armazenamento, acessibilidade dos prontuários (físico e/ou eletrônico) e monitoramento da adesão pela equipe assistencial. Demonstra os relatórios de avaliaçãoda Comissão de Prontuários sobre a adesão às diretrizes estabelecidas e envolvimento da equipe assistencial na análise das falhas identificadas.",
+                              "explicacao":  "Métodologia estabelecida para definição de composição, registros, armazenamento, acessibilidade dos prontuários (físico e/ou eletrônico) e monitoramento da adesão pela equipe assistencial. Demonstra os relatórios de avaliaçãoda Comissão de Prontuários sobre a adesão às diretrizes estabelecidas e envolvimento da equipe assistencial na análise das falhas identificadas.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  24,
                               "text":  "Dispõe de prontuário com registros multidisciplinares atualizados sobre a evolução do paciente/cliente, que promova a continuidade da assistência.",
                               "criterion":  "",
-                              "explanation":  "Metodologia estabelecida para definição de composição, registros, armazenamento, acessibilidade dos prontuários (físico e/ou eletrônico) e monitoramento da adesão pela equipe assistencial. Demonstra os relatórios de avaliaçãoda Comissão de Prontuários sobre a adesão às diretrizes estabelecidas e envolvimento da equipe assistencial na análise das falhas identificadas.",
+                              "explanation":  "Métodologia estabelecida para definição de composição, registros, armazenamento, acessibilidade dos prontuários (físico e/ou eletrônico) e monitoramento da adesão pela equipe assistencial. Demonstra os relatórios de avaliaçãoda Comissão de Prontuários sobre a adesão às diretrizes estabelecidas e envolvimento da equipe assistencial na análise das falhas identificadas.",
                               "order":  24
                           },
                           {
@@ -6965,13 +6965,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-7-cuidados-intensivos-r29",
                               "area":  "Cuidados Intensivos",
                               "pergunta":  "Identifica necessidade de treinamentos e capacitação frente às demandas assistenciais.",
-                              "explicacao":  "Metodologia estabelecida pela organização para identificação de necessidade de capacitação/ treinamento da equipe da unidade de terapia intensiva. Demonstração do programa/cronograma ou plano de treinamentos e capacitação na unidade de terapia intensiva.",
+                              "explicacao":  "Métodologia estabelecida pela organização para identificação de necessidade de capacitação/ treinamento da equipe da unidade de terapia intensiva. Demonstração do programa/cronograma ou plano de treinamentos e capacitação na unidade de terapia intensiva.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  29,
                               "text":  "Identifica necessidade de treinamentos e capacitação frente às demandas assistenciais.",
                               "criterion":  "",
-                              "explanation":  "Metodologia estabelecida pela organização para identificação de necessidade de capacitação/ treinamento da equipe da unidade de terapia intensiva. Demonstração do programa/cronograma ou plano de treinamentos e capacitação na unidade de terapia intensiva.",
+                              "explanation":  "Métodologia estabelecida pela organização para identificação de necessidade de capacitação/ treinamento da equipe da unidade de terapia intensiva. Demonstração do programa/cronograma ou plano de treinamentos e capacitação na unidade de terapia intensiva.",
                               "order":  29
                           },
                           {
@@ -7115,12 +7115,12 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                           {
                               "id":  "2-8-assistencia-hemoterapica-r10",
                               "area":  "Assistência Hemoterápica",
-                              "pergunta":  "Dispõe de procedimento seguro para a identificação, rastreabilidade, conservação e descarte apropriado dos insumos.",
+                              "pergunta":  "Dispõe de procedimento seguro para a identificação, rastreabilidade, conservação e descarte aprópriado dos insumos.",
                               "explicacao":  "Formalização dos procedimentos para o armazenamento adequado dos reagentes e fluxo de descarte. Disponibilizar procedimento com critérios para armazenamento e transporte, bem registros da realização adequado dos processos.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  10,
-                              "text":  "Dispõe de procedimento seguro para a identificação, rastreabilidade, conservação e descarte apropriado dos insumos.",
+                              "text":  "Dispõe de procedimento seguro para a identificação, rastreabilidade, conservação e descarte aprópriado dos insumos.",
                               "criterion":  "",
                               "explanation":  "Formalização dos procedimentos para o armazenamento adequado dos reagentes e fluxo de descarte. Disponibilizar procedimento com critérios para armazenamento e transporte, bem registros da realização adequado dos processos.",
                               "order":  10
@@ -7128,12 +7128,12 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                           {
                               "id":  "2-8-assistencia-hemoterapica-r11",
                               "area":  "Assistência Hemoterápica",
-                              "pergunta":  "Dispõe de mecanismos e procedimentos para o armazenamento, conservação, transporte, rastreabilidade e descarte apropriado da amostra e material biológico humano, visando a sua integridade e preservação.",
+                              "pergunta":  "Dispõe de mecanismos e procedimentos para o armazenamento, conservação, transporte, rastreabilidade e descarte aprópriado da amostra e material biológico humano, visando a sua integridade e preservação.",
                               "explicacao":  "Formalização dos procedimentos para o armazenamento e descarteadequado para os diferentes tipos de hemocomponentes e amostras biológicas, em todas as fases do ciclo do sangue. Disponibilizar procedimento com critérios para armazenamento e transporte, bem registros da realização adequado dos processos.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  11,
-                              "text":  "Dispõe de mecanismos e procedimentos para o armazenamento, conservação, transporte, rastreabilidade e descarte apropriado da amostra e material biológico humano, visando a sua integridade e preservação.",
+                              "text":  "Dispõe de mecanismos e procedimentos para o armazenamento, conservação, transporte, rastreabilidade e descarte aprópriado da amostra e material biológico humano, visando a sua integridade e preservação.",
                               "criterion":  "",
                               "explanation":  "Formalização dos procedimentos para o armazenamento e descarteadequado para os diferentes tipos de hemocomponentes e amostras biológicas, em todas as fases do ciclo do sangue. Disponibilizar procedimento com critérios para armazenamento e transporte, bem registros da realização adequado dos processos.",
                               "order":  11
@@ -7709,13 +7709,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-9-assistencia-nefrologica-e-dialitica-r01",
                               "area":  "Assistência Nefrológica e Dialítica",
                               "pergunta":  "Identifica o perfil assistencial.",
-                              "explicacao":  "Levantamento (caracterização) do perfil assistencial dos pacientes/clientes atendidos no setor. Hospitalar ou ambulatorial/ Próprio ou terceirizado/Perfil sorológico (ex: hepatite B, hepatite C). Documento com descrição do Perfil Assistencial; Documento que faz menção à implantação do perfil. Assistencial (Metodologia de coleta, periodicidade, canais de divulgação, critérios). Exemplos de estatísticas básicas: tipos de procedimentos mais realizadas (HD- Crônicos e agudos, DP); Sexo e faixa etária; Intercorrências mais comuns (durante e pós diálise, e em domicílio); Tipos de acesso vasculares prevalentes; Turno de diálise mais procurado e o menos procurado; Comorbidades mais prevalentes (anemia, hiperpotassemia, desnutrição, ganho de volume interdialítico, hiperfosfatemia)",
+                              "explicacao":  "Levantamento (caracterização) do perfil assistencial dos pacientes/clientes atendidos no setor. Hospitalar ou ambulatorial/ Próprio ou terceirizado/Perfil sorológico (ex: hepatite B, hepatite C). Documento com descrição do Perfil Assistencial; Documento que faz menção à implantação do perfil. Assistencial (Métodologia de coleta, periodicidade, canais de divulgação, critérios). Exemplos de estatísticas básicas: tipos de procedimentos mais realizadas (HD- Crônicos e agudos, DP); Sexo e faixa etária; Intercorrências mais comuns (durante e pós diálise, e em domicílio); Tipos de acesso vasculares prevalentes; Turno de diálise mais procurado e o menos procurado; Comorbidades mais prevalentes (anemia, hiperpotassemia, desnutrição, ganho de volume interdialítico, hiperfosfatemia)",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  1,
                               "text":  "Identifica o perfil assistencial.",
                               "criterion":  "",
-                              "explanation":  "Levantamento (caracterização) do perfil assistencial dos pacientes/clientes atendidos no setor. Hospitalar ou ambulatorial/ Próprio ou terceirizado/Perfil sorológico (ex: hepatite B, hepatite C). Documento com descrição do Perfil Assistencial; Documento que faz menção à implantação do perfil. Assistencial (Metodologia de coleta, periodicidade, canais de divulgação, critérios). Exemplos de estatísticas básicas: tipos de procedimentos mais realizadas (HD- Crônicos e agudos, DP); Sexo e faixa etária; Intercorrências mais comuns (durante e pós diálise, e em domicílio); Tipos de acesso vasculares prevalentes; Turno de diálise mais procurado e o menos procurado; Comorbidades mais prevalentes (anemia, hiperpotassemia, desnutrição, ganho de volume interdialítico, hiperfosfatemia)",
+                              "explanation":  "Levantamento (caracterização) do perfil assistencial dos pacientes/clientes atendidos no setor. Hospitalar ou ambulatorial/ Próprio ou terceirizado/Perfil sorológico (ex: hepatite B, hepatite C). Documento com descrição do Perfil Assistencial; Documento que faz menção à implantação do perfil. Assistencial (Métodologia de coleta, periodicidade, canais de divulgação, critérios). Exemplos de estatísticas básicas: tipos de procedimentos mais realizadas (HD- Crônicos e agudos, DP); Sexo e faixa etária; Intercorrências mais comuns (durante e pós diálise, e em domicílio); Tipos de acesso vasculares prevalentes; Turno de diálise mais procurado e o menos procurado; Comorbidades mais prevalentes (anemia, hiperpotassemia, desnutrição, ganho de volume interdialítico, hiperfosfatemia)",
                               "order":  1
                           },
                           {
@@ -8046,14 +8046,14 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                           {
                               "id":  "2-9-assistencia-nefrologica-e-dialitica-r27",
                               "area":  "Assistência Nefrológica e Dialítica",
-                              "pergunta":  "Dispõe de procedimento seguro para a identificação, rastreabilidade, conservação e descarte apropriado dos insumos.",
-                              "explicacao":  "Procedimentos descritos que orientem quanto a metodologia de identificação, rastreabilidade, conservação e descarte apropriado dos insumos. Demonstração dos Procedimentos descritos, considerando minimamente a rastreabilidade com identificação até o usuário final, registro de pacientes agudos quanto a rastreabilidade dos insumos e equipamentos utilizados.Capacitação das equipes.",
+                              "pergunta":  "Dispõe de procedimento seguro para a identificação, rastreabilidade, conservação e descarte aprópriado dos insumos.",
+                              "explicacao":  "Procedimentos descritos que orientem quanto a metodologia de identificação, rastreabilidade, conservação e descarte aprópriado dos insumos. Demonstração dos Procedimentos descritos, considerando minimamente a rastreabilidade com identificação até o usuário final, registro de pacientes agudos quanto a rastreabilidade dos insumos e equipamentos utilizados.Capacitação das equipes.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  27,
-                              "text":  "Dispõe de procedimento seguro para a identificação, rastreabilidade, conservação e descarte apropriado dos insumos.",
+                              "text":  "Dispõe de procedimento seguro para a identificação, rastreabilidade, conservação e descarte aprópriado dos insumos.",
                               "criterion":  "",
-                              "explanation":  "Procedimentos descritos que orientem quanto a metodologia de identificação, rastreabilidade, conservação e descarte apropriado dos insumos. Demonstração dos Procedimentos descritos, considerando minimamente a rastreabilidade com identificação até o usuário final, registro de pacientes agudos quanto a rastreabilidade dos insumos e equipamentos utilizados.Capacitação das equipes.",
+                              "explanation":  "Procedimentos descritos que orientem quanto a metodologia de identificação, rastreabilidade, conservação e descarte aprópriado dos insumos. Demonstração dos Procedimentos descritos, considerando minimamente a rastreabilidade com identificação até o usuário final, registro de pacientes agudos quanto a rastreabilidade dos insumos e equipamentos utilizados.Capacitação das equipes.",
                               "order":  27
                           },
                           {
@@ -8138,13 +8138,13 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                               "id":  "2-9-assistencia-nefrologica-e-dialitica-r34",
                               "area":  "Assistência Nefrológica e Dialítica",
                               "pergunta":  "Estabelece protocolo para atendimento de urgências e emergências, com base em diretrizes e evidências científicas.",
-                              "explicacao":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências. Apresentação do fluxo de atendimento às urgências e emergências, considerando minimamente Edema Aguda de Pulmão, PCR por Hiperpotassemia, Hipoglicemia severa, PCR por Hipotensão, Rompimento de Fístula. Capacitação da equipe no atendimento de emergência, como por exemplo treinamentos em ressuscitação cardiopulmonar. Equipamentos adequados para este tipo de atendimento tais como: carrinho de emergência conferido e lacrado contendo as medicações necessárias, unidade ventilatória com máscaras apropriadas, desfibrilador com as manutenções adequadas, registros das checagens necessárias do funcionamento do desfibrilador e das pilhas do laringoscópio. Procedimento para transferência de paciente para o Pronto Atendimento (procedimento documentado contemplando referências para transferência de pacientes).",
+                              "explicacao":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências. Apresentação do fluxo de atendimento às urgências e emergências, considerando minimamente Edema Aguda de Pulmão, PCR por Hiperpotassemia, Hipoglicemia severa, PCR por Hipotensão, Rompimento de Fístula. Capacitação da equipe no atendimento de emergência, como por exemplo treinamentos em ressuscitação cardiopulmonar. Equipamentos adequados para este tipo de atendimento tais como: carrinho de emergência conferido e lacrado contendo as medicações necessárias, unidade ventilatória com máscaras aprópriadas, desfibrilador com as manutenções adequadas, registros das checagens necessárias do funcionamento do desfibrilador e das pilhas do laringoscópio. Procedimento para transferência de paciente para o Pronto Atendimento (procedimento documentado contemplando referências para transferência de pacientes).",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  34,
                               "text":  "Estabelece protocolo para atendimento de urgências e emergências, com base em diretrizes e evidências científicas.",
                               "criterion":  "",
-                              "explanation":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências. Apresentação do fluxo de atendimento às urgências e emergências, considerando minimamente Edema Aguda de Pulmão, PCR por Hiperpotassemia, Hipoglicemia severa, PCR por Hipotensão, Rompimento de Fístula. Capacitação da equipe no atendimento de emergência, como por exemplo treinamentos em ressuscitação cardiopulmonar. Equipamentos adequados para este tipo de atendimento tais como: carrinho de emergência conferido e lacrado contendo as medicações necessárias, unidade ventilatória com máscaras apropriadas, desfibrilador com as manutenções adequadas, registros das checagens necessárias do funcionamento do desfibrilador e das pilhas do laringoscópio. Procedimento para transferência de paciente para o Pronto Atendimento (procedimento documentado contemplando referências para transferência de pacientes).",
+                              "explanation":  "Estabelece e cumpre metodologia/ferramenta para a identificação de pacientes/clientes críticos e fluxo de atendimento às urgências e emergências. Apresentação do fluxo de atendimento às urgências e emergências, considerando minimamente Edema Aguda de Pulmão, PCR por Hiperpotassemia, Hipoglicemia severa, PCR por Hipotensão, Rompimento de Fístula. Capacitação da equipe no atendimento de emergência, como por exemplo treinamentos em ressuscitação cardiopulmonar. Equipamentos adequados para este tipo de atendimento tais como: carrinho de emergência conferido e lacrado contendo as medicações necessárias, unidade ventilatória com máscaras aprópriadas, desfibrilador com as manutenções adequadas, registros das checagens necessárias do funcionamento do desfibrilador e das pilhas do laringoscópio. Procedimento para transferência de paciente para o Pronto Atendimento (procedimento documentado contemplando referências para transferência de pacientes).",
                               "order":  34
                           },
                           {
@@ -8639,4 +8639,6 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                       ]
     }
 ];
+
+
 

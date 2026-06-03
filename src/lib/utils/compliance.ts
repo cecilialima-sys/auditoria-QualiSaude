@@ -7,7 +7,7 @@ export type ResponseScore = {
 };
 
 export function calculateCompliance(responses: ResponseScore[]) {
-  const applicable = responses.filter((response) => response.status !== "Nao se aplica");
+  const applicable = responses.filter((response) => response.status !== "Não se aplica");
 
   if (!applicable.length) {
     return { percentage: 0, applicable: 0, classification: "Sem dados" };
@@ -29,24 +29,24 @@ export function calculateCompliance(responses: ResponseScore[]) {
 
 export function classifyCompliance(percentage: number) {
   if (percentage >= 90) return "Excelente";
-  if (percentage >= 75) return "Satisfatorio";
-  if (percentage >= 60) return "Atencao";
-  return "Critico";
+  if (percentage >= 75) return "Satisfatório";
+  if (percentage >= 60) return "Atenção";
+  return "Crítico";
 }
 
 export function intelligentConclusion(classification: string) {
   const conclusions: Record<string, string> = {
     Excelente:
-      "O setor apresenta elevado grau de conformidade com os criterios avaliados, demonstrando aderencia satisfatoria aos protocolos institucionais e boas praticas assistenciais.",
-    Satisfatorio:
-      "O setor apresenta desempenho adequado, embora existam pontos especificos que necessitam de acompanhamento e melhoria.",
-    Atencao:
-      "Foram identificadas fragilidades relevantes que demandam planejamento de acoes corretivas e monitoramento sistematico.",
-    Critico:
-      "O setor apresenta percentual de conformidade abaixo do esperado, exigindo intervencao prioritaria, plano de acao imediato e reavaliacao em curto prazo."
+      "O setor apresenta elevado grau de conformidade com os critérios avaliados, demonstrando aderência satisfatória aos protocolos institucionais e boas práticas assistenciais.",
+    Satisfatório:
+      "O setor apresenta desempenho adequado, embora existam pontos específicos que necessitam de acompanhamento e melhoria.",
+    Atenção:
+      "Foram identificadas fragilidades relevantes que demandam planejamento de ações corretivas e monitoramento sistemático.",
+    Crítico:
+      "O setor apresenta percentual de conformidade abaixo do esperado, exigindo intervenção prioritária, plano de ação imediato e reavaliação em curto prazo."
   };
 
-  return conclusions[classification] ?? "Preencha os itens aplicaveis para gerar uma conclusao automatica.";
+  return conclusions[classification] ?? "Preencha os itens aplicáveis para gerar uma conclusão automática.";
 }
 
 export function countByStatus(responses: ResponseScore[]) {

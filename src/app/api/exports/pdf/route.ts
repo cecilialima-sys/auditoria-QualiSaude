@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { requirePermission } from "@/backend/presentation/middlewares/authorization";
 
@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   const auth = requirePermission(request, "reports.export");
   if (auth.response) return auth.response;
 
-  const text = "QualiSaude Hospitalar - Nenhum relatorio gerado";
+  const text = "QualiSaúde Hospitalar - Nenhum relatório gerado";
   const stream = `BT /F1 14 Tf 50 760 Td (${text}) Tj ET`;
   const objects = [
     "1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj",
@@ -20,7 +20,8 @@ export async function GET(request: NextRequest) {
   return new NextResponse(body, {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": "attachment; filename=qualisaude-relatorio-auditoria.pdf"
+      "Content-Disposition": "attachment; filename=qualisaude-relatório-auditoria.pdf"
     }
   });
 }
+

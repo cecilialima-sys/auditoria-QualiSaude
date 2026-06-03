@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { KeyRound, Power, RotateCcw, Search } from "lucide-react";
@@ -91,9 +91,9 @@ export function AccessControlManager() {
   }
 
   async function createUser() {
-    const name = window.prompt("Nome do novo usuario");
-    const email = window.prompt("E-mail do novo usuario");
-    const password = window.prompt("Senha inicial temporaria");
+    const name = window.prompt("Nome do novo usuário");
+    const email = window.prompt("E-mail do novo usuário");
+    const password = window.prompt("Senha inicial temporária");
     if (!name || !email || !password) return;
     const token = localStorage.getItem("sisapec_token");
     const response = await fetch("/api/admin/users", {
@@ -175,8 +175,8 @@ export function AccessControlManager() {
     <div className="grid grid-2">
       <section className="card">
         <div style={{ display: "flex", justifyContent: "space-between", gap: 10, marginBottom: 14 }}>
-          <span className="badge">Usuarios cadastrados</span>
-          <button className="button" onClick={createUser} type="button">Novo usuario</button>
+          <span className="badge">Usuários cadastrados</span>
+          <button className="button" onClick={createUser} type="button">Novo usuário</button>
         </div>
         <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 14 }}>
           <Search size={18} />
@@ -291,3 +291,4 @@ export function AccessControlManager() {
     </div>
   );
 }
+

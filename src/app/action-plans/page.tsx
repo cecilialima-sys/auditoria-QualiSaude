@@ -1,19 +1,19 @@
-import { ResourcePage } from "@/components/ui/ResourcePage";
+﻿import { ResourcePage } from "@/components/ui/ResourcePage";
 
-const rows: Array<{ nc: string; setor: string; risco: string; responsavel: string; prazo: string; status: string }> = [];
+const rows: Array<{ nc: string; setor: string; risco: string; responsável: string; prazo: string; status: string }> = [];
 
 export default function ActionPlansPage() {
   return (
     <ResourcePage
-      eyebrow="Correcoes e validacao"
-      title="Planos de acao"
-      description="Os planos de acao serao criados a partir das nao conformidades registradas nas auditorias."
+      eyebrow="Correções e validação"
+      title="Planos de ação"
+      description="Os planos de ação serão criados a partir das não conformidades registradas nas auditorias."
       actionLabel="Criar plano"
       columns={[
-        { key: "nc", label: "Nao conformidade" },
+        { key: "nc", label: "Não conformidade" },
         { key: "setor", label: "Setor" },
         { key: "risco", label: "Risco" },
-        { key: "responsavel", label: "Responsavel" },
+        { key: "responsável", label: "Responsável" },
         { key: "prazo", label: "Prazo" },
         { key: "status", label: "Status" }
       ]}
@@ -21,3 +21,4 @@ export default function ActionPlansPage() {
     />
   );
 }
+

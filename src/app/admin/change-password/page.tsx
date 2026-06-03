@@ -5,7 +5,7 @@ import { ChangePasswordForm } from "@/components/auth/ChangePasswordForm";
 export default function ChangePasswordPage() {
   return (
     <AppShell>
-      <PageHeader eyebrow="Seguranca do ADMIN" title="Troca obrigatoria de senha" />
+      <PageHeader eyebrow="Segurança do ADMIN" title="Troca obrigatória de senha" />
       <ChangePasswordForm />
     </AppShell>
   );

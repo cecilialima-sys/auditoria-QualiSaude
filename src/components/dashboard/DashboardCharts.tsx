@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   Bar,
@@ -26,7 +26,7 @@ export function DashboardCharts() {
   return (
     <div className="grid grid-2">
       <div className="card">
-        <h3>Evolucao mensal</h3>
+        <h3>Evolução mensal</h3>
         {monthlyEvolution.length ? (
           <div style={{ height: 280, minHeight: 280, minWidth: 0 }}>
             <ResponsiveContainer>
@@ -45,7 +45,7 @@ export function DashboardCharts() {
         )}
       </div>
       <div className="card">
-        <h3>Nao conformidades por categoria</h3>
+        <h3>Não conformidades por categoria</h3>
         {nonConformitiesByCategory.length ? (
           <div style={{ height: 280, minHeight: 280, minWidth: 0 }}>
             <ResponsiveContainer>
@@ -89,7 +89,7 @@ export function DashboardCharts() {
               <div key={sector.sector}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
                   <strong>{sector.sector}</strong>
-                  <span className={`badge ${sector.risk === "Critico" ? "danger" : sector.risk === "Alto" ? "warning" : "success"}`}>
+                  <span className={`badge ${sector.risk === "Crítico" ? "danger" : sector.risk === "Alto" ? "warning" : "success"}`}>
                     {sector.risk}
                   </span>
                 </div>
@@ -106,3 +106,4 @@ export function DashboardCharts() {
     </div>
   );
 }
+

@@ -5,13 +5,13 @@ Sistema web responsivo para auditoria hospitalar e qualidade assistencial.
 ## Funcionalidades
 
 - Login demonstrativo e perfis de acesso.
-- Dashboard com indicadores, alertas, rankings e graficos.
+- Dashboard com indicadores, alertas, rankings e gráficos.
 - Setores hospitalares cadastrados com checklist inicial.
-- Nova auditoria, checklist mobile-first e calculo automatico de conformidade.
-- Relatorio automatico com conclusao inteligente.
-- Exportacao simulada em PDF e Excel por rotas de API.
-- Planos de acao, usuarios, permissoes, configuracoes, perfil, logs e integracao QualiSaude.
-- Backend organizado em camadas: dominio, aplicacao e infraestrutura.
+- Nova auditoria, checklist mobile-first e cálculo automático de conformidade.
+- Relatório automático com conclusão inteligente.
+- Exportação simulada em PDF e Excel por rotas de API.
+- Planos de ação, usuários, permissões, configurações, perfil, logs e integração QualiSaúde.
+- Backend organizado em camadas: domínio, aplicação e infraestrutura.
 - Prisma schema e seed inicial para PostgreSQL.
 
 ## Como rodar
@@ -32,7 +32,7 @@ npm run prisma:migrate
 npm run prisma:seed
 ```
 
-O prototipo usa dados simulados no frontend para ficar executavel imediatamente. A estrutura Prisma e os servicos estao prontos para trocar o armazenamento mockado por PostgreSQL.
+O protótipo usa dados simulados no frontend para ficar executável imediatamente. A estrutura Prisma e os serviços estão prontos para trocar o armazenamento mockado por PostgreSQL.
 
 ## Login demonstrativo
 

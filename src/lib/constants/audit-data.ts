@@ -1,17 +1,17 @@
-﻿export const auditStatuses = [
+export const auditStatuses = [
   "Conforme",
-  "Nao conforme",
-  "Nao se aplica"
+  "Não conforme",
+  "Não se aplica"
 ] as const;
 
-export const riskLevels = ["Baixo", "Moderado", "Alto", "CrÃ­tico"] as const;
+export const riskLevels = ["Baixo", "Moderado", "Alto", "Crítico"] as const;
 
 export const auditTypes = [
   "Auditoria interna",
   "Auditoria externa",
   "Auditoria de rotina",
-  "Auditoria extraordinÃ¡ria",
-  "Auditoria de seguranÃ§a do paciente",
+  "Auditoria extraordinária",
+  "Auditoria de segurança do paciente",
   "Auditoria de qualidade assistencial",
   "Auditoria documental",
   "Auditoria estrutural",
@@ -20,79 +20,79 @@ export const auditTypes = [
 ];
 
 export const categories = [
-  "SeguranÃ§a do paciente",
-  "IdentificaÃ§Ã£o do paciente",
-  "HigienizaÃ§Ã£o das mÃ£os",
-  "AdministraÃ§Ã£o de medicamentos",
-  "Registros em prontuÃ¡rio",
-  "SistematizaÃ§Ã£o da AssistÃªncia de Enfermagem",
+  "Segurança do paciente",
+  "Identificação do paciente",
+  "Higienização das mãos",
+  "Administração de medicamentos",
+  "Registros em prontuário",
+  "Sistematização da Assistência de Enfermagem",
   "Protocolos institucionais",
   "Risco de queda",
-  "LesÃ£o por pressÃ£o",
-  "PrevenÃ§Ã£o de infecÃ§Ã£o",
+  "Lesão por pressão",
+  "Prevenção de infecção",
   "Cirurgia segura",
   "Controle de materiais",
   "Equipamentos",
-  "Estrutura fÃ­sica",
+  "Estrutura física",
   "Dimensionamento de equipe",
-  "BiosseguranÃ§a",
-  "ResÃ­duos de serviÃ§os de saÃºde",
-  "EducaÃ§Ã£o permanente",
-  "ComunicaÃ§Ã£o efetiva",
-  "GestÃ£o de indicadores",
+  "Biossegurança",
+  "Resíduos de serviços de saúde",
+  "Educação permanente",
+  "Comunicação efetiva",
+  "Gestão de indicadores",
   "Continuidade do cuidado",
-  "Plano terapÃªutico",
-  "Acolhimento e humanizaÃ§Ã£o",
+  "Plano terapêutico",
+  "Acolhimento e humanização",
   "Controle de temperatura",
   "Validade de materiais e medicamentos",
-  "Limpeza e desinfecÃ§Ã£o",
+  "Limpeza e desinfecção",
   "Fluxos assistenciais",
   "Eventos adversos",
-  "NÃ£o conformidades anteriores",
-  "Plano de aÃ§Ã£o"
+  "Não conformidades anteriores",
+  "Plano de ação"
 ];
 
 export const sectors = [
-  "Centro CirÃºrgico",
-  "Sala de RecuperaÃ§Ã£o PÃ³s-AnestÃ©sica",
+  "Centro Cirúrgico",
+  "Sala de Recuperação Pós-Anestésica",
   "Unidade de Terapia Intensiva Adulto",
-  "Unidade de Terapia Intensiva PediÃ¡trica",
+  "Unidade de Terapia Intensiva Pediátrica",
   "Unidade de Terapia Intensiva Neonatal",
   "Pronto Atendimento",
   "Pronto-Socorro",
-  "ClÃ­nica MÃ©dica",
-  "ClÃ­nica CirÃºrgica",
+  "Clínica Médica",
+  "Clínica Cirúrgica",
   "Pediatria",
   "Maternidade",
-  "ObstetrÃ­cia",
-  "BerÃ§Ã¡rio",
+  "Obstetrícia",
+  "Berçário",
   "Alojamento Conjunto",
-  "CME - Central de Material e EsterilizaÃ§Ã£o",
-  "FarmÃ¡cia Hospitalar",
+  "CME - Central de Material e Esterilização",
+  "Farmácia Hospitalar",
   "Almoxarifado",
-  "LaboratÃ³rio",
-  "DiagnÃ³stico por Imagem",
-  "HemodinÃ¢mica",
+  "Laboratório",
+  "Diagnóstico por Imagem",
+  "Hemodinâmica",
   "Endoscopia",
-  "AmbulatÃ³rio",
+  "Ambulatório",
   "Oncologia",
-  "HemodiÃ¡lise",
-  "Banco de Sangue / AgÃªncia Transfusional",
-  "NutriÃ§Ã£o e DietÃ©tica",
-  "LactÃ¡rio",
-  "ServiÃ§o de Controle de InfecÃ§Ã£o Hospitalar",
+  "Hemodiálise",
+  "Banco de Sangue / Agência Transfusional",
+  "Nutrição e Dietética",
+  "Lactário",
+  "Serviço de Controle de Infecção Hospitalar",
   "Hotelaria Hospitalar",
-  "HigienizaÃ§Ã£o",
+  "Higienização",
   "Rouparia",
-  "ManutenÃ§Ã£o",
-  "SeguranÃ§a do Paciente",
-  "NÃºcleo de Qualidade",
-  "EducaÃ§Ã£o Permanente",
-  "ComissÃ£o de Ã‰tica de Enfermagem",
-  "GestÃ£o de Leitos",
-  "RecepÃ§Ã£o / AdmissÃ£o",
+  "Manutenção",
+  "Segurança do Paciente",
+  "Núcleo de Qualidade",
+  "Educação Permanente",
+  "Comissão de Ética de Enfermagem",
+  "Gestão de Leitos",
+  "Recepção / Admissão",
   "Faturamento",
-  "Arquivo MÃ©dico / SAME"
+  "Arquivo Médico / SAME"
 ];
 
 export const dashboardMetrics = {
@@ -114,5 +114,3 @@ export const monthlyEvolution: Array<{ month: string; conformidade: number; audi
 export const sectorRanking: Array<{ sector: string; compliance: number; risk: string }> = [];
 
 export const nonConformitiesByCategory: Array<{ name: string; value: number }> = [];
-
-
