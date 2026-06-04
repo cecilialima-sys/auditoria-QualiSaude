@@ -12,5 +12,7 @@ next-dev*.log
 Captura de tela*.png
 *.tsbuildinfo
 data/access-store.json
+data/audit-report-store.json
+data/reports
 data/watchdog.pid
 logs

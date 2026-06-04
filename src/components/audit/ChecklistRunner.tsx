@@ -1,7 +1,7 @@
-﻿"use client";
+"use client";
 
-import { useMemo, useState } from "react";
-import { FileDown, Save, Send } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { FileDown, Printer, Save, Send } from "lucide-react";
 import { ChecklistQuestionInfo } from "@/components/audit/ChecklistQuestionInfo";
 import { auditStatuses, auditTypes, riskLevels } from "@/lib/constants/audit-data";
 import { checklistTemplateGroups } from "@/lib/checklists/checklist-template";
@@ -12,6 +12,21 @@ type ResponseState = {
   observation: string;
   risk: string;
   deadline: string;
+};
+
+type AuthenticatedUser = {
+  name: string;
+  email: string;
+  role: string;
+};
+
+type GeneratedReport = {
+  id: string;
+  auditCode: string;
+  result: string;
+  compliancePercentage: number;
+  viewUrl: string;
+  downloadUrl: string;
 };
 
 const flatItems = checklistTemplateGroups.flatMap((group) =>
@@ -41,6 +56,16 @@ export function ChecklistRunner() {
   const [responses, setResponses] = useState<Record<string, ResponseState>>(initialResponses);
   const [selectedGroupId, setSelectedGroupId] = useState(checklistTemplateGroups[0]?.id ?? "");
   const [signed, setSigned] = useState(false);
+  const [user, setUser] = useState<AuthenticatedUser | null>(null);
+  const [sectorResponsible, setSectorResponsible] = useState("");
+  const [auditDate, setAuditDate] = useState(() => new Date().toISOString().slice(0, 10));
+  const [auditType, setAuditType] = useState("");
+  const [finalStatus, setFinalStatus] = useState("Em andamento");
+  const [unit, setUnit] = useState("");
+  const [loadingReport, setLoadingReport] = useState(false);
+  const [reportError, setReportError] = useState("");
+  const [lastReport, setLastReport] = useState<GeneratedReport | null>(null);
+
   const selectedGroup = useMemo(
     () => checklistTemplateGroups.find((group) => group.id === selectedGroupId) ?? checklistTemplateGroups[0],
     [selectedGroupId]
@@ -62,6 +87,16 @@ export function ChecklistRunner() {
   const answered = scoredResponses.length;
   const totalItems = selectedItems.length;
   const progress = totalItems ? Math.round((answered / totalItems) * 100) : 0;
+  const allAnswered = totalItems > 0 && answered === totalItems;
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (data?.user) setUser(data.user);
+      })
+      .catch(() => undefined);
+  }, []);
 
   function update(id: string, patch: Partial<ResponseState>) {
     setResponses((current) => ({
@@ -70,12 +105,79 @@ export function ChecklistRunner() {
     }));
   }
 
+  function saveProgress() {
+    localStorage.setItem(
+      `qualisaude-checklist-progress-${selectedGroupId}`,
+      JSON.stringify({ responses, sectorResponsible, auditDate, auditType, finalStatus, unit, savedAt: new Date().toISOString() })
+    );
+  }
+
+  async function finalizeAndGenerateReport() {
+    setReportError("");
+    setLastReport(null);
+
+    if (!allAnswered) {
+      setReportError("Responda todos os itens do checklist antes de finalizar.");
+      return;
+    }
+
+    if (!signed) {
+      setReportError("Confirme digitalmente a finalização da auditoria.");
+      return;
+    }
+
+    if (!auditType) {
+      setReportError("Selecione o tipo de auditoria.");
+      return;
+    }
+
+    setLoadingReport(true);
+    try {
+      const response = await fetch("/api/audits/finalize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          checklistId: selectedGroup.id,
+          institution: "QualiSaúde Hospitalar",
+          sector: selectedGroup.category,
+          auditType,
+          auditDate: `${auditDate}T00:00:00`,
+          sectorResponsible,
+          unit,
+          signed,
+          responses: selectedItems.map((item) => ({
+            questionId: item.id,
+            item: item.item,
+            criterion: item.criterion,
+            status: responses[item.id].status,
+            observation: responses[item.id].observation,
+            risk: responses[item.id].risk,
+            deadline: responses[item.id].deadline
+          }))
+        })
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error ?? "Não foi possível gerar o relatório.");
+      }
+
+      setFinalStatus("Finalizada");
+      setLastReport(data.report);
+      window.open(data.report.viewUrl, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      setReportError(error instanceof Error ? error.message : "Erro ao gerar relatório.");
+    } finally {
+      setLoadingReport(false);
+    }
+  }
+
   return (
     <div className="grid">
       <section className="card" aria-labelledby="checklist-progress-title">
         <h2 className="section-title" id="checklist-progress-title">Resumo do checklist</h2>
         <div className="field" style={{ marginBottom: 16 }}>
-          <label htmlFor="checklist-area">Area/setor do checklist</label>
+          <label htmlFor="checklist-area">Área/setor do checklist</label>
           <select
             className="input"
             id="checklist-area"
@@ -83,6 +185,8 @@ export function ChecklistRunner() {
             onChange={(event) => {
               setSelectedGroupId(event.target.value);
               setSigned(false);
+              setLastReport(null);
+              setReportError("");
             }}
           >
             {checklistTemplateGroups.map((group) => (
@@ -126,28 +230,32 @@ export function ChecklistRunner() {
           </div>
           <div className="field">
             <label htmlFor="audit-auditor">Auditor</label>
-            <input className="input" id="audit-auditor" placeholder="Nome do auditor" />
+            <input className="input" id="audit-auditor" placeholder="Usuário autenticado" readOnly value={user ? `${user.name} (${user.role})` : "Carregando usuário logado..."} />
           </div>
           <div className="field">
             <label htmlFor="audit-manager">Responsável pelo setor</label>
-            <input className="input" id="audit-manager" placeholder="Responsável pelo setor" />
+            <input className="input" id="audit-manager" placeholder="Responsável pelo setor" value={sectorResponsible} onChange={(event) => setSectorResponsible(event.target.value)} />
+          </div>
+          <div className="field">
+            <label htmlFor="audit-unit">Unidade, setor ou leito</label>
+            <input className="input" id="audit-unit" placeholder="Ex.: Leito 03" value={unit} onChange={(event) => setUnit(event.target.value)} />
           </div>
           <div className="field">
             <label htmlFor="audit-date">Data</label>
-            <input className="input" id="audit-date" type="date" />
+            <input className="input" id="audit-date" type="date" value={auditDate} onChange={(event) => setAuditDate(event.target.value)} />
           </div>
           <div className="field">
             <label htmlFor="audit-type">Tipo de auditoria</label>
-            <select className="input" id="audit-type" defaultValue="">
+            <select className="input" id="audit-type" value={auditType} onChange={(event) => setAuditType(event.target.value)}>
               <option value="" disabled>Selecione o tipo</option>
               {auditTypes.map((type) => (
-                <option key={type}>{type}</option>
+                <option key={type} value={type}>{type}</option>
               ))}
             </select>
           </div>
           <div className="field">
             <label htmlFor="audit-final-status">Status final</label>
-            <select className="input" id="audit-final-status" defaultValue="Em andamento">
+            <select className="input" id="audit-final-status" value={finalStatus} onChange={(event) => setFinalStatus(event.target.value)}>
               <option>Em andamento</option>
               <option>Finalizada</option>
               <option>Pendente</option>
@@ -220,33 +328,56 @@ export function ChecklistRunner() {
         <div className="grid grid-4">
           <div>Conformes: <strong>{counts["Conforme"] ?? 0}</strong></div>
           <div>Não conformes: <strong>{counts["Não conforme"] ?? 0}</strong></div>
+          <div>Parcialmente conformes: <strong>{counts["Parcialmente conforme"] ?? 0}</strong></div>
           <div>Não aplicáveis: <strong>{counts["Não se aplica"] ?? 0}</strong></div>
         </div>
         <p>{intelligentConclusion(compliance.classification)}</p>
+        {reportError ? <div className="badge danger">{reportError}</div> : null}
+        {lastReport ? (
+          <div className="card" style={{ background: "#f6fbff", boxShadow: "none" }}>
+            <strong>Relatório gerado: {lastReport.auditCode}</strong>
+            <p className="muted">
+              Resultado: {lastReport.result} | Conformidade: {lastReport.compliancePercentage}%
+            </p>
+            <div className="button-row">
+              <a className="button secondary" href={lastReport.viewUrl} target="_blank" rel="noreferrer">
+                Ver relatório
+              </a>
+              <a className="button secondary" href={lastReport.downloadUrl}>
+                Baixar PDF
+              </a>
+              <button className="button secondary" onClick={() => window.open(lastReport.viewUrl, "_blank", "noopener,noreferrer")} type="button">
+                <Printer size={18} aria-hidden="true" />
+                Imprimir
+              </button>
+            </div>
+          </div>
+        ) : null}
         <label className="inline-check">
           <input checked={signed} onChange={(event) => setSigned(event.target.checked)} type="checkbox" />
           Confirmo digitalmente a finalização desta auditoria.
         </label>
         <div className="button-row">
-          <button className="button secondary" type="button">
+          <button className="button secondary" onClick={saveProgress} type="button">
             <Save size={18} aria-hidden="true" />
             Salvar progresso
           </button>
-          <a className="button secondary" href="/api/exports/pdf">
-            <FileDown size={18} aria-hidden="true" />
-            Exportar PDF
-          </a>
+          {lastReport ? (
+            <a className="button secondary" href={lastReport.downloadUrl}>
+              <FileDown size={18} aria-hidden="true" />
+              Exportar PDF
+            </a>
+          ) : null}
           <a className="button secondary" href="/api/exports/excel">
             <FileDown size={18} aria-hidden="true" />
             Exportar Excel
           </a>
-          <button className="button" disabled={!signed || !totalItems} type="button">
+          <button className="button" disabled={!signed || !allAnswered || loadingReport} onClick={finalizeAndGenerateReport} type="button">
             <Send size={18} aria-hidden="true" />
-            Finalizar auditoria
+            {loadingReport ? "Gerando relatório..." : "Finalizar auditoria e gerar PDF"}
           </button>
         </div>
       </section>
     </div>
   );
 }
-

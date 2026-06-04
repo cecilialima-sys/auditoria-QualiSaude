@@ -1,6 +1,7 @@
 export const auditStatuses = [
   "Conforme",
   "Não conforme",
+  "Parcialmente conforme",
   "Não se aplica"
 ] as const;
 
