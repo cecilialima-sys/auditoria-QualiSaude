@@ -64,7 +64,6 @@
             <div class="answer-grid" role="radiogroup" aria-label="${escapeHtml(question.pergunta)}">
               ${answerOption(question.id, "Conforme")}
               ${answerOption(question.id, "Não conforme")}
-              ${answerOption(question.id, "Parcialmente conforme")}
               ${answerOption(question.id, "Não se aplica")}
             </div>
             <label for="obs-${escapeHtml(question.id)}">Observação</label>

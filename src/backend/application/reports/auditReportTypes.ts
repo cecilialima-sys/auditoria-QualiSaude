@@ -1,6 +1,6 @@
 import type { AccessUser } from "@/backend/infrastructure/auth/accessStore";
 
-export type AuditReportStatus = "Conforme" | "Não conforme" | "Parcialmente conforme" | "Não se aplica";
+export type AuditReportStatus = "Conforme" | "Não conforme" | "Não se aplica";
 
 export type AuditReportInput = {
   checklistId: string;
@@ -30,10 +30,9 @@ export type AuditReportSummary = {
   applicableItems: number;
   conformingItems: number;
   nonConformingItems: number;
-  partiallyConformingItems: number;
   notApplicableItems: number;
   compliancePercentage: number;
-  result: "Conforme" | "Parcialmente conforme" | "Não conforme";
+  result: "Conforme" | "Em atenção" | "Não conforme";
   finalOpinion: string;
 };
 

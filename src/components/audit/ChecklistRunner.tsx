@@ -328,7 +328,6 @@ export function ChecklistRunner() {
         <div className="grid grid-4">
           <div>Conformes: <strong>{counts["Conforme"] ?? 0}</strong></div>
           <div>Não conformes: <strong>{counts["Não conforme"] ?? 0}</strong></div>
-          <div>Parcialmente conformes: <strong>{counts["Parcialmente conforme"] ?? 0}</strong></div>
           <div>Não aplicáveis: <strong>{counts["Não se aplica"] ?? 0}</strong></div>
         </div>
         <p>{intelligentConclusion(compliance.classification)}</p>

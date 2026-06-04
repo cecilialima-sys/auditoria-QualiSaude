@@ -107,7 +107,7 @@ export function recommendationForItem(item: AuditReportItemInput): AuditRecommen
 }
 
 export function buildRecommendations(items: AuditReportItemInput[]) {
-  const findings = items.filter((item) => item.status === "Não conforme" || item.status === "Parcialmente conforme");
+  const findings = items.filter((item) => item.status === "Não conforme");
   const unique = new Map<string, AuditRecommendation>();
 
   findings.forEach((item) => {
@@ -120,7 +120,7 @@ export function buildRecommendations(items: AuditReportItemInput[]) {
 
 export function buildActionPlan(items: AuditReportItemInput[]): AuditActionPlan[] {
   return items
-    .filter((item) => item.status === "Não conforme" || item.status === "Parcialmente conforme")
+    .filter((item) => item.status === "Não conforme")
     .map((item) => {
       const recommendation = recommendationForItem(item);
       return {

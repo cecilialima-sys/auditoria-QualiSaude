@@ -120,7 +120,6 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
     <div class="box"><small>Total avaliado</small><span class="metric">${report.summary.totalItems}</span></div>
     <div class="box"><small>Conformes</small><span class="metric">${report.summary.conformingItems}</span></div>
     <div class="box"><small>Não conformes</small><span class="metric">${report.summary.nonConformingItems}</span></div>
-    <div class="box"><small>Parcialmente conformes</small><span class="metric">${report.summary.partiallyConformingItems}</span></div>
     <div class="box"><small>Não se aplica</small><span class="metric">${report.summary.notApplicableItems}</span></div>
     <div class="box"><small>Conformidade</small><span class="metric">${report.summary.compliancePercentage}%</span></div>
   </div>

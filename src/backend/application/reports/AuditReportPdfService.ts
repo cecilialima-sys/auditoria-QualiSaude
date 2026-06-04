@@ -29,7 +29,6 @@ function gravityFromRisk(risk?: string) {
 function calculateSummary(items: AuditReportItemInput[]): AuditReportSummary {
   const conformingItems = items.filter((item) => item.status === "Conforme").length;
   const nonConformingItems = items.filter((item) => item.status === "Não conforme").length;
-  const partiallyConformingItems = items.filter((item) => item.status === "Parcialmente conforme").length;
   const notApplicableItems = items.filter((item) => item.status === "Não se aplica").length;
   const applicableItems = items.length - notApplicableItems;
   const compliancePercentage = applicableItems ? Math.round((conformingItems / applicableItems) * 100) : 0;
@@ -40,7 +39,6 @@ function calculateSummary(items: AuditReportItemInput[]): AuditReportSummary {
       applicableItems,
       conformingItems,
       nonConformingItems,
-      partiallyConformingItems,
       notApplicableItems,
       compliancePercentage,
       result: "Conforme",
@@ -54,10 +52,9 @@ function calculateSummary(items: AuditReportItemInput[]): AuditReportSummary {
       applicableItems,
       conformingItems,
       nonConformingItems,
-      partiallyConformingItems,
       notApplicableItems,
       compliancePercentage,
-      result: "Parcialmente conforme",
+      result: "Em atenção",
       finalOpinion:
         "O setor auditado apresenta funcionamento adequado, porém foram identificadas não conformidades que exigem plano de ação e acompanhamento."
     };
@@ -68,7 +65,6 @@ function calculateSummary(items: AuditReportItemInput[]): AuditReportSummary {
     applicableItems,
     conformingItems,
     nonConformingItems,
-    partiallyConformingItems,
     notApplicableItems,
     compliancePercentage,
     result: "Não conforme",
@@ -80,7 +76,7 @@ function calculateSummary(items: AuditReportItemInput[]): AuditReportSummary {
 function buildFindings(items: AuditReportItemInput[], summary: AuditReportSummary) {
   const positives = items.filter((item) => item.status === "Conforme").slice(0, 3).map((item) => item.item);
   const gaps = items
-    .filter((item) => item.status === "Não conforme" || item.status === "Parcialmente conforme")
+    .filter((item) => item.status === "Não conforme")
     .slice(0, 4)
     .map((item) => item.item);
 
@@ -125,7 +121,7 @@ export class AuditReportPdfService {
     const auditCode = `AUD-${now.slice(0, 10).replaceAll("-", "")}-${reportId.slice(0, 8).toUpperCase()}`;
     const summary = calculateSummary(input.responses);
     const nonConformities = input.responses
-      .filter((item) => item.status === "Não conforme" || item.status === "Parcialmente conforme")
+      .filter((item) => item.status === "Não conforme")
       .map((item) => ({ ...item, gravity: gravityFromRisk(item.risk), priority: priorityFromRisk(item.risk) }));
 
     const document: AuditReportDocument = {
