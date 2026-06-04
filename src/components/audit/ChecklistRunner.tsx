@@ -11,7 +11,6 @@ type ResponseState = {
   status: AuditStatus | "";
   observation: string;
   risk: string;
-  deadline: string;
 };
 
 type AuthenticatedUser = {
@@ -46,8 +45,7 @@ const initialResponses = Object.fromEntries(
     {
       status: "",
       observation: "",
-      risk: "Baixo",
-      deadline: ""
+      risk: "Baixo"
     } satisfies ResponseState
   ])
 );
@@ -151,8 +149,7 @@ export function ChecklistRunner() {
             criterion: item.criterion,
             status: responses[item.id].status,
             observation: responses[item.id].observation,
-            risk: responses[item.id].risk,
-            deadline: responses[item.id].deadline
+            risk: responses[item.id].risk
           }))
         })
       });
@@ -301,10 +298,6 @@ export function ChecklistRunner() {
                       <option key={risk}>{risk}</option>
                     ))}
                   </select>
-                </div>
-                <div className="field">
-                  <label htmlFor={`${item.id}-deadline`}>Prazo para correção</label>
-                  <input className="input" id={`${item.id}-deadline`} type="date" value={responses[item.id].deadline} onChange={(event) => update(item.id, { deadline: event.target.value })} />
                 </div>
                 <div className="field field-wide">
                   <label htmlFor={`${item.id}-observation`}>Observação do auditor</label>

@@ -105,11 +105,11 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
 
   <h2>3. Critérios avaliados</h2>
   <table>
-    <thead><tr><th>#</th><th>Item avaliado</th><th>Resposta/status</th><th>Observação</th><th>Risco</th><th>Prazo</th></tr></thead>
+    <thead><tr><th>#</th><th>Item avaliado</th><th>Resposta/status</th><th>Observação</th><th>Risco</th></tr></thead>
     <tbody>
       ${rows(
         report.items,
-        (item, index) => `<tr><td>${index + 1}</td><td>${escapeHtml(item.item)}</td><td>${escapeHtml(item.status)}</td><td>${escapeHtml(item.observation || "-")}</td><td>${escapeHtml(item.risk || "-")}</td><td>${escapeHtml(item.deadline || "-")}</td></tr>`,
+        (item, index) => `<tr><td>${index + 1}</td><td>${escapeHtml(item.item)}</td><td>${escapeHtml(item.status)}</td><td>${escapeHtml(item.observation || "-")}</td><td>${escapeHtml(item.risk || "-")}</td></tr>`,
         "Nenhum item avaliado."
       )}
     </tbody>

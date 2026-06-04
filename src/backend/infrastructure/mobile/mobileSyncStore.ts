@@ -6,7 +6,6 @@ export type MobileChecklistAnswer = {
   resposta: string;
   observacao?: string;
   risco?: string;
-  prazoCorrecao?: string;
 };
 
 export type MobileSyncRecord = {

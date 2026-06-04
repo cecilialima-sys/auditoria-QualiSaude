@@ -76,8 +76,6 @@
               <option value="Alto">Alto</option>
               <option value="Crítico">Crítico</option>
             </select>
-            <label for="deadline-${escapeHtml(question.id)}">Prazo para correção</label>
-            <input id="deadline-${escapeHtml(question.id)}" data-deadline="${escapeHtml(question.id)}" type="date" />
           </article>
         `
       )
@@ -109,8 +107,7 @@
         perguntaId: question.id,
         resposta: checked ? checked.value : "",
         observacao: form.querySelector(`[data-observation="${CSS.escape(question.id)}"]`)?.value || "",
-        risco: form.querySelector(`[data-risk="${CSS.escape(question.id)}"]`)?.value || "",
-        prazoCorrecao: form.querySelector(`[data-deadline="${CSS.escape(question.id)}"]`)?.value || ""
+        risco: form.querySelector(`[data-risk="${CSS.escape(question.id)}"]`)?.value || ""
       };
     });
 
@@ -138,10 +135,8 @@
       if (radio) radio.checked = true;
       const observation = form.querySelector(`[data-observation="${CSS.escape(answer.perguntaId)}"]`);
       const risk = form.querySelector(`[data-risk="${CSS.escape(answer.perguntaId)}"]`);
-      const deadline = form.querySelector(`[data-deadline="${CSS.escape(answer.perguntaId)}"]`);
       if (observation) observation.value = answer.observacao || "";
       if (risk) risk.value = answer.risco || "";
-      if (deadline) deadline.value = answer.prazoCorrecao || "";
     });
   }
 

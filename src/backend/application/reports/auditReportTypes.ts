@@ -22,7 +22,6 @@ export type AuditReportItemInput = {
   status: AuditReportStatus;
   observation?: string;
   risk?: string;
-  deadline?: string;
 };
 
 export type AuditReportSummary = {
