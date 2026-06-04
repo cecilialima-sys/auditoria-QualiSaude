@@ -1,0 +1,24 @@
+{
+  "name": "QualiSaúde Mobile Offline",
+  "short_name": "QualiSaúde",
+  "description": "Checklists hospitalares offline-first para auditoria mobile.",
+  "start_url": "/mobile/checklists.html",
+  "scope": "/mobile/",
+  "display": "standalone",
+  "background_color": "#f5fbff",
+  "theme_color": "#0f78b8",
+  "icons": [
+    {
+      "src": "/qualisaude-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/qualisaude-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

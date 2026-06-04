@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f78b8" />
+    <title>QualiSaúde Mobile | Checklists</title>
+    <link rel="manifest" href="/mobile/manifest.json" />
+    <link rel="icon" href="/qualisaude-logo.png" />
+    <link rel="stylesheet" href="/mobile/css/mobile.css" />
+  </head>
+  <body>
+    <header class="mobile-header">
+      <a class="brand" href="/mobile/checklists.html" aria-label="QualiSaúde Mobile">
+        <img src="/qualisaude-logo.png" alt="QualiSaúde" />
+        <span>
+          <strong>QualiSaúde</strong>
+          <small>Checklists offline</small>
+        </span>
+      </a>
+      <span id="connectionStatus" class="connection-pill" role="status">Verificando</span>
+    </header>
+
+    <main class="mobile-main">
+      <section class="hero-panel" aria-labelledby="pageTitle">
+        <p class="eyebrow">Auditoria hospitalar mobile</p>
+        <h1 id="pageTitle">Checklists prontos para uso com internet instável</h1>
+        <p id="offlineMessage">Quando estiver sem internet, suas respostas serão salvas neste aparelho e sincronizadas depois.</p>
+        <div class="action-row">
+          <button id="refreshChecklistsButton" class="button primary" type="button">Atualizar base offline</button>
+          <button id="syncNowButton" class="button secondary" type="button">Sincronizar agora</button>
+        </div>
+      </section>
+
+      <section class="status-grid" aria-label="Resumo da sincronização">
+        <article class="status-card">
+          <span class="metric" id="availableCount">0</span>
+          <span>Disponíveis offline</span>
+        </article>
+        <article class="status-card warning">
+          <span class="metric" id="pendingCount">0</span>
+          <span>Pendentes de sincronização</span>
+        </article>
+        <article class="status-card success">
+          <span class="metric" id="syncedCount">0</span>
+          <span>Sincronizados</span>
+        </article>
+      </section>
+
+      <section class="toolbar" aria-label="Filtros">
+        <label for="searchInput">Buscar checklist</label>
+        <input id="searchInput" type="search" placeholder="Buscar por setor ou área" autocomplete="off" />
+      </section>
+
+      <section aria-labelledby="checklistsTitle">
+        <div class="section-title">
+          <h2 id="checklistsTitle">Checklists</h2>
+          <span id="lastUpdateLabel">Nenhuma atualização local</span>
+        </div>
+        <div id="checklistList" class="checklist-list" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <nav class="mobile-bottom-nav" aria-label="Navegação mobile">
+      <a href="/mobile/checklists.html" aria-current="page">Checklists</a>
+      <button id="bottomSyncButton" type="button">Sincronizar</button>
+      <a href="/dashboard">Desktop</a>
+    </nav>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="/mobile/js/indexeddb.js"></script>
+    <script src="/mobile/js/sync-checklists.js"></script>
+    <script src="/mobile/js/mobile.js"></script>
+    <script src="/mobile/js/register-sw.js"></script>
+  </body>
+</html>

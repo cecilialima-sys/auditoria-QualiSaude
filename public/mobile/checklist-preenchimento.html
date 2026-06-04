@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f78b8" />
+    <title>QualiSaúde Mobile | Preenchimento</title>
+    <link rel="manifest" href="/mobile/manifest.json" />
+    <link rel="icon" href="/qualisaude-logo.png" />
+    <link rel="stylesheet" href="/mobile/css/mobile.css" />
+  </head>
+  <body>
+    <header class="mobile-header">
+      <a class="brand" href="/mobile/checklists.html" aria-label="Voltar para checklists">
+        <img src="/qualisaude-logo.png" alt="QualiSaúde" />
+        <span>
+          <strong>QualiSaúde</strong>
+          <small>Preenchimento offline</small>
+        </span>
+      </a>
+      <span id="connectionStatus" class="connection-pill" role="status">Verificando</span>
+    </header>
+
+    <main class="mobile-main">
+      <section class="hero-panel compact">
+        <p class="eyebrow" id="checklistSector">Checklist</p>
+        <h1 id="checklistTitle">Carregando checklist</h1>
+        <p id="draftStatus">Preparando dados locais.</p>
+      </section>
+
+      <form id="checklistForm" class="offline-form">
+        <section class="form-card" aria-labelledby="identificationTitle">
+          <h2 id="identificationTitle">Identificação</h2>
+          <label for="auditorInput">Auditor</label>
+          <input id="auditorInput" name="auditor" type="text" autocomplete="name" placeholder="Nome do auditor" />
+
+          <label for="unitInput">Unidade, setor ou leito</label>
+          <input id="unitInput" name="unidade" type="text" placeholder="Ex.: UTI adulto, leito 03" />
+
+          <label for="auditDateInput">Data da auditoria</label>
+          <input id="auditDateInput" name="dataAuditoria" type="datetime-local" />
+        </section>
+
+        <section aria-labelledby="questionsTitle">
+          <div class="section-title">
+            <h2 id="questionsTitle">Perguntas</h2>
+            <span id="completionLabel">0% preenchido</span>
+          </div>
+          <div id="questionsContainer" class="questions-stack"></div>
+        </section>
+
+        <section class="sticky-actions" aria-label="Ações do checklist">
+          <button id="saveDraftButton" class="button secondary" type="button">Salvar rascunho</button>
+          <button id="finishButton" class="button primary" type="submit">Finalizar checklist</button>
+        </section>
+      </form>
+    </main>
+
+    <nav class="mobile-bottom-nav" aria-label="Navegação mobile">
+      <a href="/mobile/checklists.html">Checklists</a>
+      <button id="syncNowButton" type="button">Sincronizar</button>
+      <a href="/dashboard">Desktop</a>
+    </nav>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="/mobile/js/indexeddb.js"></script>
+    <script src="/mobile/js/sync-checklists.js"></script>
+    <script src="/mobile/js/checklist-offline.js"></script>
+    <script src="/mobile/js/register-sw.js"></script>
+  </body>
+</html>

@@ -9,6 +9,7 @@
   Link2,
   Settings,
   ShieldCheck,
+  Smartphone,
   UserCircle,
   Users,
   type LucideIcon
@@ -26,6 +27,7 @@ export const appRoutes: AppRoute[] = [
   { href: "/sectors", label: "Setores", icon: Hospital, permission: "sectors.view" },
   { href: "/audits/new", label: "Nova auditoria", icon: ClipboardCheck, permission: "records.create" },
   { href: "/audits/checklist", label: "Checklist", icon: Activity, permission: "checklists.view" },
+  { href: "/mobile/checklists.html", label: "Mobile offline", icon: Smartphone, permission: "checklists.view" },
   { href: "/reports", label: "Relatórios", icon: FileText, permission: "reports.view" },
   { href: "/metrics", label: "Métricas", icon: BarChart3, permission: "metrics.view" },
   { href: "/action-plans", label: "Planos de ação", icon: ShieldCheck, permission: "records.edit" },
