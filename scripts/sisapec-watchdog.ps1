@@ -49,7 +49,7 @@ function Test-Site {
 
 function Start-Site {
   Write-WatchdogLog "Starting SISAPEC on port $Port"
-  $command = "cd /d `"$Root`" && npm run dev -- --port $Port >> `"$RuntimeLog`" 2>&1"
+  $command = "cd /d `"$Root`" && npm run db:start >> `"$RuntimeLog`" 2>&1 && npm run db:check >> `"$RuntimeLog`" 2>&1 && npm run dev:next -- --port $Port >> `"$RuntimeLog`" 2>&1"
   Start-Process -FilePath "cmd.exe" -ArgumentList "/c", $command -WindowStyle Hidden | Out-Null
 }
 
