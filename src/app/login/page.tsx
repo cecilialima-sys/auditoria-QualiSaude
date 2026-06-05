@@ -7,7 +7,7 @@ export default function LoginPage() {
       <section className="login-card">
         <div className="login-hero sisapec-gradient">
           <div className="login-logo-wrap" style={{ marginBottom: 22 }}>
-            <img className="login-logo" src="/qualisaude-logo.png" alt="QualiSaúde Hospitalar" />
+            <img className="login-logo" src="/qualisaude-logo-white-bg.png" alt="QualiSaúde Hospitalar" />
           </div>
           <h1 style={{ fontSize: "2.8rem", lineHeight: 1.02, margin: "0 0 16px" }}>
             QualiSaúde

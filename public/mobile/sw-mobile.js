@@ -12,7 +12,8 @@ const MOBILE_ASSETS = [
   "/mobile/js/indexeddb.js",
   "/mobile/js/checklist-offline.js",
   "/mobile/js/sync-checklists.js",
-  "/qualisaude-logo.png"
+  "/qualisaude-logo.png",
+  "/qualisaude-logo-white-bg.png"
 ];
 
 self.addEventListener("install", (event) => {
@@ -49,7 +50,11 @@ self.addEventListener("fetch", (event) => {
   const requestUrl = new URL(event.request.url);
 
   if (mustBypassCache(requestUrl)) return;
-  if (!isMobileAsset(requestUrl) && requestUrl.pathname !== "/qualisaude-logo.png") return;
+  if (
+    !isMobileAsset(requestUrl) &&
+    requestUrl.pathname !== "/qualisaude-logo.png" &&
+    requestUrl.pathname !== "/qualisaude-logo-white-bg.png"
+  ) return;
 
   if (event.request.mode === "navigate") {
     event.respondWith(

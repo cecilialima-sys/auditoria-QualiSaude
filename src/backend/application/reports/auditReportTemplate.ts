@@ -63,7 +63,7 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
 <body>
   <header>
     <div class="brand">
-      <img src="file://${process.cwd().replaceAll("\\", "/")}/public/qualisaude-logo.png" alt="QualiSaúde" />
+      <img src="file://${process.cwd().replaceAll("\\", "/")}/public/qualisaude-logo-white-bg.png" alt="QualiSaúde" />
       <div>
         <strong>${escapeHtml(report.institution)}</strong>
         <span>Auditoria Hospitalar</span>

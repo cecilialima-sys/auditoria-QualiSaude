@@ -37,7 +37,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <>
       <header className="mobile-nav sisapec-gradient">
         <div className="mobile-brand">
-          <img src="/qualisaude-logo.png" alt="QualiSaúde" />
+          <img src="/qualisaude-logo-white-bg.png" alt="QualiSaúde" />
           <strong>QualiSaúde</strong>
         </div>
         <button className="button secondary" onClick={logout} type="button">
@@ -48,7 +48,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <aside className="sidebar sisapec-gradient" aria-label="Menu lateral">
           <div className="brand">
             <div className="brand-logo">
-              <img src="/qualisaude-logo.png" alt="QualiSaúde Hospitalar" />
+              <img src="/qualisaude-logo-white-bg.png" alt="QualiSaúde Hospitalar" />
             </div>
             <div>
               <strong>QualiSaúde</strong>
