@@ -202,3 +202,141 @@ ADMIN_PASSWORD="senha_inicial_segura"
 ```
 
 A senha é criptografada no seed/camada de autenticação. Não use senha real no `.env.example`.
+
+## Deploy Em Produção: Render + Supabase
+
+### Estratégia
+
+Este projeto é um aplicativo Next.js fullstack. No Render, use um único **Web Service** na raiz do repositório:
+
+- Frontend: páginas Next.js em `src/app`
+- Backend/API: rotas em `src/app/api`
+- Arquivos públicos/PWA/mobile: `public/mobile`
+- Prisma/migrations: `prisma`
+- PDF: serviço backend com Puppeteer
+
+O banco de produção deve ser PostgreSQL do Supabase, configurado por variável de ambiente no Render.
+
+### Supabase
+
+1. Crie um projeto no Supabase.
+2. Copie a connection string PostgreSQL.
+3. No Render, configure `DATABASE_URL` com SSL:
+
+```env
+DATABASE_URL="postgresql://usuario:senha@host.supabase.co:5432/postgres?sslmode=require"
+```
+
+Não coloque essa URL no código e não envie `.env` ao GitHub.
+
+### Render
+
+Este repositório possui [render.yaml](render.yaml) para Blueprint. Também é possível configurar manualmente:
+
+- Service type: `Web Service`
+- Root directory: vazio, raiz do repositório
+- Branch: `main`
+- Build command:
+
+```bash
+npm ci && npx prisma generate && npm run build
+```
+
+- Pre-deploy command:
+
+```bash
+npx prisma migrate deploy
+```
+
+- Start command:
+
+```bash
+npm start
+```
+
+O `npm start` executa [scripts/start-production.js](scripts/start-production.js), que usa `process.env.PORT` fornecido pelo Render.
+
+### Variáveis De Ambiente No Render
+
+Configure no painel do Render:
+
+```env
+NODE_ENV=production
+DATABASE_URL=postgresql://usuario:senha@host.supabase.co:5432/postgres?sslmode=require
+JWT_SECRET=uma_chave_forte
+JWT_REFRESH_SECRET=outra_chave_forte
+ADMIN_EMAIL=cecilia.lima@sou.unifal-mg.edu.br
+ADMIN_PASSWORD=senha_inicial_segura
+APP_URL=https://seu-servico.onrender.com
+NEXT_PUBLIC_APP_URL=https://seu-servico.onrender.com
+MAX_UPLOAD_MB=10
+REPORTS_DIR=/opt/render/project/src/data/reports
+AUDIT_REPORT_STORE_PATH=/opt/render/project/src/data/audit-report-store.json
+```
+
+Use [.env.production.example](.env.production.example) apenas como modelo, sem credenciais reais.
+
+### Migrations Em Produção
+
+Não use `migrate dev` em produção. Use:
+
+```bash
+npx prisma migrate deploy
+```
+
+O Render executa isso como `preDeployCommand` no Blueprint.
+
+### Health Check
+
+O endpoint de saúde é:
+
+```txt
+/api/health
+```
+
+Ele testa conexão real com PostgreSQL via Prisma e retorna `503` se o banco estiver indisponível.
+
+### PDF Em Produção
+
+Os relatórios são gerados no backend com Puppeteer. Atenção: armazenamento local no Render pode não ser permanente no plano gratuito. Para produção real, prefira:
+
+- Render Persistent Disk; ou
+- Supabase Storage; ou
+- gerar PDF sob demanda a partir dos dados salvos no banco.
+
+Os caminhos `REPORTS_DIR` e `AUDIT_REPORT_STORE_PATH` foram deixados configuráveis por ambiente.
+
+### Mobile/Offline Em Produção
+
+A versão mobile está em:
+
+```txt
+/mobile/checklists.html
+```
+
+O Service Worker fica limitado ao escopo:
+
+```txt
+/mobile/
+```
+
+Em produção, ele funciona por HTTPS no Render. A sincronização offline usa APIs relativas (`/api/...`), então aponta automaticamente para o mesmo domínio do Render.
+
+### Testes Após Deploy
+
+1. Abrir a URL do Render.
+2. Acessar `/api/health`.
+3. Testar login.
+4. Rodar seed/migrations se necessário.
+5. Preencher checklist.
+6. Finalizar auditoria.
+7. Gerar e baixar PDF.
+8. Abrir `/mobile/checklists.html`.
+9. Testar modo offline.
+10. Sincronizar checklist offline e verificar dados no Supabase.
+
+### Pontos De Atenção
+
+- O app ainda possui alguns stores locais para protótipo/histórico, como relatórios e sincronização offline. Em produção definitiva, migrar esses registros para tabelas Prisma/Supabase.
+- O plano gratuito do Render pode hibernar o serviço e não garante persistência local.
+- Nunca configure `JWT_SECRET`, `ADMIN_PASSWORD` ou `DATABASE_URL` no frontend.

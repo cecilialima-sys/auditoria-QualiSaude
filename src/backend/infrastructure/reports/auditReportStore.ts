@@ -1,14 +1,17 @@
 import { createHash } from "crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import { dirname, join } from "path";
+import { dirname, join, resolve } from "path";
 import type { StoredAuditReport } from "@/backend/application/reports/auditReportTypes";
 
 const globalState = globalThis as typeof globalThis & {
   qualisaudeAuditReports?: StoredAuditReport[];
 };
 
-const storePath = join(process.cwd(), "data", "audit-report-store.json");
-const reportsDir = join(process.cwd(), "data", "reports");
+const dataDir = process.env.DATA_DIR ? resolve(process.env.DATA_DIR) : join(process.cwd(), "data");
+const storePath = process.env.AUDIT_REPORT_STORE_PATH
+  ? resolve(process.env.AUDIT_REPORT_STORE_PATH)
+  : join(dataDir, "audit-report-store.json");
+const reportsDir = process.env.REPORTS_DIR ? resolve(process.env.REPORTS_DIR) : join(dataDir, "reports");
 
 function readPersistedReports() {
   if (!existsSync(storePath)) return [];
