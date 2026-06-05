@@ -18,6 +18,7 @@
     "start": "node scripts/start-production.js",
     "render:build": "npm ci && npx prisma generate && npm run build",
     "render:migrate": "npx prisma migrate deploy",
+    "render:set-supabase-url": "node scripts/render-set-supabase-url.js",
     "lint": "next lint",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",

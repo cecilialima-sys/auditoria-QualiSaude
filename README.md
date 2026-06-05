@@ -225,6 +225,8 @@ O banco de produção deve ser PostgreSQL do Supabase, configurado por variável
 
 ```env
 DATABASE_URL="postgresql://usuario:senha@host.supabase.co:5432/postgres?sslmode=require"
+SUPABASE_URL="https://muznilpevhyhmyyjenvv.supabase.co"
+NEXT_PUBLIC_SUPABASE_URL="https://muznilpevhyhmyyjenvv.supabase.co"
 ```
 
 Não coloque essa URL no código e não envie `.env` ao GitHub.
@@ -263,6 +265,8 @@ Configure no painel do Render:
 ```env
 NODE_ENV=production
 DATABASE_URL=postgresql://usuario:senha@host.supabase.co:5432/postgres?sslmode=require
+SUPABASE_URL=https://muznilpevhyhmyyjenvv.supabase.co
+NEXT_PUBLIC_SUPABASE_URL=https://muznilpevhyhmyyjenvv.supabase.co
 JWT_SECRET=uma_chave_forte
 JWT_REFRESH_SECRET=outra_chave_forte
 ADMIN_EMAIL=cecilia.lima@sou.unifal-mg.edu.br

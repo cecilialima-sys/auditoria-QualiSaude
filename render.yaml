@@ -13,6 +13,10 @@ services:
         value: production
       - key: DATABASE_URL
         sync: false
+      - key: SUPABASE_URL
+        value: https://muznilpevhyhmyyjenvv.supabase.co
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        value: https://muznilpevhyhmyyjenvv.supabase.co
       - key: JWT_SECRET
         sync: false
       - key: JWT_REFRESH_SECRET
