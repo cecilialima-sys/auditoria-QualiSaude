@@ -6,7 +6,7 @@ import { LockKeyhole, Mail } from "lucide-react";
 
 export function LoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState("cecilia.lima@sou.unifal-mg.edu.br");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -55,7 +55,6 @@ export function LoginForm() {
       <button className="button" disabled={loading} type="submit">
         {loading ? "Validando..." : "Entrar com segurança"}
       </button>
-      <span className="muted">ADMIN inicial: use a senha definida em `ADMIN_PASSWORD` no arquivo `.env`.</span>
     </form>
   );
 }
