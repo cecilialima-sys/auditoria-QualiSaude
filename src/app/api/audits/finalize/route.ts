@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
         result: result.report.result,
         compliancePercentage: result.report.compliancePercentage,
         generatedAt: result.report.generatedAt,
-        viewUrl: `/api/reports/${result.report.id}/pdf`,
+        viewUrl: `/reports/${result.report.id}`,
         downloadUrl: `/api/reports/${result.report.id}/pdf?download=1`
       }
     });

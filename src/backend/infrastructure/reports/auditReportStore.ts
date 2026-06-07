@@ -1,7 +1,7 @@
 import { createHash } from "crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { dirname, join, resolve } from "path";
-import type { StoredAuditReport } from "@/backend/application/reports/auditReportTypes";
+import type { AuditReportDocument, StoredAuditReport } from "@/backend/application/reports/auditReportTypes";
 
 const globalState = globalThis as typeof globalThis & {
   qualisaudeAuditReports?: StoredAuditReport[];
@@ -44,16 +44,46 @@ export function readStoredAuditReportPdf(id: string) {
   return { report, pdf: readFileSync(report.filePath) };
 }
 
-export function persistAuditReport(record: Omit<StoredAuditReport, "filePath" | "hash" | "version">, pdf: Buffer) {
+export function readStoredAuditReportHtml(id: string) {
+  const report = findStoredAuditReport(id);
+  if (!report?.htmlPath || !existsSync(report.htmlPath)) return null;
+  return { report, html: readFileSync(report.htmlPath, "utf8") };
+}
+
+export function readStoredAuditReportDocument(id: string) {
+  const report = findStoredAuditReport(id);
+  if (!report?.documentPath || !existsSync(report.documentPath)) return null;
+  try {
+    return {
+      report,
+      document: JSON.parse(readFileSync(report.documentPath, "utf8")) as AuditReportDocument
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function persistAuditReport(
+  record: Omit<StoredAuditReport, "filePath" | "documentPath" | "htmlPath" | "hash" | "version">,
+  pdf: Buffer,
+  document: AuditReportDocument,
+  html: string
+) {
   mkdirSync(reportsDir, { recursive: true });
   const filePath = join(reportsDir, `${record.id}.pdf`);
+  const documentPath = join(reportsDir, `${record.id}.json`);
+  const htmlPath = join(reportsDir, `${record.id}.html`);
   writeFileSync(filePath, pdf);
+  writeFileSync(documentPath, JSON.stringify(document, null, 2));
+  writeFileSync(htmlPath, html);
 
   const stored: StoredAuditReport = {
     ...record,
     filePath,
+    documentPath,
+    htmlPath,
     hash: createHash("sha256").update(pdf).digest("hex"),
-    version: 1
+    version: 2
   };
 
   getStoredAuditReports().unshift(stored);

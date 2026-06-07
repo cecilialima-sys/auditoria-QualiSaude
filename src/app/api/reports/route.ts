@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
       compliancePercentage: report.compliancePercentage,
       result: report.result,
       generatedAt: report.generatedAt,
-      viewUrl: `/api/reports/${report.id}/pdf`,
+      viewUrl: `/reports/${report.id}`,
       downloadUrl: `/api/reports/${report.id}/pdf?download=1`
     }))
   });

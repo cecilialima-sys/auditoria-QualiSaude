@@ -10,6 +10,7 @@ import { calculateCompliance, countByStatus, intelligentConclusion, type AuditSt
 type ResponseState = {
   status: AuditStatus | "";
   observation: string;
+  evidence: string;
   risk: string;
 };
 
@@ -45,6 +46,7 @@ const initialResponses = Object.fromEntries(
     {
       status: "",
       observation: "",
+      evidence: "",
       risk: "Baixo"
     } satisfies ResponseState
   ])
@@ -149,6 +151,7 @@ export function ChecklistRunner() {
             criterion: item.criterion,
             status: responses[item.id].status,
             observation: responses[item.id].observation,
+            evidence: responses[item.id].evidence,
             risk: responses[item.id].risk
           }))
         })
@@ -302,6 +305,10 @@ export function ChecklistRunner() {
                 <div className="field field-wide">
                   <label htmlFor={`${item.id}-observation`}>Observação do auditor</label>
                   <input className="input" id={`${item.id}-observation`} value={responses[item.id].observation} onChange={(event) => update(item.id, { observation: event.target.value })} />
+                </div>
+                <div className="field field-wide">
+                  <label htmlFor={`${item.id}-evidence`}>Evidência, se houver</label>
+                  <input className="input" id={`${item.id}-evidence`} value={responses[item.id].evidence} onChange={(event) => update(item.id, { evidence: event.target.value })} />
                 </div>
               </div>
             </article>

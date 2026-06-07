@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "QualiSaúde",
+  title: "SisAPEC",
   description: "Sistema QualiSaúde Hospitalar para auditoria e qualidade assistencial",
   icons: {
     icon: "/qualisaude-logo.png",

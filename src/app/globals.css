@@ -456,6 +456,31 @@ th {
   flex-wrap: wrap;
 }
 
+.report-preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.report-preview-toolbar p {
+  margin: 4px 0 0;
+}
+
+.report-preview-frame {
+  padding: 0;
+  overflow: hidden;
+}
+
+.report-preview-frame iframe {
+  display: block;
+  width: 100%;
+  min-height: 78vh;
+  border: 0;
+  background: white;
+}
+
 .empty-state {
   min-height: 160px;
   display: grid;
@@ -557,6 +582,11 @@ th {
     gap: 3px;
     color: var(--muted);
     font-size: 0.72rem;
+  }
+
+  .report-preview-toolbar {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .grid-2,

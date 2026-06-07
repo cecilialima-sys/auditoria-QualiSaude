@@ -22,3 +22,9 @@ tmp
 storage/tmp
 coverage
 .DS_Store
+~$*.docx
+docx-render-template
+docx-template-assets
+tmp-lo
+tmp-report-preview
+tmp-report-preview-data
