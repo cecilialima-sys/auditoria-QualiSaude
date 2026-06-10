@@ -95,30 +95,20 @@ export function recommendationForItem(item: AuditReportItemInput): AuditRecommen
   const matched = recommendationRules.find((rule) => rule.keywords.some((keyword) => content.includes(normalize(keyword))));
 
   if (matched) {
-    if (item.status === "Parcialmente conforme") {
-      return {
-        ...matched.recommendation,
-        problem: `Conformidade parcial: ${matched.recommendation.problem}`,
-        recommendation: `Recomenda-se revisar e completar a prática avaliada, mantendo os pontos conformes já existentes e corrigindo as pendências identificadas. ${matched.recommendation.recommendation}`,
-        suggestedDeadline: matched.recommendation.suggestedDeadline === "Imediato" ? "15 dias" : matched.recommendation.suggestedDeadline
-      };
-    }
     return matched.recommendation;
   }
 
   return {
-    problem: `${item.status === "Parcialmente conforme" ? "Conformidade parcial" : "Não conformidade"} relacionada a: ${item.item}`,
-    recommendation: item.status === "Parcialmente conforme"
-      ? "Recomenda-se completar a adequação do item avaliado, registrar as evidências pendentes, orientar a equipe envolvida e acompanhar a melhoria até plena conformidade."
-      : "Recomenda-se analisar a causa da não conformidade, padronizar o processo, orientar a equipe envolvida e monitorar a efetividade da ação corretiva.",
+    problem: `Não conformidade relacionada a: ${item.item}`,
+    recommendation: "Recomenda-se analisar a causa da não conformidade, padronizar o processo, orientar a equipe envolvida e monitorar a efetividade da ação corretiva.",
     suggestedResponsible: "Gestão do setor",
-    suggestedDeadline: item.risk === "Crítico" && item.status !== "Parcialmente conforme" ? "Imediato" : "30 dias",
+    suggestedDeadline: item.risk === "Crítico" ? "Imediato" : "30 dias",
     indicator: "Percentual de itens regularizados na reavaliação"
   };
 }
 
 export function buildRecommendations(items: AuditReportItemInput[]) {
-  const findings = items.filter((item) => item.status === "Não conforme" || item.status === "Parcialmente conforme");
+  const findings = items.filter((item) => item.status === "Não conforme");
   const unique = new Map<string, AuditRecommendation>();
 
   findings.forEach((item) => {
@@ -131,16 +121,14 @@ export function buildRecommendations(items: AuditReportItemInput[]) {
 
 export function buildActionPlan(items: AuditReportItemInput[]): AuditActionPlan[] {
   return items
-    .filter((item) => item.status === "Não conforme" || item.status === "Parcialmente conforme")
+    .filter((item) => item.status === "Não conforme")
     .map((item) => {
       const recommendation = recommendationForItem(item);
       return {
         ...recommendation,
         sourceItem: item.item,
         risk: item.risk || "Moderado",
-        priority: item.status === "Parcialmente conforme"
-          ? "Melhoria programada"
-          : item.risk === "Crítico"
+        priority: item.risk === "Crítico"
             ? "Imediata"
             : item.risk === "Alto"
               ? "Alta"

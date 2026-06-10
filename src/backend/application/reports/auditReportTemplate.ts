@@ -25,14 +25,12 @@ function formatDate(value: string, includeTime = true) {
 
 function statusClass(status: string) {
   if (status === "Conforme") return "status-ok";
-  if (status === "Parcialmente conforme") return "status-partial";
   if (status === "Não conforme") return "status-bad";
   return "status-na";
 }
 
 function statusMeaning(status: string) {
   if (status === "Conforme") return "Adequado.";
-  if (status === "Parcialmente conforme") return "Atenção necessária.";
   if (status === "Não conforme") return "Ação corretiva obrigatória.";
   return "Item não considerado na pontuação.";
 }
@@ -263,7 +261,6 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
       white-space: nowrap;
     }
     .status-ok { background: #047857; }
-    .status-partial { background: #b7791f; }
     .status-bad { background: #b91c1c; }
     .status-na { background: #64748b; }
     .question-details {
@@ -402,7 +399,7 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
         ${rows(
           report.recommendations,
           (item) => `<tr><td>${display(item.problem)}</td><td>${display(item.recommendation)}</td><td>${display(item.suggestedResponsible)}</td><td>${display(item.suggestedDeadline)}</td><td>${display(item.indicator)}</td></tr>`,
-          "Sem recomendações críticas; não foram encontradas não conformidades ou conformidades parciais.",
+          "Sem recomendações críticas; não foram encontradas não conformidades.",
           5
         )}
       </tbody>
@@ -425,7 +422,6 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
     <div class="summary-grid">
       <div class="metric-card"><small>Total de perguntas respondidas</small><strong>${report.summary.totalItems}</strong></div>
       <div class="metric-card"><small>Total de conformidades</small><strong>${report.summary.conformingItems}</strong></div>
-      <div class="metric-card"><small>Parcialmente conformes</small><strong>${report.summary.partiallyConformingItems}</strong></div>
       <div class="metric-card"><small>Não conformidades</small><strong>${report.summary.nonConformingItems}</strong></div>
       <div class="metric-card"><small>Não se aplica</small><strong>${report.summary.notApplicableItems}</strong></div>
       <div class="metric-card"><small>Percentual de conformidade</small><strong>${report.summary.compliancePercentage}%</strong></div>

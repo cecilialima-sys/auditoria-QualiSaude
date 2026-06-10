@@ -28,19 +28,17 @@ function gravityFromRisk(risk?: string) {
 
 function calculateSummary(items: AuditReportItemInput[]): AuditReportSummary {
   const conformingItems = items.filter((item) => item.status === "Conforme").length;
-  const partiallyConformingItems = items.filter((item) => item.status === "Parcialmente conforme").length;
   const nonConformingItems = items.filter((item) => item.status === "Não conforme").length;
   const notApplicableItems = items.filter((item) => item.status === "Não se aplica").length;
   const applicableItems = items.length - notApplicableItems;
   const compliancePercentage = applicableItems
-    ? Math.round(((conformingItems + partiallyConformingItems * 0.5) / applicableItems) * 100)
+    ? Math.round((conformingItems / applicableItems) * 100)
     : 0;
 
   const base = {
     totalItems: items.length,
     applicableItems,
     conformingItems,
-    partiallyConformingItems,
     nonConformingItems,
     notApplicableItems,
     compliancePercentage
@@ -69,7 +67,7 @@ function calculateSummary(items: AuditReportItemInput[]): AuditReportSummary {
       ...base,
       result: "Conformidade parcial",
       finalOpinion:
-        "A auditoria evidenciou conformidade parcial dos processos avaliados. Recomenda-se priorizar a regularização dos itens parcialmente conformes e não conformes, com acompanhamento da liderança do setor e reavaliação programada."
+        "A auditoria evidenciou conformidade parcial dos processos avaliados. Recomenda-se priorizar a regularização dos itens não conformes, com acompanhamento da liderança do setor e reavaliação programada."
     };
   }
 
@@ -84,12 +82,12 @@ function calculateSummary(items: AuditReportItemInput[]): AuditReportSummary {
 function buildFindings(items: AuditReportItemInput[], summary: AuditReportSummary) {
   const positives = items.filter((item) => item.status === "Conforme").slice(0, 3).map((item) => item.item);
   const gaps = items
-    .filter((item) => item.status === "Não conforme" || item.status === "Parcialmente conforme")
+    .filter((item) => item.status === "Não conforme")
     .slice(0, 4)
     .map((item) => item.item);
 
   if (!gaps.length) {
-    return `Durante a auditoria, os critérios avaliados apresentaram conformidade de ${summary.compliancePercentage}%, sem registro de não conformidades ou conformidades parciais nos itens aplicáveis.`;
+    return `Durante a auditoria, os critérios avaliados apresentaram conformidade de ${summary.compliancePercentage}%, sem registro de não conformidades nos itens aplicáveis.`;
   }
 
   const positiveText = positives.length
@@ -255,7 +253,6 @@ export class AuditReportPdfService {
       `Total avaliado: ${report.summary.totalItems}`,
       `Itens aplicaveis: ${report.summary.applicableItems}`,
       `Conformes: ${report.summary.conformingItems}`,
-      `Parcialmente conformes: ${report.summary.partiallyConformingItems}`,
       `Nao conformes: ${report.summary.nonConformingItems}`,
       `Nao se aplica: ${report.summary.notApplicableItems}`,
       `Percentual de conformidade: ${report.summary.compliancePercentage}%`,

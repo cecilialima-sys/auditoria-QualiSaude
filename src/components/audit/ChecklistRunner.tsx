@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { FileDown, Printer, Save, Send } from "lucide-react";
 import { ChecklistQuestionInfo } from "@/components/audit/ChecklistQuestionInfo";
-import { auditStatuses, auditTypes, riskLevels } from "@/lib/constants/audit-data";
-import { checklistTemplateGroups } from "@/lib/checklists/checklist-template";
+import { auditStatuses, riskLevels } from "@/lib/constants/audit-data";
 import { calculateCompliance, countByStatus, intelligentConclusion, type AuditStatus } from "@/lib/utils/compliance";
 
 type ResponseState = {
@@ -29,51 +29,98 @@ type GeneratedReport = {
   downloadUrl: string;
 };
 
-const flatItems = checklistTemplateGroups.flatMap((group) =>
-  group.questions.map((question) => ({
-    id: question.id,
-    category: group.category,
-    sector: group.sector,
-    item: question.text,
-    criterion: question.criterion,
-    explanation: question.explanation
-  }))
-);
+type ChecklistQuestion = {
+  id: string;
+  text: string;
+  pergunta: string;
+  criterion: string;
+  explanation?: string;
+  explicacao?: string;
+  ordem: number;
+};
 
-const initialResponses = Object.fromEntries(
-  flatItems.map((item) => [
-    item.id,
-    {
-      status: "",
-      observation: "",
-      evidence: "",
-      risk: "Baixo"
-    } satisfies ResponseState
-  ])
-);
+type AuditDetails = {
+  auditoria: {
+    id: string;
+    setor: string;
+    responsavelSetor: string;
+    checklistId: string;
+    checklistTitulo: string;
+    auditorId: string;
+    auditorNome: string;
+    auditorEmail: string;
+    tipoAuditoria?: string;
+    observacoesIniciais?: string;
+    status: "rascunho" | "em_andamento" | "finalizada" | "sincronizacao_pendente" | "cancelada";
+    dataInicio: string;
+    dataFinalizacao?: string;
+  };
+  checklist: {
+    id: string;
+    titulo: string;
+    setor: string;
+    perguntas: ChecklistQuestion[];
+  };
+  respostas: Array<{
+    perguntaId: string;
+    resposta: AuditStatus;
+    observacao?: string;
+    evidencia?: string;
+    risco?: string;
+  }>;
+};
 
-export function ChecklistRunner() {
-  const [responses, setResponses] = useState<Record<string, ResponseState>>(initialResponses);
-  const [selectedGroupId, setSelectedGroupId] = useState(checklistTemplateGroups[0]?.id ?? "");
+function emptyResponses(questions: ChecklistQuestion[], saved: AuditDetails["respostas"] = []) {
+  const savedByQuestion = new Map(saved.map((response) => [response.perguntaId, response]));
+  return Object.fromEntries(
+    questions.map((question) => {
+      const current = savedByQuestion.get(question.id);
+      return [
+        question.id,
+        {
+          status: current?.resposta ?? "",
+          observation: current?.observacao ?? "",
+          evidence: current?.evidencia ?? "",
+          risk: current?.risco ?? "Baixo"
+        } satisfies ResponseState
+      ];
+    })
+  );
+}
+
+function formatDate(value?: string) {
+  if (!value) return "Não informado";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat("pt-BR", { dateStyle: "short", timeStyle: "short" }).format(date);
+}
+
+function statusLabel(status: AuditDetails["auditoria"]["status"]) {
+  const labels = {
+    rascunho: "Rascunho",
+    em_andamento: "Em andamento",
+    finalizada: "Finalizada",
+    sincronizacao_pendente: "Sincronização pendente",
+    cancelada: "Cancelada"
+  };
+  return labels[status] ?? status;
+}
+
+export function ChecklistRunner({ auditId }: { auditId?: string }) {
+  const [responses, setResponses] = useState<Record<string, ResponseState>>({});
   const [signed, setSigned] = useState(false);
   const [user, setUser] = useState<AuthenticatedUser | null>(null);
-  const [sectorResponsible, setSectorResponsible] = useState("");
-  const [auditDate, setAuditDate] = useState(() => new Date().toISOString().slice(0, 10));
-  const [auditType, setAuditType] = useState("");
-  const [finalStatus, setFinalStatus] = useState("Em andamento");
-  const [unit, setUnit] = useState("");
+  const [auditDetails, setAuditDetails] = useState<AuditDetails | null>(null);
+  const [loadingAudit, setLoadingAudit] = useState(Boolean(auditId));
   const [loadingReport, setLoadingReport] = useState(false);
+  const [savingDraft, setSavingDraft] = useState(false);
+  const [dirty, setDirty] = useState(false);
   const [reportError, setReportError] = useState("");
+  const [draftMessage, setDraftMessage] = useState("");
   const [lastReport, setLastReport] = useState<GeneratedReport | null>(null);
 
-  const selectedGroup = useMemo(
-    () => checklistTemplateGroups.find((group) => group.id === selectedGroupId) ?? checklistTemplateGroups[0],
-    [selectedGroupId]
-  );
-  const selectedItems = useMemo(
-    () => flatItems.filter((item) => item.category === selectedGroup?.category),
-    [selectedGroup]
-  );
+  const selectedItems = auditDetails?.checklist.perguntas ?? [];
+  const auditFinalized = auditDetails?.auditoria.status === "finalizada";
 
   const scoredResponses = useMemo(
     () =>
@@ -98,23 +145,91 @@ export function ChecklistRunner() {
       .catch(() => undefined);
   }, []);
 
+  useEffect(() => {
+    if (!auditId) return;
+    setLoadingAudit(true);
+    fetch(`/api/auditorias/${encodeURIComponent(auditId)}`)
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error ?? "Não foi possível carregar a auditoria.");
+        return data as AuditDetails;
+      })
+      .then((data) => {
+        setAuditDetails(data);
+        setResponses(emptyResponses(data.checklist.perguntas, data.respostas));
+      })
+      .catch((error) => setReportError(error instanceof Error ? error.message : "Não foi possível carregar a auditoria."))
+      .finally(() => setLoadingAudit(false));
+  }, [auditId]);
+
+  useEffect(() => {
+    function beforeUnload(event: BeforeUnloadEvent) {
+      if (!dirty) return;
+      event.preventDefault();
+      event.returnValue = "Existem respostas não salvas. Deseja sair mesmo assim?";
+    }
+    window.addEventListener("beforeunload", beforeUnload);
+    return () => window.removeEventListener("beforeunload", beforeUnload);
+  }, [dirty]);
+
   function update(id: string, patch: Partial<ResponseState>) {
     setResponses((current) => ({
       ...current,
       [id]: { ...current[id], ...patch }
     }));
+    setDirty(true);
+    setDraftMessage("");
   }
 
-  function saveProgress() {
-    localStorage.setItem(
-      `qualisaude-checklist-progress-${selectedGroupId}`,
-      JSON.stringify({ responses, sectorResponsible, auditDate, auditType, finalStatus, unit, savedAt: new Date().toISOString() })
-    );
+  function payloadResponses(includeOnlyAnswered = true) {
+    return selectedItems
+      .map((item) => ({ item, response: responses[item.id] }))
+      .filter(({ response }) => (includeOnlyAnswered ? Boolean(response?.status) : true))
+      .map(({ item, response }) => ({
+        perguntaId: item.id,
+        resposta: response?.status || "",
+        status: response?.status || "",
+        observacao: response?.observation || "",
+        evidencia: response?.evidence || "",
+        risco: response?.risk || ""
+      }));
+  }
+
+  async function saveProgress(silent = false) {
+    if (!auditId) return;
+    setReportError("");
+    setSavingDraft(true);
+    try {
+      const draftResponses = payloadResponses(true);
+      if (!draftResponses.length) {
+        setDraftMessage("Nenhuma resposta preenchida para salvar.");
+        return;
+      }
+      const response = await fetch(`/api/auditorias/${encodeURIComponent(auditId)}/respostas`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ respostas: draftResponses })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error ?? "Não foi possível salvar respostas.");
+      setDirty(false);
+      if (!silent) setDraftMessage("Rascunho salvo com sucesso.");
+    } catch (error) {
+      setReportError(error instanceof Error ? error.message : "Não foi possível salvar respostas.");
+    } finally {
+      setSavingDraft(false);
+    }
   }
 
   async function finalizeAndGenerateReport() {
     setReportError("");
+    setDraftMessage("");
     setLastReport(null);
+
+    if (!auditId) {
+      setReportError("Inicie uma auditoria antes de preencher o checklist.");
+      return;
+    }
 
     if (!allAnswered) {
       setReportError("Responda todos os itens do checklist antes de finalizar.");
@@ -126,76 +241,106 @@ export function ChecklistRunner() {
       return;
     }
 
-    if (!auditType) {
-      setReportError("Selecione o tipo de auditoria.");
-      return;
-    }
-
     setLoadingReport(true);
     try {
-      const response = await fetch("/api/audits/finalize", {
+      const response = await fetch(`/api/auditorias/${encodeURIComponent(auditId)}/finalizar`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          checklistId: selectedGroup.id,
-          institution: "QualiSaúde Hospitalar",
-          sector: selectedGroup.category,
-          auditType,
-          auditDate: `${auditDate}T00:00:00`,
-          sectorResponsible,
-          unit,
-          signed,
-          responses: selectedItems.map((item) => ({
-            questionId: item.id,
-            item: item.item,
-            criterion: item.criterion,
-            status: responses[item.id].status,
-            observation: responses[item.id].observation,
-            evidence: responses[item.id].evidence,
-            risk: responses[item.id].risk
-          }))
-        })
+        body: JSON.stringify({ respostas: payloadResponses(false) })
       });
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error ?? "Não foi possível gerar o relatório.");
+        throw new Error(data.error ?? "Não foi possível finalizar a auditoria.");
       }
 
-      setFinalStatus("Finalizada");
+      setAuditDetails((current) => current ? { ...current, auditoria: data.auditoria } : current);
+      setDirty(false);
       setLastReport(data.report);
       window.open(data.report.viewUrl, "_blank", "noopener,noreferrer");
     } catch (error) {
-      setReportError(error instanceof Error ? error.message : "Erro ao gerar relatório.");
+      setReportError(error instanceof Error ? error.message : "Erro ao finalizar auditoria.");
     } finally {
       setLoadingReport(false);
     }
   }
 
+  if (!auditId) {
+    return (
+      <section className="card empty-state">
+        <h3>Checklist sem auditoria vinculada</h3>
+        <p className="muted">
+          O checklist só pode ser iniciado depois que uma auditoria for criada com setor, responsável e checklist selecionado.
+        </p>
+        <Link className="button" href="/audits/new">Criar nova auditoria</Link>
+      </section>
+    );
+  }
+
+  if (loadingAudit) {
+    return (
+      <section className="card empty-state">
+        <h3>Carregando auditoria</h3>
+        <p className="muted">Buscando dados da auditoria e checklist vinculado.</p>
+      </section>
+    );
+  }
+
+  if (!auditDetails) {
+    return (
+      <section className="card empty-state">
+        <h3>Não foi possível abrir o checklist</h3>
+        <p className="muted">{reportError || "Auditoria não encontrada."}</p>
+        <Link className="button" href="/audits/new">Criar nova auditoria</Link>
+      </section>
+    );
+  }
+
   return (
     <div className="grid">
+      <section className="card" aria-labelledby="audit-context-title">
+        <h2 className="section-title" id="audit-context-title">Auditoria em andamento</h2>
+        <div className="grid grid-4">
+          <article>
+            <div className="muted">Setor</div>
+            <strong>{auditDetails.auditoria.setor}</strong>
+          </article>
+          <article>
+            <div className="muted">Responsável do setor</div>
+            <strong>{auditDetails.auditoria.responsavelSetor}</strong>
+          </article>
+          <article>
+            <div className="muted">Auditor</div>
+            <strong>{auditDetails.auditoria.auditorNome || user?.name || "Não informado"}</strong>
+          </article>
+          <article>
+            <div className="muted">Status</div>
+            <span className={`badge ${auditFinalized ? "success" : ""}`}>{statusLabel(auditDetails.auditoria.status)}</span>
+          </article>
+          <article>
+            <div className="muted">Checklist</div>
+            <strong>{auditDetails.checklist.titulo}</strong>
+          </article>
+          <article>
+            <div className="muted">Data de início</div>
+            <strong>{formatDate(auditDetails.auditoria.dataInicio)}</strong>
+          </article>
+          <article>
+            <div className="muted">Tipo</div>
+            <strong>{auditDetails.auditoria.tipoAuditoria || "Não informado"}</strong>
+          </article>
+          <article>
+            <div className="muted">Auditoria ID</div>
+            <strong>{auditDetails.auditoria.id}</strong>
+          </article>
+        </div>
+        {auditDetails.auditoria.observacoesIniciais ? (
+          <p className="muted" style={{ marginTop: 14 }}>{auditDetails.auditoria.observacoesIniciais}</p>
+        ) : null}
+      </section>
+
       <section className="card" aria-labelledby="checklist-progress-title">
         <h2 className="section-title" id="checklist-progress-title">Resumo do checklist</h2>
-        <div className="field" style={{ marginBottom: 16 }}>
-          <label htmlFor="checklist-area">Área/setor do checklist</label>
-          <select
-            className="input"
-            id="checklist-area"
-            value={selectedGroupId}
-            onChange={(event) => {
-              setSelectedGroupId(event.target.value);
-              setSigned(false);
-              setLastReport(null);
-              setReportError("");
-            }}
-          >
-            {checklistTemplateGroups.map((group) => (
-              <option key={group.id} value={group.id}>
-                {group.category} ({group.questions.length} itens)
-              </option>
-            ))}
-          </select>
-        </div>
         <div className="grid grid-4">
           <article>
             <div className="muted">Progresso</div>
@@ -221,106 +366,73 @@ export function ChecklistRunner() {
         </div>
       </section>
 
-      <section className="card" aria-labelledby="audit-identification-title">
-        <h2 className="section-title" id="audit-identification-title">Identificação da auditoria</h2>
-        <div className="grid grid-3">
-          <div className="field">
-            <label htmlFor="audit-sector">Setor auditado</label>
-            <input className="input" id="audit-sector" placeholder="Setor auditado" value={selectedGroup?.category ?? ""} readOnly />
-          </div>
-          <div className="field">
-            <label htmlFor="audit-auditor">Auditor</label>
-            <input className="input" id="audit-auditor" placeholder="Usuário autenticado" readOnly value={user ? `${user.name} (${user.role})` : "Carregando usuário logado..."} />
-          </div>
-          <div className="field">
-            <label htmlFor="audit-manager">Responsável pelo setor</label>
-            <input className="input" id="audit-manager" placeholder="Responsável pelo setor" value={sectorResponsible} onChange={(event) => setSectorResponsible(event.target.value)} />
-          </div>
-          <div className="field">
-            <label htmlFor="audit-unit">Unidade, setor ou leito</label>
-            <input className="input" id="audit-unit" placeholder="Ex.: Leito 03" value={unit} onChange={(event) => setUnit(event.target.value)} />
-          </div>
-          <div className="field">
-            <label htmlFor="audit-date">Data</label>
-            <input className="input" id="audit-date" type="date" value={auditDate} onChange={(event) => setAuditDate(event.target.value)} />
-          </div>
-          <div className="field">
-            <label htmlFor="audit-type">Tipo de auditoria</label>
-            <select className="input" id="audit-type" value={auditType} onChange={(event) => setAuditType(event.target.value)}>
-              <option value="" disabled>Selecione o tipo</option>
-              {auditTypes.map((type) => (
-                <option key={type} value={type}>{type}</option>
-              ))}
-            </select>
-          </div>
-          <div className="field">
-            <label htmlFor="audit-final-status">Status final</label>
-            <select className="input" id="audit-final-status" value={finalStatus} onChange={(event) => setFinalStatus(event.target.value)}>
-              <option>Em andamento</option>
-              <option>Finalizada</option>
-              <option>Pendente</option>
-            </select>
-          </div>
-        </div>
-      </section>
-
       <section className="grid" aria-labelledby="checklist-items-title">
         <h2 className="sr-only" id="checklist-items-title">Perguntas do checklist</h2>
-        {selectedItems.length ? (
-          selectedItems.map((item) => (
-            <article className="card checklist-item" key={item.id}>
-              <div className="checklist-question-header">
-                <div>
-                  <span className="badge">{item.category}</span>
-                  <h3>
-                    {item.item}
-                    {item.explanation ? <ChecklistQuestionInfo explanation={item.explanation} /> : null}
-                  </h3>
-                  {item.criterion ? <p className="muted">{item.criterion}</p> : null}
-                </div>
+        {selectedItems.map((item) => (
+          <article className="card checklist-item" key={item.id}>
+            <div className="checklist-question-header">
+              <div>
+                <span className="badge">{auditDetails.checklist.titulo}</span>
+                <h3>
+                  {item.text}
+                  {item.explanation || item.explicacao ? <ChecklistQuestionInfo explanation={item.explanation || item.explicacao || ""} /> : null}
+                </h3>
+                {item.criterion ? <p className="muted">{item.criterion}</p> : null}
               </div>
+            </div>
 
-              <div className="status-grid" role="group" aria-label={`Resposta para ${item.item}`}>
-                {auditStatuses.map((status) => (
-                  <button
-                    className={`status-option ${responses[item.id].status === status ? "selected" : ""}`}
-                    key={status}
-                    onClick={() => update(item.id, { status })}
-                    type="button"
-                  >
-                    {status}
-                  </button>
-                ))}
-              </div>
+            <div className="status-grid" role="group" aria-label={`Resposta para ${item.text}`}>
+              {auditStatuses.map((status) => (
+                <button
+                  className={`status-option ${responses[item.id]?.status === status ? "selected" : ""}`}
+                  disabled={auditFinalized}
+                  key={status}
+                  onClick={() => update(item.id, { status })}
+                  type="button"
+                >
+                  {status}
+                </button>
+              ))}
+            </div>
 
-              <div className="grid grid-3">
-                <div className="field">
-                  <label htmlFor={`${item.id}-risk`}>Grau de risco</label>
-                  <select className="input" id={`${item.id}-risk`} value={responses[item.id].risk} onChange={(event) => update(item.id, { risk: event.target.value })}>
-                    {riskLevels.map((risk) => (
-                      <option key={risk}>{risk}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="field field-wide">
-                  <label htmlFor={`${item.id}-observation`}>Observação do auditor</label>
-                  <input className="input" id={`${item.id}-observation`} value={responses[item.id].observation} onChange={(event) => update(item.id, { observation: event.target.value })} />
-                </div>
-                <div className="field field-wide">
-                  <label htmlFor={`${item.id}-evidence`}>Evidência, se houver</label>
-                  <input className="input" id={`${item.id}-evidence`} value={responses[item.id].evidence} onChange={(event) => update(item.id, { evidence: event.target.value })} />
-                </div>
+            <div className="grid grid-3">
+              <div className="field">
+                <label htmlFor={`${item.id}-risk`}>Grau de risco</label>
+                <select
+                  className="input"
+                  disabled={auditFinalized}
+                  id={`${item.id}-risk`}
+                  value={responses[item.id]?.risk ?? "Baixo"}
+                  onChange={(event) => update(item.id, { risk: event.target.value })}
+                >
+                  {riskLevels.map((risk) => (
+                    <option key={risk}>{risk}</option>
+                  ))}
+                </select>
               </div>
-            </article>
-          ))
-        ) : (
-          <article className="card empty-state">
-            <h3>Nenhum checklist cadastrado</h3>
-            <p className="muted">
-              A estrutura da tela está pronta. Os checklists devem ser adicionados em `src/lib/checklists/checklist-template.ts`, organizados por setor, categoria, pergunta, critério e explicação.
-            </p>
+              <div className="field field-wide">
+                <label htmlFor={`${item.id}-observation`}>Observação do auditor</label>
+                <input
+                  className="input"
+                  disabled={auditFinalized}
+                  id={`${item.id}-observation`}
+                  value={responses[item.id]?.observation ?? ""}
+                  onChange={(event) => update(item.id, { observation: event.target.value })}
+                />
+              </div>
+              <div className="field field-wide">
+                <label htmlFor={`${item.id}-evidence`}>Evidência, se houver</label>
+                <input
+                  className="input"
+                  disabled={auditFinalized}
+                  id={`${item.id}-evidence`}
+                  value={responses[item.id]?.evidence ?? ""}
+                  onChange={(event) => update(item.id, { evidence: event.target.value })}
+                />
+              </div>
+            </div>
           </article>
-        )}
+        ))}
       </section>
 
       <section className="card" aria-labelledby="automatic-report-title">
@@ -331,6 +443,7 @@ export function ChecklistRunner() {
           <div>Não aplicáveis: <strong>{counts["Não se aplica"] ?? 0}</strong></div>
         </div>
         <p>{intelligentConclusion(compliance.classification)}</p>
+        {draftMessage ? <div className="badge success">{draftMessage}</div> : null}
         {reportError ? <div className="badge danger">{reportError}</div> : null}
         {lastReport ? (
           <div className="card" style={{ background: "#f6fbff", boxShadow: "none" }}>
@@ -353,13 +466,13 @@ export function ChecklistRunner() {
           </div>
         ) : null}
         <label className="inline-check">
-          <input checked={signed} onChange={(event) => setSigned(event.target.checked)} type="checkbox" />
+          <input checked={signed} disabled={auditFinalized} onChange={(event) => setSigned(event.target.checked)} type="checkbox" />
           Confirmo digitalmente a finalização desta auditoria.
         </label>
         <div className="button-row">
-          <button className="button secondary" onClick={saveProgress} type="button">
+          <button className="button secondary" disabled={auditFinalized || savingDraft} onClick={() => saveProgress()} type="button">
             <Save size={18} aria-hidden="true" />
-            Salvar progresso
+            {savingDraft ? "Salvando..." : "Salvar rascunho"}
           </button>
           {lastReport ? (
             <a className="button secondary" href={lastReport.downloadUrl}>
@@ -367,13 +480,9 @@ export function ChecklistRunner() {
               Exportar PDF
             </a>
           ) : null}
-          <a className="button secondary" href="/api/exports/excel">
-            <FileDown size={18} aria-hidden="true" />
-            Exportar Excel
-          </a>
-          <button className="button" disabled={!signed || !allAnswered || loadingReport} onClick={finalizeAndGenerateReport} type="button">
+          <button className="button" disabled={auditFinalized || !signed || !allAnswered || loadingReport} onClick={finalizeAndGenerateReport} type="button">
             <Send size={18} aria-hidden="true" />
-            {loadingReport ? "Gerando relatório..." : "Finalizar auditoria e gerar PDF"}
+            {loadingReport ? "Finalizando..." : "Finalizar auditoria e gerar PDF"}
           </button>
         </div>
       </section>

@@ -37,6 +37,14 @@ enum AuditFinalStatus {
   COMPLETED
 }
 
+enum AuditWorkflowStatus {
+  DRAFT
+  IN_PROGRESS
+  COMPLETED
+  SYNC_PENDING
+  CANCELED
+}
+
 enum ActionPlanStatus {
   OPEN
   IN_PROGRESS
@@ -309,4 +317,47 @@ model AuditLog {
   deletedAt DateTime? @map("deleted_at")
 
   @@map("audit_logs")
+}
+
+model AuditWorkflow {
+  id                   String              @id @default(cuid())
+  sector               String              @map("setor")
+  sectorResponsible    String              @map("responsavel_setor")
+  checklistId          String              @map("checklist_id")
+  checklistTitle       String              @map("checklist_titulo")
+  auditorId            String              @map("auditor_id")
+  auditorName          String              @map("auditor_nome")
+  auditorEmail         String              @map("auditor_email")
+  auditType            String?             @map("tipo_auditoria")
+  initialObservations  String?             @map("observacoes_iniciais")
+  status               AuditWorkflowStatus @default(IN_PROGRESS)
+  startedAt            DateTime            @default(now()) @map("data_inicio")
+  finalizedAt          DateTime?           @map("data_finalizacao")
+  compliancePercentage Int?                @map("percentual_conformidade")
+  finalOpinion         String?             @map("parecer_final")
+  createdAt            DateTime            @default(now()) @map("created_at")
+  updatedAt            DateTime            @updatedAt @map("updated_at")
+  responses            AuditWorkflowResponse[]
+
+  @@map("auditorias")
+}
+
+model AuditWorkflowResponse {
+  id             String        @id @default(cuid())
+  auditId        String        @map("auditoria_id")
+  audit          AuditWorkflow @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  checklistId    String        @map("checklist_id")
+  questionId     String        @map("pergunta_id")
+  answer         String        @map("resposta")
+  status         String
+  observation    String?       @map("observacao")
+  evidence       String?       @map("evidencia")
+  risk           String?       @map("risco")
+  localId        String?       @unique @map("id_local")
+  synced         Boolean       @default(true) @map("sincronizado")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  @@unique([auditId, questionId])
+  @@map("auditoria_respostas")
 }
