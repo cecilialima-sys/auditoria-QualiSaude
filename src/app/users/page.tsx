@@ -8,7 +8,6 @@ export default function UsersPage() {
       eyebrow="Controle de acesso"
       title="Usuários"
       description="Gerencie usuários reais pelo painel administrativo de acessos."
-      actionLabel="Novo usuario"
       columns={[
         { key: "nome", label: "Nome" },
         { key: "email", label: "E-mail" },
