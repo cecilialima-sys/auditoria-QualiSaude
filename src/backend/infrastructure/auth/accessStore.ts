@@ -33,6 +33,10 @@ function db() {
   return getPrismaClient();
 }
 
+const accessCatalogState = globalThis as typeof globalThis & {
+  sisapecAccessCatalogPromise?: Promise<void>;
+};
+
 function getAdminCredentials() {
   const email = process.env.ADMIN_EMAIL;
   const password = process.env.ADMIN_PASSWORD;
@@ -43,6 +47,17 @@ function getAdminCredentials() {
 }
 
 async function ensureAccessCatalog() {
+  if (!accessCatalogState.sisapecAccessCatalogPromise) {
+    accessCatalogState.sisapecAccessCatalogPromise = runAccessCatalogSetup().catch((error) => {
+      accessCatalogState.sisapecAccessCatalogPromise = undefined;
+      throw error;
+    });
+  }
+
+  return accessCatalogState.sisapecAccessCatalogPromise;
+}
+
+async function runAccessCatalogSetup() {
   const roles = await Promise.all(
     Object.keys(roleLabels).map((name) =>
       db().role.upsert({

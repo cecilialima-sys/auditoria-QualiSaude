@@ -16,23 +16,31 @@ export function LoginForm() {
     setLoading(true);
     setError("");
 
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
-    });
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 15000);
 
-    const data = await response.json();
-    setLoading(false);
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+        signal: controller.signal
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setError(data.error ?? "Nao foi possivel autenticar.");
+        return;
+      }
 
-    if (!response.ok) {
-      setError(data.error ?? "Não foi possível autenticar.");
-      return;
+      localStorage.setItem("sisapec_user", JSON.stringify(data.user));
+      localStorage.setItem("sisapec_token", data.token);
+      router.push(data.user.mustChangePassword ? "/admin/change-password" : "/dashboard");
+    } catch {
+      setError("Nao foi possivel conectar ao servidor de autenticacao. Tente novamente.");
+    } finally {
+      window.clearTimeout(timeoutId);
+      setLoading(false);
     }
-
-    localStorage.setItem("sisapec_user", JSON.stringify(data.user));
-    localStorage.setItem("sisapec_token", data.token);
-    router.push(data.user.mustChangePassword ? "/admin/change-password" : "/dashboard");
   }
 
   return (
@@ -53,7 +61,7 @@ export function LoginForm() {
       </div>
       {error ? <div className="badge danger">{error}</div> : null}
       <button className="button" disabled={loading} type="submit">
-        {loading ? "Validando..." : "Entrar com segurança"}
+        {loading ? "Validando..." : "Entrar com seguranca"}
       </button>
     </form>
   );
