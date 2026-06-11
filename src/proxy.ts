@@ -29,9 +29,6 @@ export function proxy(request: NextRequest) {
 
   try {
     const user = verifyUserTokenPayload(token);
-    if (user.mustChangePassword && pathname !== "/admin/change-password") {
-      return NextResponse.redirect(new URL("/admin/change-password", request.url));
-    }
     const [, permission] = matched;
     if (user.role !== "ADMIN" && permission === "permissions.manage") {
       return NextResponse.redirect(new URL("/dashboard", request.url));

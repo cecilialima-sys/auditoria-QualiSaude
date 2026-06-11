@@ -27,7 +27,7 @@ export function ChangePasswordForm() {
     }
     localStorage.setItem("sisapec_user", JSON.stringify(data.user));
     localStorage.setItem("sisapec_token", data.token);
-    router.push("/admin/access-control");
+    router.replace(data.user.role === "ADMIN" ? "/admin/access-control" : "/dashboard");
   }
 
   return (
