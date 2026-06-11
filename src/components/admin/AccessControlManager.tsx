@@ -32,6 +32,7 @@ export function AccessControlManager() {
   const [users, setUsers] = useState<User[]>([]);
   const [permissions, setPermissions] = useState<Permission[]>([]);
   const [logs, setLogs] = useState<AdminLog[]>([]);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [selectedId, setSelectedId] = useState("");
   const [query, setQuery] = useState("");
   const [error, setError] = useState("");
@@ -44,6 +45,7 @@ export function AccessControlManager() {
       .then(async (response) => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error ?? "Acesso negado.");
+        setCurrentUser(data.currentUser);
         setUsers(data.users);
         setPermissions(data.permissions);
         setLogs(data.logs);
@@ -238,7 +240,13 @@ export function AccessControlManager() {
                   <RotateCcw size={16} />
                   Redefinir senha
                 </button>
-                <button className="button secondary" disabled={selectedUser.isPrimaryAdmin} onClick={() => deleteUser(selectedUser)} type="button">
+                <button
+                  className="button secondary"
+                  disabled={selectedUser.isPrimaryAdmin || !currentUser?.isPrimaryAdmin}
+                  onClick={() => deleteUser(selectedUser)}
+                  title={!currentUser?.isPrimaryAdmin ? "Apenas o ADMIN principal pode excluir usuarios" : undefined}
+                  type="button"
+                >
                   Excluir
                 </button>
               </div>

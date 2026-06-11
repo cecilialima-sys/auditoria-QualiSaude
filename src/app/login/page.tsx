@@ -28,7 +28,7 @@ export default function LoginPage() {
           <div className="badge">QualiSaúde Hospitalar</div>
           <h2 style={{ fontSize: "2rem", marginBottom: 8 }}>Acessar sistema</h2>
           <p className="muted">
-            Apenas usuários autenticados acessam o sistema. O ADMIN principal deve trocar a senha inicial no primeiro acesso.
+            Apenas usuários autenticados acessam o sistema.
           </p>
           <LoginForm />
         </div>

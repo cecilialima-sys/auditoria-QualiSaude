@@ -3,7 +3,7 @@ import { changePassword, publicUser, signUserToken } from "@/backend/infrastruct
 import { requireAuth } from "@/backend/presentation/middlewares/authorization";
 
 export async function POST(request: NextRequest) {
-  const auth = requireAuth(request);
+  const auth = await requireAuth(request);
   if (auth.response || !auth.user) return auth.response;
 
   const { currentPassword, newPassword } = await request.json();

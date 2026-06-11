@@ -3,7 +3,7 @@ import { updateUserStatus, publicUser } from "@/backend/infrastructure/auth/acce
 import { requireAdmin } from "@/backend/presentation/middlewares/authorization";
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const auth = requireAdmin(request);
+  const auth = await requireAdmin(request);
   if (auth.response || !auth.user) return auth.response;
 
   const { id } = await params;
@@ -13,7 +13,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   }
 
   try {
-    const updated = updateUserStatus(auth.user, id, active, request.headers.get("x-forwarded-for") ?? undefined);
+    const updated = await updateUserStatus(auth.user, id, active, request.headers.get("x-forwarded-for") ?? undefined);
     return NextResponse.json({ user: publicUser(updated) });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Erro ao alterar status." }, { status: 400 });

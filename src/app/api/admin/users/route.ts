@@ -4,7 +4,7 @@ import { requireAdmin } from "@/backend/presentation/middlewares/authorization";
 import { roleLabels } from "@/lib/permissions/permissions";
 
 export async function POST(request: NextRequest) {
-  const auth = requireAdmin(request);
+  const auth = await requireAdmin(request);
   if (auth.response || !auth.user) return auth.response;
 
   const body = await request.json();

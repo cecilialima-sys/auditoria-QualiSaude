@@ -7,7 +7,7 @@ type Params = {
 };
 
 export async function GET(request: NextRequest, context: Params) {
-  const auth = requirePermission(request, "checklists.view");
+  const auth = await requirePermission(request, "checklists.view");
   if (auth.response) return auth.response;
   if (!auth.user) return NextResponse.json({ error: "Acesso não autorizado." }, { status: 401 });
 

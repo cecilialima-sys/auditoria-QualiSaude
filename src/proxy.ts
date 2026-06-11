@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { hasPermission } from "@/lib/permissions/permissions";
-import { verifyUserToken } from "@/backend/infrastructure/auth/accessStore";
+import { verifyUserTokenPayload } from "@/backend/infrastructure/auth/accessStore";
 
 const routePermissions: Record<string, string> = {
   "/dashboard": "dashboard.view",
@@ -28,8 +28,7 @@ export function proxy(request: NextRequest) {
   if (!token) return NextResponse.redirect(new URL("/login", request.url));
 
   try {
-    const user = verifyUserToken(token);
-    if (!user) return NextResponse.redirect(new URL("/login", request.url));
+    const user = verifyUserTokenPayload(token);
     if (user.mustChangePassword && pathname !== "/admin/change-password") {
       return NextResponse.redirect(new URL("/admin/change-password", request.url));
     }

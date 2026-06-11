@@ -3,7 +3,7 @@ import { getStoredAuditReports } from "@/backend/infrastructure/reports/auditRep
 import { requirePermission } from "@/backend/presentation/middlewares/authorization";
 
 export async function GET(request: NextRequest) {
-  const auth = requirePermission(request, "reports.view");
+  const auth = await requirePermission(request, "reports.view");
   if (auth.response) return auth.response;
 
   return NextResponse.json({

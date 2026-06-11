@@ -43,7 +43,7 @@ function validatePayload(payload: SyncPayload) {
 }
 
 export async function POST(request: NextRequest) {
-  const auth = requirePermission(request, "records.create");
+  const auth = await requirePermission(request, "records.create");
   if (auth.response) return auth.response;
   if (!auth.user) return NextResponse.json({ error: "Acesso não autorizado." }, { status: 401 });
 

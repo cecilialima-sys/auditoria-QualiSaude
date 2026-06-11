@@ -3,7 +3,7 @@ import { publicUser, resetUserPassword } from "@/backend/infrastructure/auth/acc
 import { requireAdmin } from "@/backend/presentation/middlewares/authorization";
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const auth = requireAdmin(request);
+  const auth = await requireAdmin(request);
   if (auth.response || !auth.user) return auth.response;
 
   const { id } = await params;

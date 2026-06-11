@@ -20,7 +20,7 @@ function responseByQuestion(respostas: AuditWorkflowResponseRecord[]) {
 }
 
 export async function POST(request: NextRequest, context: Params) {
-  const auth = requirePermission(request, "records.edit");
+  const auth = await requirePermission(request, "records.edit");
   if (auth.response) return auth.response;
   if (!auth.user) return NextResponse.json({ error: "Acesso não autorizado." }, { status: 401 });
 
