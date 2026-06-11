@@ -4,7 +4,7 @@ import ExcelJS from "exceljs";
 import { requirePermission } from "@/backend/presentation/middlewares/authorization";
 
 export async function GET(request: NextRequest) {
-  const auth = requirePermission(request, "reports.export");
+  const auth = await requirePermission(request, "reports.export");
   if (auth.response) return auth.response;
 
   const workbook = new ExcelJS.Workbook();

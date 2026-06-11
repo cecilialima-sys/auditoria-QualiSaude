@@ -4,7 +4,7 @@ import { findUserByEmail, publicUser, signUserToken } from "@/backend/infrastruc
 
 export async function POST(request: NextRequest) {
   const { email, password } = await request.json();
-  const user = typeof email === "string" ? findUserByEmail(email) : null;
+  const user = typeof email === "string" ? await findUserByEmail(email) : null;
 
   if (!user || !user.active) {
     return NextResponse.json({ error: "Credenciais inválidas ou usuário inativo." }, { status: 401 });

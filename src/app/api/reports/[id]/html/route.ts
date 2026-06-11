@@ -7,7 +7,7 @@ type Params = {
 };
 
 export async function GET(request: NextRequest, context: Params) {
-  const auth = requirePermission(request, "reports.view");
+  const auth = await requirePermission(request, "reports.view");
   if (auth.response) return auth.response;
 
   const { id } = await context.params;

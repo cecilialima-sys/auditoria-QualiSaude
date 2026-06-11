@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 import { requirePermission } from "@/backend/presentation/middlewares/authorization";
 
 export async function GET(request: NextRequest) {
-  const auth = requirePermission(request, "reports.export");
+  const auth = await requirePermission(request, "reports.export");
   if (auth.response) return auth.response;
 
   const text = "QualiSaúde Hospitalar - Nenhum relatório gerado";

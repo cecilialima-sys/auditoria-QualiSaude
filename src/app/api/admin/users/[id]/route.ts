@@ -4,7 +4,7 @@ import { requireAdmin } from "@/backend/presentation/middlewares/authorization";
 import { roleLabels } from "@/lib/permissions/permissions";
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const auth = requireAdmin(request);
+  const auth = await requireAdmin(request);
   if (auth.response || !auth.user) return auth.response;
 
   const { id } = await params;
@@ -12,7 +12,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   if (!(role in roleLabels)) return NextResponse.json({ error: "Perfil inválido." }, { status: 400 });
 
   try {
-    const updated = updateUserRole(auth.user, id, role as AccessRole, request.headers.get("x-forwarded-for") ?? undefined);
+    const updated = await updateUserRole(auth.user, id, role as AccessRole, request.headers.get("x-forwarded-for") ?? undefined);
     return NextResponse.json({ user: publicUser(updated) });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Erro ao editar usuário." }, { status: 400 });
@@ -20,12 +20,12 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 }
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const auth = requireAdmin(request);
+  const auth = await requireAdmin(request);
   if (auth.response || !auth.user) return auth.response;
 
   const { id } = await params;
   try {
-    deleteAccessUser(auth.user, id, request.headers.get("x-forwarded-for") ?? undefined);
+    await deleteAccessUser(auth.user, id, request.headers.get("x-forwarded-for") ?? undefined);
     return NextResponse.json({ ok: true });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Erro ao excluir usuário." }, { status: 400 });

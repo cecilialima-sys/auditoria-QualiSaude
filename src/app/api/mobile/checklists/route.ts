@@ -3,7 +3,7 @@ import { requirePermission } from "@/backend/presentation/middlewares/authorizat
 import { checklistTemplateGroups } from "@/lib/checklists/checklist-template";
 
 export async function GET(request: NextRequest) {
-  const auth = requirePermission(request, "checklists.view");
+  const auth = await requirePermission(request, "checklists.view");
   if (auth.response) return auth.response;
 
   return NextResponse.json({

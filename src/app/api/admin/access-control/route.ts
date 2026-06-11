@@ -4,13 +4,14 @@ import { requireAdmin } from "@/backend/presentation/middlewares/authorization";
 import { permissionCatalog, rolePermissionDefaults } from "@/lib/permissions/permissions";
 
 export async function GET(request: NextRequest) {
-  const auth = requireAdmin(request);
+  const auth = await requireAdmin(request);
   if (auth.response) return auth.response;
 
   return NextResponse.json({
-    users: getAccessUsers().map(publicUser),
+    currentUser: auth.user ? publicUser(auth.user) : null,
+    users: (await getAccessUsers()).map(publicUser),
     permissions: permissionCatalog,
     rolePermissionDefaults,
-    logs: getAdminLogs().slice(0, 20)
+    logs: (await getAdminLogs()).slice(0, 20)
   });
 }

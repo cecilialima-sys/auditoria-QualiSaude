@@ -3,7 +3,7 @@ import { readStoredAuditReportPdf } from "@/backend/infrastructure/reports/audit
 import { requirePermission } from "@/backend/presentation/middlewares/authorization";
 
 export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const auth = requirePermission(request, "reports.view");
+  const auth = await requirePermission(request, "reports.view");
   if (auth.response) return auth.response;
 
   const { id } = await context.params;
