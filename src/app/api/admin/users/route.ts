@@ -1,7 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createAccessUser, publicUser, type AccessRole } from "@/backend/infrastructure/auth/accessStore";
-import { requireAdmin } from "@/backend/presentation/middlewares/authorization";
+import { createAccessUser, getAccessUsers, publicUser, type AccessRole } from "@/backend/infrastructure/auth/accessStore";
+import { requireAdmin, requirePermission } from "@/backend/presentation/middlewares/authorization";
 import { roleLabels } from "@/lib/permissions/permissions";
+
+export async function GET(request: NextRequest) {
+  const auth = await requirePermission(request, "users.manage");
+  if (auth.response || !auth.user) return auth.response;
+
+  try {
+    const users = await getAccessUsers();
+    return NextResponse.json({ users: users.map(publicUser) });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Erro ao carregar usuarios." }, { status: 400 });
+  }
+}
 
 export async function POST(request: NextRequest) {
   const auth = await requireAdmin(request);

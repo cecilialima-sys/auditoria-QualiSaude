@@ -1,22 +1,12 @@
-﻿import { ResourcePage } from "@/components/ui/ResourcePage";
-
-const rows: Array<{ nome: string; email: string; perfil: string; setor: string; status: string }> = [];
+import { AppShell } from "@/components/layout/AppShell";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { UserDirectory } from "@/components/users/UserDirectory";
 
 export default function UsersPage() {
   return (
-    <ResourcePage
-      eyebrow="Controle de acesso"
-      title="Usuários"
-      description="Gerencie usuários reais pelo painel administrativo de acessos."
-      columns={[
-        { key: "nome", label: "Nome" },
-        { key: "email", label: "E-mail" },
-        { key: "perfil", label: "Perfil" },
-        { key: "setor", label: "Setor" },
-        { key: "status", label: "Status" }
-      ]}
-      rows={rows}
-    />
+    <AppShell>
+      <PageHeader eyebrow="Controle de acesso" title="Usuarios" />
+      <UserDirectory />
+    </AppShell>
   );
 }
-
