@@ -1845,12 +1845,12 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
                           {
                               "id":  "2-1-internação-ala-g-r22",
                               "area":  "Internação Ala G",
-                              "pergunta":  "Cumpre as diretrizes de notificação deincidentes e eventos adversos.",
+                              "pergunta":  "Cumpre as diretrizes de notificação de incidentes e eventos adversos.",
                               "explicacao":  "Cumpre a prática de notificações de incidentes, circunstância de risco, quase erros, eventos sem dano, eventos adversos, reações adversas e não conformidades. Apresentar o fluxo de notificação descrito e disseminado; Relatório das notificações; Reconhecimento da equipe sobre o fluxo e tratativas, evidenciado em entrevista com a equipe.",
                               "obrigatoria":  true,
                               "tipoResposta":  "sim_nao",
                               "ordem":  22,
-                              "text":  "Cumpre as diretrizes de notificação deincidentes e eventos adversos.",
+                              "text":  "Cumpre as diretrizes de notificação de incidentes e eventos adversos.",
                               "criterion":  "",
                               "explanation":  "Cumpre a prática de notificações de incidentes, circunstância de risco, quase erros, eventos sem dano, eventos adversos, reações adversas e não conformidades. Apresentar o fluxo de notificação descrito e disseminado; Relatório das notificações; Reconhecimento da equipe sobre o fluxo e tratativas, evidenciado em entrevista com a equipe.",
                               "order":  22
