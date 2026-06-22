@@ -201,10 +201,6 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
     setSavingDraft(true);
     try {
       const draftResponses = payloadResponses(true);
-      if (!draftResponses.length) {
-        setDraftMessage("Nenhuma resposta preenchida para salvar.");
-        return;
-      }
       const response = await fetch(`/api/auditorias/${encodeURIComponent(auditId)}/respostas`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -213,7 +209,7 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Não foi possível salvar respostas.");
       setDirty(false);
-      if (!silent) setDraftMessage("Rascunho salvo com sucesso.");
+      if (!silent) setDraftMessage("Auditoria salva com sucesso em Não finalizadas.");
     } catch (error) {
       setReportError(error instanceof Error ? error.message : "Não foi possível salvar respostas.");
     } finally {
@@ -474,6 +470,7 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
             <Save size={18} aria-hidden="true" />
             {savingDraft ? "Salvando..." : "Salvar rascunho"}
           </button>
+          {!auditFinalized ? <Link className="button secondary" href="/audits/unfinished">Ver não finalizadas</Link> : null}
           {lastReport ? (
             <a className="button secondary" href={lastReport.downloadUrl}>
               <FileDown size={18} aria-hidden="true" />

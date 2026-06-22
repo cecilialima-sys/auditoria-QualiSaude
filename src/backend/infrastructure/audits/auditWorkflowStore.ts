@@ -307,6 +307,26 @@ export async function getAuditWorkflowResponses(auditoriaId: string) {
   return getFileStore().respostas.filter((response) => response.auditoriaId === auditoriaId);
 }
 
+export async function listUnfinishedAuditWorkflows(user: AccessUser) {
+  const unfinishedStatuses = ["DRAFT", "IN_PROGRESS", "SYNC_PENDING"];
+  const prismaRecords = await withPrisma(async (prisma) => {
+    const rows = await (prisma as any).auditWorkflow.findMany({
+      where: {
+        status: { in: unfinishedStatuses },
+        ...(user.role === "ADMIN" ? {} : { auditorId: user.id })
+      },
+      orderBy: { updatedAt: "desc" }
+    });
+    return rows.map(dbAuditToRecord) as AuditWorkflowRecord[];
+  });
+  if (prismaRecords) return prismaRecords;
+
+  const unfinished = new Set<AuditWorkflowStatusApi>(["rascunho", "em_andamento", "sincronizacao_pendente"]);
+  return getFileStore().auditorias
+    .filter((audit) => unfinished.has(audit.status) && (user.role === "ADMIN" || audit.auditorId === user.id))
+    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+}
+
 export async function getAuditWorkflowDetails(id: string, user: AccessUser) {
   const auditoria = await getAuditWorkflow(id);
   if (!auditoria) return null;
@@ -339,45 +359,58 @@ export async function saveAuditWorkflowResponses(
   const auditoria = await getAuditWorkflow(auditoriaId);
   if (!auditoria) throw new Error("Auditoria não encontrada.");
   ensureOwner(auditoria, user);
-  if (auditoria.status === "finalizada") throw new Error("Não é permitido salvar respostas em auditoria finalizada.");
-  if (!Array.isArray(respostas) || !respostas.length) throw new Error("Informe ao menos uma resposta.");
+  if (auditoria.status === "finalizada" || auditoria.status === "cancelada") {
+    throw new Error("Não é permitido salvar respostas em auditoria finalizada ou cancelada.");
+  }
+  if (!Array.isArray(respostas)) throw new Error("Formato de respostas inválido.");
 
   const checklist = checklistById(auditoria.checklistId);
   if (!checklist) throw new Error("Checklist vinculado à auditoria não foi encontrado.");
   validateResponses(checklist, respostas);
 
-  const prismaRecords = await withPrisma(async (prisma) => {
-    const saved = [];
-    for (const response of respostas) {
-      const row = await (prisma as any).auditWorkflowResponse.upsert({
-        where: { auditId_questionId: { auditId: auditoriaId, questionId: response.perguntaId } },
-        update: {
-          answer: response.resposta,
-          status: response.status || response.resposta,
-          observation: response.observacao?.trim() || null,
-          evidence: response.evidencia?.trim() || null,
-          risk: response.risco?.trim() || null,
-          localId: response.idLocal || undefined,
-          synced: response.sincronizado ?? true
-        },
-        create: {
-          auditId: auditoriaId,
-          checklistId: auditoria.checklistId,
-          questionId: response.perguntaId,
-          answer: response.resposta,
-          status: response.status || response.resposta,
-          observation: response.observacao?.trim() || null,
-          evidence: response.evidencia?.trim() || null,
-          risk: response.risco?.trim() || null,
-          localId: response.idLocal || null,
-          synced: response.sincronizado ?? true
-        }
+  const prismaResult = await withPrisma(async (prisma) => {
+    return (prisma as any).$transaction(async (transaction: any) => {
+      const updatedAudit = await transaction.auditWorkflow.updateMany({
+        where: { id: auditoriaId, status: { in: ["DRAFT", "IN_PROGRESS", "SYNC_PENDING"] } },
+        data: { status: "IN_PROGRESS" }
       });
-      saved.push(dbResponseToRecord(row));
-    }
-    return saved;
+      if (updatedAudit.count !== 1) {
+        return { conflict: true as const, saved: [] as AuditWorkflowResponseRecord[] };
+      }
+
+      const saved = [];
+      for (const response of respostas) {
+        const row = await transaction.auditWorkflowResponse.upsert({
+          where: { auditId_questionId: { auditId: auditoriaId, questionId: response.perguntaId } },
+          update: {
+            answer: response.resposta,
+            status: response.status || response.resposta,
+            observation: response.observacao?.trim() || null,
+            evidence: response.evidencia?.trim() || null,
+            risk: response.risco?.trim() || null,
+            localId: response.idLocal || undefined,
+            synced: response.sincronizado ?? true
+          },
+          create: {
+            auditId: auditoriaId,
+            checklistId: auditoria.checklistId,
+            questionId: response.perguntaId,
+            answer: response.resposta,
+            status: response.status || response.resposta,
+            observation: response.observacao?.trim() || null,
+            evidence: response.evidencia?.trim() || null,
+            risk: response.risco?.trim() || null,
+            localId: response.idLocal || null,
+            synced: response.sincronizado ?? true
+          }
+        });
+        saved.push(dbResponseToRecord(row));
+      }
+      return { conflict: false as const, saved };
+    });
   });
-  if (prismaRecords) return prismaRecords;
+  if (prismaResult?.conflict) throw new Error("A auditoria foi finalizada ou cancelada durante o salvamento.");
+  if (prismaResult) return prismaResult.saved;
 
   const store = getFileStore();
   const now = new Date().toISOString();
@@ -406,7 +439,10 @@ export async function saveAuditWorkflowResponses(
     return next;
   });
   const auditInStore = store.auditorias.find((item) => item.id === auditoriaId);
-  if (auditInStore) auditInStore.updatedAt = now;
+  if (auditInStore) {
+    auditInStore.status = "em_andamento";
+    auditInStore.updatedAt = now;
+  }
   appendFileLog(auditoriaId, user, "RESPONSES_SAVED", ip);
   saveFileStore();
   return saved;
