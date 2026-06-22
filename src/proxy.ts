@@ -21,20 +21,30 @@ const routePermissions: Record<string, string> = {
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const token = request.cookies.get("sisapec_token")?.value;
+  if (pathname.startsWith("/welcome") || pathname.startsWith("/change-password")) {
+    if (!token) return NextResponse.redirect(new URL("/login", request.url));
+    try {
+      verifyUserTokenPayload(token);
+      return NextResponse.next();
+    } catch {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+  }
+
   const matched = Object.entries(routePermissions).find(([prefix]) => pathname.startsWith(prefix));
   if (!matched) return NextResponse.next();
 
-  const token = request.cookies.get("sisapec_token")?.value;
   if (!token) return NextResponse.redirect(new URL("/login", request.url));
 
   try {
     const user = verifyUserTokenPayload(token);
     const [, permission] = matched;
     if (user.role !== "ADMIN" && permission === "permissions.manage") {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return NextResponse.redirect(new URL("/welcome", request.url));
     }
     if (!hasPermission(user.permissions, permission)) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return NextResponse.redirect(new URL("/welcome", request.url));
     }
     return NextResponse.next();
   } catch {
@@ -45,6 +55,8 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     "/dashboard/:path*",
+    "/welcome/:path*",
+    "/change-password/:path*",
     "/sectors/:path*",
     "/audits/:path*",
     "/reports/:path*",

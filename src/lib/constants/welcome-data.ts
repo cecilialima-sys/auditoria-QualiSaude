@@ -1,0 +1,54 @@
+export type WelcomeContent = {
+  highlights: string[];
+  announcements: Array<{
+    title: string;
+    description: string;
+  }>;
+  administrativeMessages?: Array<{
+    title: string;
+    description: string;
+  }>;
+  usefulLinks?: Array<{
+    label: string;
+    href: string;
+    description?: string;
+  }>;
+  supportContacts: Array<{
+    label: string;
+    value: string;
+  }>;
+};
+
+export const defaultWelcomeContent: WelcomeContent = {
+  highlights: [
+    "Planeje auditorias por setor e acompanhe auditorias em andamento.",
+    "Registre respostas, evidencias, riscos e observacoes com rastreabilidade.",
+    "Gere relatorios e acompanhe indicadores de conformidade hospitalar."
+  ],
+
+  announcements: [
+    {
+      title: "Comunicados institucionais",
+      description: "Area preparada para avisos, novidades, links uteis e mensagens administrativas."
+    },
+    {
+      title: "Atualizacoes do sistema",
+      description: "Novas publicacoes poderao ser exibidas aqui sem alterar a experiencia principal."
+    }
+  ],
+
+  administrativeMessages: [],
+
+  usefulLinks: [],
+
+  supportContacts: [
+    {
+      label: "Suporte QualiSaude",
+      value: "suporte.qualisaude@unifal-mg.edu.br"
+    },
+    {
+      label: "Canal administrativo",
+      value: "Coordene acessos e permissoes no menu Gerenciamento de Acessos."
+    }
+  ]
+};

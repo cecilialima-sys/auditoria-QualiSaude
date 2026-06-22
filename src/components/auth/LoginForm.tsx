@@ -34,7 +34,7 @@ export function LoginForm() {
 
       localStorage.setItem("sisapec_user", JSON.stringify(data.user));
       localStorage.setItem("sisapec_token", data.token);
-      router.push(data.user.mustChangePassword ? "/admin/change-password" : "/dashboard");
+      router.push(data.user.mustChangePassword ? "/change-password" : "/welcome");
     } catch {
       setError("Nao foi possivel conectar ao servidor de autenticacao. Tente novamente.");
     } finally {

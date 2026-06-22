@@ -7,6 +7,7 @@
   KeyRound,
   Settings,
   ShieldCheck,
+  Sparkles,
   Smartphone,
   UserCircle,
   Users,
@@ -21,6 +22,7 @@ export type AppRoute = {
 };
 
 export const appRoutes: AppRoute[] = [
+  { href: "/welcome", label: "Boas-Vindas", icon: Sparkles, permission: "dashboard.view" },
   { href: "/dashboard", label: "Dashboard", icon: Home, permission: "dashboard.view" },
   { href: "/sectors", label: "Setores", icon: Hospital, permission: "sectors.view" },
   { href: "/audits/new", label: "Auditoria", icon: ClipboardCheck, permission: "records.create" },
@@ -35,5 +37,5 @@ export const appRoutes: AppRoute[] = [
   { href: "/audit-logs", label: "Logs", icon: FileText, permission: "audit_logs.view" }
 ];
 
-export const mainFallbackRoutes = ["/dashboard", "/profile"];
+export const mainFallbackRoutes = ["/welcome", "/dashboard", "/profile"];
 
