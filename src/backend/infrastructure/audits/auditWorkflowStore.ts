@@ -72,7 +72,7 @@ type AuditWorkflowLog = {
   auditoriaId: string;
   actorId: string;
   actorEmail: string;
-  action: "AUDIT_CREATED" | "RESPONSES_SAVED" | "AUDIT_FINALIZED";
+  action: "AUDIT_CREATED" | "RESPONSES_SAVED" | "AUDIT_FINALIZED" | "AUDIT_DELETED";
   createdAt: string;
   ip?: string;
 };
@@ -338,6 +338,52 @@ export async function getAuditWorkflowDetails(id: string, user: AccessUser) {
     checklist: serializeChecklist(checklist),
     respostas: await getAuditWorkflowResponses(id)
   };
+}
+
+export async function deleteUnfinishedAuditWorkflow(auditoriaId: string, user: AccessUser, ip?: string) {
+  const auditoria = await getAuditWorkflow(auditoriaId);
+  if (!auditoria) throw new Error("Auditoria não encontrada.");
+  ensureOwner(auditoria, user);
+  if (auditoria.status === "finalizada") {
+    throw new Error("Auditorias finalizadas não podem ser excluídas.");
+  }
+  if (auditoria.status === "cancelada") {
+    throw new Error("Auditoria já excluída.");
+  }
+
+  const prismaResult = await withPrisma(async (prisma) =>
+    (prisma as any).auditWorkflow.updateMany({
+      where: {
+        id: auditoriaId,
+        status: { in: ["DRAFT", "IN_PROGRESS", "SYNC_PENDING"] }
+      },
+      data: { status: "CANCELED" }
+    })
+  );
+
+  if (prismaResult) {
+    if (prismaResult.count !== 1) {
+      throw new Error("Apenas auditorias não finalizadas podem ser excluídas.");
+    }
+    appendFileLog(auditoriaId, user, "AUDIT_DELETED", ip);
+    return { ...auditoria, status: "cancelada" as const, updatedAt: new Date().toISOString() };
+  }
+
+  const store = getFileStore();
+  const auditInStore = store.auditorias.find((item) => item.id === auditoriaId);
+  if (!auditInStore) throw new Error("Auditoria não encontrada.");
+  if (auditInStore.status === "finalizada") {
+    throw new Error("Auditorias finalizadas não podem ser excluídas.");
+  }
+  if (auditInStore.status === "cancelada") {
+    throw new Error("Auditoria já excluída.");
+  }
+
+  auditInStore.status = "cancelada";
+  auditInStore.updatedAt = new Date().toISOString();
+  appendFileLog(auditoriaId, user, "AUDIT_DELETED", ip);
+  saveFileStore();
+  return auditInStore;
 }
 
 function validateResponses(checklist: ChecklistGroup, respostas: SaveAuditWorkflowResponseInput[]) {

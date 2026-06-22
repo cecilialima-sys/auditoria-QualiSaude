@@ -203,6 +203,23 @@ ADMIN_PASSWORD="senha_inicial_segura"
 
 A senha é criptografada no seed/camada de autenticação. Não use senha real no `.env.example`.
 
+## Usuario De Desenvolvedor
+
+O seed pode garantir um usuario de desenvolvedor para testar, auditar e validar auditorias, permissoes e integracao QualiSaude/SISAPEC.
+
+Em desenvolvimento, configure no `.env` se quiser sobrescrever os padroes:
+
+```env
+SEED_DEVELOPER_USER="true"
+DEV_USER_NAME="Desenvolvedor QualiSaude"
+DEV_USER_EMAIL="cecilia.lima@sou.unifal-mg.edu.br"
+# DEV_USER_PASSWORD="senha_inicial_segura"
+```
+
+Se `DEV_USER_PASSWORD` nao for informado fora de producao, o seed gera uma senha forte e imprime no terminal apenas quando criar o usuario pela primeira vez. O usuario deve trocar a senha no primeiro login.
+
+Em producao, nao ha senha fixa no codigo: defina `DEV_USER_EMAIL` e `DEV_USER_PASSWORD` no painel do provedor quando esse acesso for realmente necessario, ou mantenha `SEED_DEVELOPER_USER="false"`.
+
 ## Deploy Em Produção: Render + Supabase
 
 ### Estratégia

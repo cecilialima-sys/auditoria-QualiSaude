@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowRight, CalendarClock, ClipboardList } from "lucide-react";
+import { ArrowRight, CalendarClock, ClipboardList, Trash2 } from "lucide-react";
 
 type UnfinishedAudit = {
   id: string;
@@ -13,6 +13,10 @@ type UnfinishedAudit = {
   status: "rascunho" | "em_andamento" | "sincronizacao_pendente";
   createdAt: string;
   updatedAt: string;
+};
+
+type CurrentUser = {
+  permissions?: string[];
 };
 
 function formatDate(value: string) {
@@ -29,6 +33,8 @@ export function UnfinishedAuditsList() {
   const [audits, setAudits] = useState<UnfinishedAudit[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [canDelete, setCanDelete] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -43,8 +49,34 @@ export function UnfinishedAuditsList() {
         setError(err instanceof Error ? err.message : "Erro ao carregar auditorias.");
       })
       .finally(() => setLoading(false));
+
+    fetch("/api/auth/me", { signal: controller.signal, cache: "no-store" })
+      .then(async (response) => (response.ok ? response.json() : null))
+      .then((data: { user?: CurrentUser } | null) => {
+        setCanDelete(Boolean(data?.user?.permissions?.includes("records.delete")));
+      })
+      .catch(() => undefined);
+
     return () => controller.abort();
   }, []);
+
+  async function deleteAudit(audit: UnfinishedAudit) {
+    const confirmed = window.confirm(`Excluir a auditoria não finalizada do setor "${audit.setor}"? Esta ação removerá a auditoria da lista.`);
+    if (!confirmed) return;
+
+    setError("");
+    setDeletingId(audit.id);
+    try {
+      const response = await fetch(`/api/auditorias/${encodeURIComponent(audit.id)}`, { method: "DELETE" });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error ?? "Não foi possível excluir a auditoria.");
+      setAudits((current) => current.filter((item) => item.id !== audit.id));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Não foi possível excluir a auditoria.");
+    } finally {
+      setDeletingId(null);
+    }
+  }
 
   if (loading) {
     return <section className="card empty-state"><h3>Carregando auditorias</h3><p className="muted">Buscando auditorias salvas no servidor.</p></section>;
@@ -82,9 +114,23 @@ export function UnfinishedAuditsList() {
             <div><dt>Auditor</dt><dd>{audit.auditorNome}</dd></div>
             <div><dt>Última atualização</dt><dd>{formatDate(audit.updatedAt || audit.createdAt)}</dd></div>
           </dl>
-          <Link className="button" href={`/audits/checklist?auditoriaId=${encodeURIComponent(audit.id)}`}>
-            Continuar auditoria <ArrowRight size={18} aria-hidden="true" />
-          </Link>
+          <div className="button-row">
+            <Link className="button" href={`/audits/checklist?auditoriaId=${encodeURIComponent(audit.id)}`}>
+              Continuar auditoria <ArrowRight size={18} aria-hidden="true" />
+            </Link>
+            {canDelete ? (
+              <button
+                aria-label={`Excluir auditoria não finalizada do setor ${audit.setor}`}
+                className="button secondary"
+                disabled={deletingId === audit.id}
+                onClick={() => deleteAudit(audit)}
+                type="button"
+              >
+                <Trash2 size={18} aria-hidden="true" />
+                {deletingId === audit.id ? "Excluindo..." : "Excluir"}
+              </button>
+            ) : null}
+          </div>
         </article>
       ))}
     </section>

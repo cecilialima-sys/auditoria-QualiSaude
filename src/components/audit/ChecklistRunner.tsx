@@ -470,7 +470,7 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
             <Save size={18} aria-hidden="true" />
             {savingDraft ? "Salvando..." : "Salvar rascunho"}
           </button>
-          {!auditFinalized ? <Link className="button secondary" href="/audits/unfinished">Ver não finalizadas</Link> : null}
+          {!auditFinalized ? <Link className="button secondary" href="/audits/new#auditorias-nao-finalizadas">Ver não finalizadas</Link> : null}
           {lastReport ? (
             <a className="button secondary" href={lastReport.downloadUrl}>
               <FileDown size={18} aria-hidden="true" />
