@@ -473,7 +473,7 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
               <a className="button secondary" href={lastReport.downloadUrl}>
                 Baixar PDF
               </a>
-              <button className="button secondary" onClick={() => window.open(lastReport.viewUrl, "_blank", "noopener,noreferrer")} type="button">
+              <button className="button secondary" onClick={() => window.open(`/api/reports/${lastReport.id}/html?print=1`, "_blank", "noopener,noreferrer")} type="button">
                 <Printer size={18} aria-hidden="true" />
                 Imprimir
               </button>

@@ -39,12 +39,12 @@ export default async function ReportPreviewPage({ params }: PageProps) {
       <section className="card report-preview-toolbar" aria-label="Ações do relatório">
         <div>
           <strong>Relatório pronto para conferência</strong>
-          <p className="muted">Confira o layout antes de baixar ou imprimir o PDF final.</p>
+          <p className="muted">Confira o layout antes de baixar ou imprimir o relatório final.</p>
         </div>
         <div className="button-row">
-          <a className="button secondary" href={`/api/reports/${id}/pdf`} target="_blank" rel="noreferrer">
+          <a className="button secondary" href={`/api/reports/${id}/html?print=1`} target="_blank" rel="noreferrer">
             <Printer size={18} aria-hidden="true" />
-            Gerar PDF
+            Imprimir
           </a>
           <a className="button" href={`/api/reports/${id}/pdf?download=1`}>
             <FileDown size={18} aria-hidden="true" />
