@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { AuditReportPdfService } from "@/backend/application/reports/AuditReportPdfService";
 import {
   finalizeAuditWorkflow,
+  getAuditWorkflowDetails,
   saveAuditWorkflowResponses,
   type AuditWorkflowResponseRecord
 } from "@/backend/infrastructure/audits/auditWorkflowStore";
@@ -19,6 +20,13 @@ function responseByQuestion(respostas: AuditWorkflowResponseRecord[]) {
   return new Map(respostas.map((response) => [response.perguntaId, response]));
 }
 
+function assertAllQuestionsAnswered(details: NonNullable<Awaited<ReturnType<typeof getAuditWorkflowDetails>>>) {
+  const answered = new Set(details.respostas.filter((response) => response.resposta).map((response) => response.perguntaId));
+  if (answered.size !== details.checklist.perguntas.length) {
+    throw new Error("Responda todos os itens do checklist antes de finalizar.");
+  }
+}
+
 export async function POST(request: NextRequest, context: Params) {
   const auth = await requirePermission(request, "records.edit");
   if (auth.response) return auth.response;
@@ -27,24 +35,32 @@ export async function POST(request: NextRequest, context: Params) {
   try {
     const { id } = await context.params;
     const payload = await request.json().catch(() => ({}));
-    if (Array.isArray(payload.respostas) && payload.respostas.length) {
-      await saveAuditWorkflowResponses(id, payload.respostas, auth.user, getClientIp(request));
+    const ip = getClientIp(request);
+
+    let details = await getAuditWorkflowDetails(id, auth.user);
+    if (!details) throw new Error("Auditoria não encontrada.");
+
+    if (details.auditoria.status !== "finalizada" && Array.isArray(payload.respostas) && payload.respostas.length) {
+      await saveAuditWorkflowResponses(id, payload.respostas, auth.user, ip);
+      details = await getAuditWorkflowDetails(id, auth.user);
+      if (!details) throw new Error("Auditoria não encontrada.");
     }
 
-    const finalized = await finalizeAuditWorkflow(id, auth.user, getClientIp(request));
-    const answers = responseByQuestion(finalized.respostas);
+    assertAllQuestionsAnswered(details);
+
+    const answers = responseByQuestion(details.respostas);
     const service = new AuditReportPdfService();
     const result = await service.finalizeAndGenerate(
       {
-        checklistId: finalized.auditoria.checklistId,
+        checklistId: details.auditoria.checklistId,
         institution: "QualiSaúde Hospitalar",
-        sector: finalized.auditoria.setor,
-        auditType: finalized.auditoria.tipoAuditoria || "Auditoria hospitalar",
-        auditDate: finalized.auditoria.dataInicio,
-        sectorResponsible: finalized.auditoria.responsavelSetor,
+        sector: details.auditoria.setor,
+        auditType: details.auditoria.tipoAuditoria || "Auditoria hospitalar",
+        auditDate: details.auditoria.dataInicio,
+        sectorResponsible: details.auditoria.responsavelSetor,
         method: "Checklist vinculado à auditoria persistida no sistema.",
         signed: true,
-        responses: finalized.checklist.perguntas.map((question) => {
+        responses: details.checklist.perguntas.map((question) => {
           const answer = answers.get(question.id);
           return {
             questionId: question.id,
@@ -59,6 +75,11 @@ export async function POST(request: NextRequest, context: Params) {
       },
       auth.user
     );
+
+    const finalized =
+      details.auditoria.status === "finalizada"
+        ? { auditoria: details.auditoria }
+        : await finalizeAuditWorkflow(id, auth.user, ip);
 
     return NextResponse.json({
       ok: true,
