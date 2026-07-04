@@ -403,6 +403,12 @@ textarea {
   color: var(--ink);
 }
 
+.textarea-autogrow {
+  line-height: 1.45;
+  overflow: hidden;
+  resize: vertical;
+}
+
 .table-wrap {
   overflow-x: auto;
 }

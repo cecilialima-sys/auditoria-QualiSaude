@@ -106,6 +106,11 @@ function statusLabel(status: AuditDetails["auditoria"]["status"]) {
   return labels[status] ?? status;
 }
 
+function resizeTextarea(element: HTMLTextAreaElement) {
+  element.style.height = "auto";
+  element.style.height = `${element.scrollHeight}px`;
+}
+
 export function ChecklistRunner({ auditId }: { auditId?: string }) {
   const [responses, setResponses] = useState<Record<string, ResponseState>>({});
   const [signed, setSigned] = useState(false);
@@ -161,6 +166,10 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
       .catch((error) => setReportError(error instanceof Error ? error.message : "Não foi possível carregar a auditoria."))
       .finally(() => setLoadingAudit(false));
   }, [auditId]);
+
+  useEffect(() => {
+    document.querySelectorAll<HTMLTextAreaElement>("textarea[data-autogrow='true']").forEach(resizeTextarea);
+  }, [responses, selectedItems]);
 
   useEffect(() => {
     function beforeUnload(event: BeforeUnloadEvent) {
@@ -408,22 +417,32 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
               </div>
               <div className="field field-wide">
                 <label htmlFor={`${item.id}-observation`}>Observação do auditor</label>
-                <input
-                  className="input"
+                <textarea
+                  className="input textarea-autogrow"
+                  data-autogrow="true"
                   disabled={auditFinalized}
                   id={`${item.id}-observation`}
+                  rows={1}
                   value={responses[item.id]?.observation ?? ""}
-                  onChange={(event) => update(item.id, { observation: event.target.value })}
+                  onChange={(event) => {
+                    update(item.id, { observation: event.target.value });
+                    resizeTextarea(event.currentTarget);
+                  }}
                 />
               </div>
               <div className="field field-wide">
                 <label htmlFor={`${item.id}-evidence`}>Evidência, se houver</label>
-                <input
-                  className="input"
+                <textarea
+                  className="input textarea-autogrow"
+                  data-autogrow="true"
                   disabled={auditFinalized}
                   id={`${item.id}-evidence`}
+                  rows={1}
                   value={responses[item.id]?.evidence ?? ""}
-                  onChange={(event) => update(item.id, { evidence: event.target.value })}
+                  onChange={(event) => {
+                    update(item.id, { evidence: event.target.value });
+                    resizeTextarea(event.currentTarget);
+                  }}
                 />
               </div>
             </div>
