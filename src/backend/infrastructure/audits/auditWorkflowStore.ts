@@ -3,6 +3,7 @@ import { dirname, join, resolve } from "path";
 import type { AccessUser } from "@/backend/infrastructure/auth/accessStore";
 import { getPrismaClient } from "@/backend/infrastructure/database/prismaClient";
 import { resolveAuditScope } from "@/backend/application/reports/auditScope";
+import { getStoredAuditReports } from "@/backend/infrastructure/reports/auditReportStore";
 import { checklistTemplateGroups, type ChecklistGroup } from "@/lib/checklists/checklist-template";
 
 export type AuditWorkflowStatusApi = "rascunho" | "em_andamento" | "finalizada" | "sincronizacao_pendente" | "cancelada";
@@ -63,6 +64,8 @@ export type ChecklistAuditStatus = {
   status: "auditado" | "nao_finalizado" | "nao_iniciado";
   statusLabel: "Auditado" | "Não finalizado" | "Não iniciado";
   auditoriaId?: string;
+  reportId?: string;
+  reportUrl?: string;
   atualizadoEm?: string;
   metrics?: AuditWorkflowMetrics;
 };
@@ -338,6 +341,13 @@ async function listAllAuditWorkflowsWithResponses() {
 export async function listChecklistAuditStatuses(): Promise<ChecklistAuditStatus[]> {
   const workflows = await listAllAuditWorkflowsWithResponses();
   const latestByChecklist = new Map<string, { audit: AuditWorkflowRecord; responses: AuditWorkflowResponseRecord[] }>();
+  const latestReportByChecklist = new Map<string, { id: string }>();
+
+  getStoredAuditReports().forEach((report) => {
+    if (!latestReportByChecklist.has(report.checklistId)) {
+      latestReportByChecklist.set(report.checklistId, { id: report.id });
+    }
+  });
 
   workflows.forEach((entry: { audit: AuditWorkflowRecord; responses: AuditWorkflowResponseRecord[] }) => {
     if (entry.audit.status === "cancelada") return;
@@ -348,6 +358,7 @@ export async function listChecklistAuditStatuses(): Promise<ChecklistAuditStatus
 
   return checklistTemplateGroups.map((group) => {
     const entry = latestByChecklist.get(group.id);
+    const report = latestReportByChecklist.get(group.id);
     const scope = resolveAuditScope(entry?.audit.setor ?? "", group);
     const status = statusForWorkflow(entry?.audit);
     return {
@@ -359,6 +370,8 @@ export async function listChecklistAuditStatuses(): Promise<ChecklistAuditStatus
       status,
       statusLabel: statusLabel(status),
       auditoriaId: entry?.audit.id,
+      reportId: status === "auditado" ? report?.id : undefined,
+      reportUrl: status === "auditado" && report ? `/reports/${report.id}` : undefined,
       atualizadoEm: entry?.audit.updatedAt,
       metrics: entry ? calculateAuditWorkflowMetrics(entry.responses) : undefined
     };
