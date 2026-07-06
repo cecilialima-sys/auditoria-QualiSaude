@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { dirname, join, resolve } from "path";
 import type { AccessUser } from "@/backend/infrastructure/auth/accessStore";
 import { getPrismaClient } from "@/backend/infrastructure/database/prismaClient";
+import { resolveAuditScope } from "@/backend/application/reports/auditScope";
 import { checklistTemplateGroups, type ChecklistGroup } from "@/lib/checklists/checklist-template";
 
 export type AuditWorkflowStatusApi = "rascunho" | "em_andamento" | "finalizada" | "sincronizacao_pendente" | "cancelada";
@@ -40,6 +41,44 @@ export type AuditWorkflowResponseRecord = {
   sincronizado: boolean;
   createdAt: string;
   updatedAt: string;
+};
+
+export type AuditWorkflowMetrics = {
+  totalItems: number;
+  applicableItems: number;
+  conformingItems: number;
+  nonConformingItems: number;
+  notApplicableItems: number;
+  compliancePercentage: number;
+  nonCompliancePercentage: number;
+  result: string;
+};
+
+export type ChecklistAuditStatus = {
+  id: string;
+  titulo: string;
+  unidade: string;
+  setor: string;
+  totalPerguntas: number;
+  status: "auditado" | "nao_finalizado" | "nao_iniciado";
+  statusLabel: "Auditado" | "Não finalizado" | "Não iniciado";
+  auditoriaId?: string;
+  atualizadoEm?: string;
+  metrics?: AuditWorkflowMetrics;
+};
+
+export type AuditDashboardMetrics = {
+  totalAudits: number;
+  pending: number;
+  inProgress: number;
+  completed: number;
+  compliance: number;
+  nonCompliance: number;
+  openNonConformities: number;
+  resolvedNonConformities: number;
+  averageResolutionDays: number;
+  overdue: number;
+  criticalRisk: number;
 };
 
 export type CreateAuditWorkflowInput = {
@@ -231,6 +270,121 @@ export function getChecklistCatalog() {
     setor: group.sector ?? group.category,
     totalPerguntas: group.questions.length
   }));
+}
+
+function statusForWorkflow(audit?: AuditWorkflowRecord | null): ChecklistAuditStatus["status"] {
+  if (!audit) return "nao_iniciado";
+  if (audit.status === "finalizada") return "auditado";
+  return "nao_finalizado";
+}
+
+function statusLabel(status: ChecklistAuditStatus["status"]): ChecklistAuditStatus["statusLabel"] {
+  if (status === "auditado") return "Auditado";
+  if (status === "nao_finalizado") return "Não finalizado";
+  return "Não iniciado";
+}
+
+export function calculateAuditWorkflowMetrics(respostas: AuditWorkflowResponseRecord[]): AuditWorkflowMetrics {
+  const conformingItems = respostas.filter((response) => response.resposta === "Conforme").length;
+  const nonConformingItems = respostas.filter((response) => response.resposta === "Não conforme").length;
+  const notApplicableItems = respostas.filter((response) => response.resposta === "Não se aplica").length;
+  const applicableItems = respostas.length - notApplicableItems;
+  const compliancePercentage = applicableItems ? Math.round((conformingItems / applicableItems) * 100) : 0;
+  const nonCompliancePercentage = applicableItems ? Math.round((nonConformingItems / applicableItems) * 100) : 0;
+  const result =
+    compliancePercentage >= 90
+      ? "Excelente conformidade"
+      : compliancePercentage >= 75
+        ? "Boa conformidade"
+        : compliancePercentage >= 60
+          ? "Conformidade parcial"
+          : "Não conformidade crítica";
+
+  return {
+    totalItems: respostas.length,
+    applicableItems,
+    conformingItems,
+    nonConformingItems,
+    notApplicableItems,
+    compliancePercentage,
+    nonCompliancePercentage,
+    result
+  };
+}
+
+async function listAllAuditWorkflowsWithResponses() {
+  const prismaRecords = await withPrisma(async (prisma) => {
+    const rows = await (prisma as any).auditWorkflow.findMany({
+      include: { responses: true },
+      orderBy: { updatedAt: "desc" }
+    });
+    return rows.map((row: any) => ({
+      audit: dbAuditToRecord(row),
+      responses: (row.responses ?? []).map(dbResponseToRecord) as AuditWorkflowResponseRecord[]
+    }));
+  });
+  if (prismaRecords) return prismaRecords;
+
+  const store = getFileStore();
+  return store.auditorias
+    .slice()
+    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+    .map((audit) => ({
+      audit,
+      responses: store.respostas.filter((response) => response.auditoriaId === audit.id)
+    }));
+}
+
+export async function listChecklistAuditStatuses(): Promise<ChecklistAuditStatus[]> {
+  const workflows = await listAllAuditWorkflowsWithResponses();
+  const latestByChecklist = new Map<string, { audit: AuditWorkflowRecord; responses: AuditWorkflowResponseRecord[] }>();
+
+  workflows.forEach((entry: { audit: AuditWorkflowRecord; responses: AuditWorkflowResponseRecord[] }) => {
+    if (entry.audit.status === "cancelada") return;
+    if (!latestByChecklist.has(entry.audit.checklistId)) {
+      latestByChecklist.set(entry.audit.checklistId, entry);
+    }
+  });
+
+  return checklistTemplateGroups.map((group) => {
+    const entry = latestByChecklist.get(group.id);
+    const scope = resolveAuditScope(entry?.audit.setor ?? "", group);
+    const status = statusForWorkflow(entry?.audit);
+    return {
+      id: group.id,
+      titulo: group.category,
+      unidade: scope.unit,
+      setor: scope.sector,
+      totalPerguntas: group.questions.length,
+      status,
+      statusLabel: statusLabel(status),
+      auditoriaId: entry?.audit.id,
+      atualizadoEm: entry?.audit.updatedAt,
+      metrics: entry ? calculateAuditWorkflowMetrics(entry.responses) : undefined
+    };
+  });
+}
+
+export async function getAuditDashboardMetrics(): Promise<AuditDashboardMetrics> {
+  const statuses = await listChecklistAuditStatuses();
+  const withMetrics = statuses.filter((item) => item.metrics);
+  const totalApplicable = withMetrics.reduce((sum, item) => sum + (item.metrics?.applicableItems ?? 0), 0);
+  const totalConforming = withMetrics.reduce((sum, item) => sum + (item.metrics?.conformingItems ?? 0), 0);
+  const totalNonConforming = withMetrics.reduce((sum, item) => sum + (item.metrics?.nonConformingItems ?? 0), 0);
+
+  return {
+    totalAudits: withMetrics.length,
+    pending: statuses.filter((item) => item.status === "nao_iniciado").length,
+    inProgress: statuses.filter((item) => item.status === "nao_finalizado").length,
+    completed: statuses.filter((item) => item.status === "auditado").length,
+    compliance: totalApplicable ? Math.round((totalConforming / totalApplicable) * 100) : 0,
+    nonCompliance: totalApplicable ? Math.round((totalNonConforming / totalApplicable) * 100) : 0,
+    openNonConformities: totalNonConforming,
+    resolvedNonConformities: 0,
+    averageResolutionDays: 0,
+    overdue: 0,
+    criticalRisk: withMetrics.filter((item) => item.metrics?.result === "Não conformidade crítica").length
+  };
 }
 
 export async function createAuditWorkflow(input: CreateAuditWorkflowInput, user: AccessUser, ip?: string) {

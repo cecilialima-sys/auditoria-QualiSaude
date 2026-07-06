@@ -1,8 +1,11 @@
 import puppeteer from "puppeteer";
+import { existsSync } from "fs";
 import type { AccessUser } from "@/backend/infrastructure/auth/accessStore";
 import { checklistTemplateGroups } from "@/lib/checklists/checklist-template";
-import { buildActionPlan, buildRecommendations } from "@/backend/application/reports/auditRecommendations";
+import { generateAuditInterventions } from "@/backend/application/reports/auditInterventionRules";
+import { buildActionPlan, buildActionPlanFromInterventions, buildRecommendations } from "@/backend/application/reports/auditRecommendations";
 import { renderAuditReportHtml } from "@/backend/application/reports/auditReportTemplate";
+import { resolveAuditScope } from "@/backend/application/reports/auditScope";
 import {
   auditorFromUser,
   type AuditReportDocument,
@@ -11,7 +14,11 @@ import {
   type AuditReportSummary,
   type GenerateAuditReportResult
 } from "@/backend/application/reports/auditReportTypes";
-import { persistAuditReport } from "@/backend/infrastructure/reports/auditReportStore";
+import {
+  getStoredAuditReports,
+  persistAuditReport,
+  readStoredAuditReportDocument
+} from "@/backend/infrastructure/reports/auditReportStore";
 
 function priorityFromRisk(risk?: string) {
   if (risk === "Crítico") return "Imediata";
@@ -34,6 +41,9 @@ function calculateSummary(items: AuditReportItemInput[]): AuditReportSummary {
   const compliancePercentage = applicableItems
     ? Math.round((conformingItems / applicableItems) * 100)
     : 0;
+  const nonCompliancePercentage = applicableItems
+    ? Math.round((nonConformingItems / applicableItems) * 100)
+    : 0;
 
   const base = {
     totalItems: items.length,
@@ -41,7 +51,8 @@ function calculateSummary(items: AuditReportItemInput[]): AuditReportSummary {
     conformingItems,
     nonConformingItems,
     notApplicableItems,
-    compliancePercentage
+    compliancePercentage,
+    nonCompliancePercentage
   };
 
   if (compliancePercentage >= 90) {
@@ -97,6 +108,25 @@ function buildFindings(items: AuditReportItemInput[], summary: AuditReportSummar
   return `${positiveText} Entretanto, foram observadas oportunidades de melhoria em ${gaps.join("; ")}, exigindo plano de ação e acompanhamento sistemático.`;
 }
 
+function previousNonConformityOccurrences(checklistId: string) {
+  const occurrences = new Map<string, number>();
+
+  getStoredAuditReports()
+    .filter((report) => report.checklistId === checklistId)
+    .forEach((storedReport) => {
+      const stored = readStoredAuditReportDocument(storedReport.id);
+      if (!stored) return;
+
+      (stored.document.items ?? [])
+        .filter((item) => item.status === "Não conforme")
+        .forEach((item) => {
+          occurrences.set(item.questionId, (occurrences.get(item.questionId) ?? 0) + 1);
+        });
+    });
+
+  return occurrences;
+}
+
 function validateInput(input: AuditReportInput) {
   if (!input.signed) return "A confirmação digital do auditor é obrigatória.";
   if (!input.checklistId) return "Checklist não informado.";
@@ -110,6 +140,18 @@ function validateInput(input: AuditReportInput) {
     return "Todas as respostas devem possuir item, pergunta e status.";
   }
   return null;
+}
+
+function browserExecutablePath() {
+  const candidates = [
+    process.env.PUPPETEER_EXECUTABLE_PATH,
+    "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+    "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
+    "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+  ].filter((item): item is string => Boolean(item));
+
+  return candidates.find((candidate) => existsSync(candidate));
 }
 
 export class AuditReportPdfService {
@@ -128,22 +170,32 @@ export class AuditReportPdfService {
     const now = new Date().toISOString();
     const auditCode = `AUD-${now.slice(0, 10).replaceAll("-", "")}-${reportId.slice(0, 8).toUpperCase()}`;
     const summary = calculateSummary(input.responses);
+    const previousOccurrencesByQuestionId = previousNonConformityOccurrences(input.checklistId);
     const nonConformities = input.responses
       .filter((item) => item.status === "Não conforme")
       .map((item) => ({ ...item, gravity: gravityFromRisk(item.risk), priority: priorityFromRisk(item.risk) }));
+    const interventions = generateAuditInterventions({
+      status: "finalizada",
+      sector: input.sector,
+      category: checklist.category,
+      responses: input.responses,
+      previousOccurrencesByQuestionId
+    });
+    const scope = resolveAuditScope(input.unit || input.sector, checklist);
+    const actionPlanFromTree = buildActionPlanFromInterventions(interventions, input.responses);
 
     const document: AuditReportDocument = {
       id: reportId,
       auditCode,
       checklistId: input.checklistId,
       institution: input.institution?.trim() || "QualiSaúde Hospitalar",
-      sector: input.sector,
+      sector: scope.sector,
       auditType: input.auditType,
       auditDate: input.auditDate,
       finalizedAt: now,
       generatedAt: now,
       sectorResponsible: input.sectorResponsible,
-      unit: input.unit,
+      unit: scope.unit,
       method: input.method || "Checklist estruturado de auditoria hospitalar com análise de conformidade e plano de ação.",
       auditor: auditorFromUser(user),
       items: input.responses,
@@ -151,7 +203,8 @@ export class AuditReportPdfService {
       summary,
       findings: buildFindings(input.responses, summary),
       recommendations: buildRecommendations(input.responses),
-      actionPlan: buildActionPlan(input.responses),
+      actionPlan: actionPlanFromTree.length ? actionPlanFromTree : buildActionPlan(input.responses),
+      interventions,
       objective:
         "Este relatório tem como objetivo avaliar a conformidade dos processos assistenciais, registros, protocolos institucionais e práticas de segurança do paciente no setor auditado."
     };
@@ -166,7 +219,7 @@ export class AuditReportPdfService {
         id: reportId,
         auditCode,
         checklistId: input.checklistId,
-        sector: input.sector,
+        sector: `${scope.unit} - ${scope.sector}`,
         auditType: input.auditType,
         auditorId: user.id,
         auditorName: user.name,
@@ -195,8 +248,10 @@ export class AuditReportPdfService {
   }
 
   private async renderPdfWithBrowser(report: AuditReportDocument) {
+    const executablePath = browserExecutablePath();
     const browser = await puppeteer.launch({
       headless: true,
+      ...(executablePath ? { executablePath } : {}),
       pipe: true,
       timeout: Number(process.env.PUPPETEER_LAUNCH_TIMEOUT_MS || 60000),
       protocolTimeout: Number(process.env.PUPPETEER_PROTOCOL_TIMEOUT_MS || 60000),
@@ -240,7 +295,8 @@ export class AuditReportPdfService {
       "RELATORIO DE AUDITORIA HOSPITALAR",
       report.institution,
       `Codigo: ${report.auditCode}`,
-      `Setor auditado: ${report.sector}`,
+      `Unidade auditada: ${report.unit || "-"}`,
+      `Setor/Ala auditado: ${report.sector}`,
       `Tipo de auditoria: ${report.auditType}`,
       `Data da auditoria: ${formatFallbackDate(report.auditDate)}`,
       `Finalizacao: ${formatFallbackDate(report.finalizedAt)}`,
@@ -256,6 +312,7 @@ export class AuditReportPdfService {
       `Nao conformes: ${report.summary.nonConformingItems}`,
       `Nao se aplica: ${report.summary.notApplicableItems}`,
       `Percentual de conformidade: ${report.summary.compliancePercentage}%`,
+      `Percentual de nao conformidade: ${report.summary.nonCompliancePercentage}%`,
       `Resultado: ${report.summary.result}`,
       "",
       "3. ACHADOS DA AUDITORIA",
@@ -274,7 +331,7 @@ export class AuditReportPdfService {
 
     lines.push("5. NAO CONFORMIDADES ENCONTRADAS");
     if (!report.nonConformities.length) {
-      lines.push("Nao foram registradas nao conformidades.");
+      lines.push("Nao foram identificadas nao conformidades nesta auditoria.");
     } else {
       report.nonConformities.forEach((item, index) => {
         lines.push(`${index + 1}. ${item.item}`);
@@ -284,7 +341,26 @@ export class AuditReportPdfService {
       });
     }
 
-    lines.push("", "6. RECOMENDACOES AUTOMATICAS");
+    if (report.interventions.length) {
+      lines.push(
+        "",
+        "6. INTERVENCOES SUGERIDAS PARA AS NAO CONFORMIDADES",
+        "As intervencoes sao sugestoes automaticas baseadas em regras e nao substituem a analise e a decisao profissional do auditor."
+      );
+      report.interventions.forEach((item, index) => {
+        lines.push(`${index + 1}. Item nao conforme: ${item.sourceItem}`);
+        lines.push(`Categoria/Setor: ${item.category}`);
+        lines.push(`Nao conformidade identificada: ${item.nonConformity}`);
+        lines.push(`Gravidade: ${item.severity}`);
+        lines.push(`Intervencao sugerida: ${item.suggestedIntervention}`);
+        lines.push(`Responsavel sugerido: ${item.suggestedResponsible}`);
+        lines.push(`Prazo sugerido: ${item.suggestedDeadline}`);
+        lines.push(`Evidencia recomendada: ${item.recommendedEvidence}`);
+        lines.push(`Verificacao de eficacia: ${item.effectivenessVerification}`, "");
+      });
+    }
+
+    lines.push("", "7. RECOMENDACOES AUTOMATICAS");
     if (!report.recommendations.length) {
       lines.push("Sem recomendacoes automaticas; nao foram encontradas nao conformidades.");
     } else {
@@ -298,7 +374,7 @@ export class AuditReportPdfService {
 
     lines.push(
       "",
-      "7. PLANO DE ACAO AUTOMATICO",
+      "8. PLANO DE ACAO AUTOMATICO",
       ...(
         report.actionPlan.length
           ? report.actionPlan.flatMap((item, index) => [
@@ -311,10 +387,10 @@ export class AuditReportPdfService {
           : ["Sem plano de acao automatico para este relatorio."]
       ),
       "",
-      "8. PARECER FINAL",
+      "9. PARECER FINAL",
       `Resultado da auditoria: ${report.summary.result}. ${report.summary.finalOpinion}`,
       "",
-      "9. ASSINATURA DO AUDITOR",
+      "10. ASSINATURA DO AUDITOR",
       "________________________________________",
       report.auditor.name,
       report.auditor.position ?? report.auditor.role,

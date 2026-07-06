@@ -1,4 +1,5 @@
 import type { AuditActionPlan, AuditRecommendation, AuditReportItemInput } from "@/backend/application/reports/auditReportTypes";
+import type { AuditIntervention } from "@/backend/application/reports/auditInterventionRules";
 
 const recommendationRules: Array<{
   keywords: string[];
@@ -129,10 +130,38 @@ export function buildActionPlan(items: AuditReportItemInput[]): AuditActionPlan[
         sourceItem: item.item,
         risk: item.risk || "Moderado",
         priority: item.risk === "Crítico"
-            ? "Imediata"
-            : item.risk === "Alto"
-              ? "Alta"
-              : "Programada"
+          ? "Imediata"
+          : item.risk === "Alto"
+            ? "Alta"
+            : "Programada"
       };
     });
+}
+
+function priorityFromIntervention(intervention: AuditIntervention) {
+  if (intervention.severity === "Crítica") return "Imediata";
+  if (intervention.severity === "Grave" || intervention.recurrent) return "Alta";
+  if (intervention.severity === "Moderada") return "Média";
+  return "Programada";
+}
+
+export function buildActionPlanFromInterventions(
+  interventions: AuditIntervention[],
+  items: AuditReportItemInput[]
+): AuditActionPlan[] {
+  const itemByQuestionId = new Map(items.map((item) => [item.questionId, item]));
+
+  return interventions.map((intervention) => {
+    const source = itemByQuestionId.get(intervention.sourceQuestionId);
+    return {
+      problem: `${intervention.failureType}: ${intervention.nonConformity}`,
+      recommendation: intervention.suggestedIntervention,
+      suggestedResponsible: intervention.suggestedResponsible,
+      suggestedDeadline: intervention.suggestedDeadline,
+      indicator: intervention.effectivenessVerification,
+      sourceItem: intervention.sourceItem,
+      risk: source?.risk || intervention.severity,
+      priority: priorityFromIntervention(intervention)
+    };
+  });
 }

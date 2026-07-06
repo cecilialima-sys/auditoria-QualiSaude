@@ -54,6 +54,7 @@ export async function POST(request: NextRequest, context: Params) {
       {
         checklistId: details.auditoria.checklistId,
         institution: "QualiSaúde Hospitalar",
+        unit: details.auditoria.setor,
         sector: details.auditoria.setor,
         auditType: details.auditoria.tipoAuditoria || "Auditoria hospitalar",
         auditDate: details.auditoria.dataInicio,
@@ -90,6 +91,7 @@ export async function POST(request: NextRequest, context: Params) {
         sector: result.report.sector,
         result: result.report.result,
         compliancePercentage: result.report.compliancePercentage,
+        metrics: result.document.summary,
         generatedAt: result.report.generatedAt,
         viewUrl: `/reports/${result.report.id}`,
         downloadUrl: `/api/reports/${result.report.id}/pdf?download=1`

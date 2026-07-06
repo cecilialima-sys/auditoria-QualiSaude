@@ -25,6 +25,16 @@ type GeneratedReport = {
   auditCode: string;
   result: string;
   compliancePercentage: number;
+  metrics?: {
+    totalItems: number;
+    applicableItems: number;
+    conformingItems: number;
+    nonConformingItems: number;
+    notApplicableItems: number;
+    compliancePercentage: number;
+    nonCompliancePercentage: number;
+    result: string;
+  };
   viewUrl: string;
   downloadUrl: string;
 };
@@ -466,6 +476,18 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
             <p className="muted">
               Resultado: {lastReport.result} | Conformidade: {lastReport.compliancePercentage}%
             </p>
+            {lastReport.metrics ? (
+              <div className="grid grid-4" style={{ margin: "12px 0" }}>
+                <div>Total avaliado: <strong>{lastReport.metrics.totalItems}</strong></div>
+                <div>Conformes: <strong>{lastReport.metrics.conformingItems}</strong></div>
+                <div>Não conformes: <strong>{lastReport.metrics.nonConformingItems}</strong></div>
+                <div>Não aplicáveis: <strong>{lastReport.metrics.notApplicableItems}</strong></div>
+                <div>Conformidade: <strong>{lastReport.metrics.compliancePercentage}%</strong></div>
+                <div>Não conformidade: <strong>{lastReport.metrics.nonCompliancePercentage}%</strong></div>
+                <div>Itens aplicáveis: <strong>{lastReport.metrics.applicableItems}</strong></div>
+                <div>Resultado: <strong>{lastReport.metrics.result}</strong></div>
+              </div>
+            ) : null}
             <div className="button-row">
               <a className="button secondary" href={lastReport.viewUrl} target="_blank" rel="noreferrer">
                 Ver relatório

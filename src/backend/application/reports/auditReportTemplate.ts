@@ -1,4 +1,5 @@
 import type { AuditReportDocument, AuditReportItemInput } from "@/backend/application/reports/auditReportTypes";
+import type { AuditIntervention } from "@/backend/application/reports/auditInterventionRules";
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 
@@ -63,6 +64,51 @@ function renderResultItem(item: AuditReportItemInput, index: number) {
         <div><dt>Risco</dt><dd>${display(item.risk)}</dd></div>
       </dl>
     </article>`;
+}
+
+function renderIntervention(intervention: AuditIntervention, index: number) {
+  return `
+    <article class="intervention-block">
+      <div class="intervention-heading">
+        <div>
+          <span class="intervention-number">Intervenção sugerida ${String(index + 1).padStart(2, "0")}</span>
+          <h3>${display(intervention.sourceItem)}</h3>
+        </div>
+        <span class="severity-pill severity-${normalizeCssToken(intervention.severity)}">${display(intervention.severity)}</span>
+      </div>
+      <dl class="intervention-details">
+        <div><dt>Item não conforme</dt><dd>${display(intervention.sourceItem)}</dd></div>
+        <div><dt>Categoria/Setor</dt><dd>${display(intervention.category)}</dd></div>
+        <div class="wide"><dt>Não conformidade identificada</dt><dd>${display(intervention.nonConformity)}</dd></div>
+        <div><dt>Gravidade</dt><dd>${display(intervention.severity)}</dd></div>
+        <div><dt>Reincidência</dt><dd>${intervention.recurrent ? `Sim (${intervention.recurrenceCount} ocorrências incluindo a atual)` : "Não identificada no histórico disponível"}</dd></div>
+        <div class="wide"><dt>Intervenção sugerida</dt><dd>${display(intervention.suggestedIntervention)}</dd></div>
+        <div><dt>Responsável sugerido</dt><dd>${display(intervention.suggestedResponsible)}</dd></div>
+        <div><dt>Prazo sugerido</dt><dd>${display(intervention.suggestedDeadline)}</dd></div>
+        <div class="wide"><dt>Evidência recomendada</dt><dd>${display(intervention.recommendedEvidence)}</dd></div>
+        <div class="wide"><dt>Verificação de eficácia</dt><dd>${display(intervention.effectivenessVerification)}</dd></div>
+      </dl>
+    </article>`;
+}
+
+function normalizeCssToken(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9-]/g, "-");
+}
+
+function renderActionPlanItem(item: AuditReportDocument["actionPlan"][number], index: number) {
+  return `<tr>
+    <td>${index + 1}</td>
+    <td>${display(item.sourceItem)}</td>
+    <td>${display(item.problem)}</td>
+    <td>${display(item.recommendation)}</td>
+    <td>${display(item.suggestedResponsible)}</td>
+    <td>${display(item.suggestedDeadline)}</td>
+    <td>${display(item.priority)}</td>
+  </tr>`;
 }
 
 function rows<T>(items: T[], render: (item: T, index: number) => string, empty: string, colspan = 5) {
@@ -284,6 +330,66 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
       padding: 10px 12px;
       margin: 10px 0 12px;
     }
+    .intervention-notice {
+      border-left: 4px solid #0d5f95;
+      background: #f2f8fc;
+      padding: 9px 11px;
+      margin: 8px 0 12px;
+    }
+    .intervention-block {
+      border: 1px solid #a8c2d6;
+      border-radius: 6px;
+      margin: 0 0 11px;
+      padding: 10px 11px;
+      page-break-inside: avoid;
+    }
+    .intervention-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid #d5e0e8;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+    }
+    .intervention-heading h3 { margin-bottom: 0; }
+    .intervention-number {
+      color: #0d5f95;
+      display: block;
+      font-size: 9.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .severity-pill {
+      border-radius: 999px;
+      color: #fff;
+      display: inline-block;
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      white-space: nowrap;
+    }
+    .severity-leve { background: #047857; }
+    .severity-moderada { background: #b7791f; }
+    .severity-grave { background: #c2410c; }
+    .severity-critica { background: #991b1b; }
+    .intervention-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px 12px;
+      margin: 0;
+    }
+    .intervention-details .wide { grid-column: 1 / -1; }
+    .intervention-details dt {
+      color: #516579;
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .intervention-details dd {
+      margin: 1px 0 0;
+      overflow-wrap: anywhere;
+    }
     .muted { color: #657789; }
     .signature-grid {
       display: grid;
@@ -326,7 +432,8 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
       <p class="cover-subtitle">${display(report.institution)}</p>
 
       <div class="cover-meta">
-        <div class="meta-card"><small>Setor auditado</small>${display(report.sector)}</div>
+        <div class="meta-card"><small>Unidade auditada</small>${display(report.unit)}</div>
+        <div class="meta-card"><small>Setor/Ala auditado</small>${display(report.sector)}</div>
         <div class="meta-card"><small>Auditor</small>${display(report.auditor.name)}</div>
         <div class="meta-card"><small>Tipo de checklist</small>${display(report.auditType)}</div>
         <div class="meta-card"><small>Data de geração</small>${formatDate(report.generatedAt)}</div>
@@ -351,12 +458,12 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
     <h2>1. Identificação da Auditoria</h2>
     <table>
       <tbody>
-        <tr><th>Hospital/Instituição</th><td>${display(report.institution)}</td><th>Setor auditado</th><td>${display(report.sector)}</td></tr>
+        <tr><th>Hospital/Instituição</th><td>${display(report.institution)}</td><th>Unidade auditada</th><td>${display(report.unit)}</td></tr>
+        <tr><th>Setor/Ala auditado</th><td>${display(report.sector)}</td><th>Responsável pelo setor</th><td>${display(report.sectorResponsible)}</td></tr>
         <tr><th>Tipo de checklist</th><td>${display(report.auditType)}</td><th>Nome do auditor</th><td>${display(report.auditor.name)}</td></tr>
         <tr><th>Cargo/Função</th><td>${display(report.auditor.position ?? report.auditor.role)}</td><th>Data da auditoria</th><td>${formatDate(report.auditDate, false)}</td></tr>
         <tr><th>Horário de início</th><td>${formatDate(report.auditDate)}</td><th>Horário de término</th><td>${formatDate(report.finalizedAt)}</td></tr>
-        <tr><th>Número do relatório</th><td>${display(report.auditCode)}</td><th>Responsável pelo setor</th><td>${display(report.sectorResponsible)}</td></tr>
-        <tr><th>Unidade, setor ou leito</th><td>${display(report.unit)}</td><th>Método</th><td>${display(report.method)}</td></tr>
+        <tr><th>Número do relatório</th><td>${display(report.auditCode)}</td><th>Método</th><td>${display(report.method)}</td></tr>
       </tbody>
     </table>
 
@@ -366,6 +473,7 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
     <h2>Resumo executivo</h2>
     <div class="classification-box">
       <p><strong>Percentual de conformidade:</strong> ${report.summary.compliancePercentage}%</p>
+      <p><strong>Percentual de não conformidade:</strong> ${report.summary.nonCompliancePercentage}%</p>
       <p><strong>Classificação:</strong> ${display(report.summary.result)}</p>
       <p>${display(report.findings)}</p>
     </div>
@@ -385,12 +493,31 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
     <div class="page-footer">QualiSaúde Hospitalar - ${display(report.auditCode)} - 2026</div>
   </section>
 
+  ${report.interventions.length ? `
+  <section class="page">
+    <header class="content-header">
+      <img class="gov" src="${govLogo}" alt="Brasão" />
+      <div class="content-title"><strong>INTERVENÇÕES SUGERIDAS PARA AS NÃO CONFORMIDADES</strong><br />Apoio à análise e à tomada de decisão do auditor</div>
+      <img class="unifal" src="${unifalLogo}" alt="UNIFAL-MG" />
+    </header>
+
+    <h2>Intervenções sugeridas para as não conformidades</h2>
+    <p class="intervention-notice">
+      As intervenções abaixo são sugestões automáticas baseadas em regras rastreáveis. Elas não substituem a análise,
+      a validação nem a decisão profissional do auditor e da gestão responsável.
+    </p>
+    ${report.interventions.map(renderIntervention).join("")}
+    <div class="page-footer">QualiSaúde Hospitalar - ${display(report.auditCode)} - 2026</div>
+  </section>` : ""}
+
   <section class="page">
     <header class="content-header">
       <img class="gov" src="${govLogo}" alt="Brasão" />
       <div class="content-title"><strong>RECOMENDAÇÕES E PONTUAÇÃO</strong><br />Análise automática do relatório</div>
       <img class="unifal" src="${unifalLogo}" alt="UNIFAL-MG" />
     </header>
+
+    ${!report.interventions.length ? `<p class="intervention-notice">Nenhuma intervenção necessária, pois não foram identificadas não conformidades.</p>` : ""}
 
     <h2>3. Recomendações</h2>
     <table>
@@ -405,6 +532,24 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
       </tbody>
     </table>
 
+    <h2>Plano de ação gerado pela árvore de decisão</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Item não conforme</th>
+          <th>Tipo/Problema</th>
+          <th>Ação recomendada</th>
+          <th>Responsável</th>
+          <th>Prazo</th>
+          <th>Prioridade</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows(report.actionPlan, renderActionPlanItem, "Nenhuma intervenção necessária, pois não foram identificadas não conformidades.", 7)}
+      </tbody>
+    </table>
+
     <h2>Não conformidades identificadas</h2>
     <table>
       <thead><tr><th>#</th><th>Item</th><th>Observação</th><th>Evidência</th><th>Risco</th><th>Prioridade</th></tr></thead>
@@ -412,7 +557,7 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
         ${rows(
           report.nonConformities,
           (item, index) => `<tr><td>${index + 1}</td><td>${display(item.item)}</td><td>${display(item.observation)}</td><td>${display(item.evidence)}</td><td>${display(item.risk)}</td><td>${display(item.priority)}</td></tr>`,
-          "Não foram registradas não conformidades.",
+          "Não foram identificadas não conformidades nesta auditoria.",
           6
         )}
       </tbody>
@@ -425,6 +570,7 @@ export function renderAuditReportHtml(report: AuditReportDocument) {
       <div class="metric-card"><small>Não conformidades</small><strong>${report.summary.nonConformingItems}</strong></div>
       <div class="metric-card"><small>Não se aplica</small><strong>${report.summary.notApplicableItems}</strong></div>
       <div class="metric-card"><small>Percentual de conformidade</small><strong>${report.summary.compliancePercentage}%</strong></div>
+      <div class="metric-card"><small>Percentual de não conformidade</small><strong>${report.summary.nonCompliancePercentage}%</strong></div>
     </div>
     <div class="classification-box">
       <p><strong>Classificação:</strong> ${display(report.summary.result)}</p>

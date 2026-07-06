@@ -1,4 +1,5 @@
 import type { AccessUser } from "@/backend/infrastructure/auth/accessStore";
+import type { AuditIntervention } from "@/backend/application/reports/auditInterventionRules";
 
 export type AuditReportStatus = "Conforme" | "Não conforme" | "Não se aplica";
 
@@ -32,6 +33,7 @@ export type AuditReportSummary = {
   nonConformingItems: number;
   notApplicableItems: number;
   compliancePercentage: number;
+  nonCompliancePercentage: number;
   result: "Excelente conformidade" | "Boa conformidade" | "Conformidade parcial" | "Não conformidade crítica";
   finalOpinion: string;
 };
@@ -77,6 +79,7 @@ export type AuditReportDocument = {
   findings: string;
   recommendations: AuditRecommendation[];
   actionPlan: AuditActionPlan[];
+  interventions: AuditIntervention[];
   objective: string;
 };
 
