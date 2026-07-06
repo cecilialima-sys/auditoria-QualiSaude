@@ -1,10 +1,11 @@
 import { createHash } from "crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "fs";
 import { dirname, join, resolve } from "path";
 import type { AuditReportDocument, StoredAuditReport } from "@/backend/application/reports/auditReportTypes";
 
 const globalState = globalThis as typeof globalThis & {
   qualisaudeAuditReports?: StoredAuditReport[];
+  qualisaudeAuditReportsStoreMtimeMs?: number;
 };
 
 const dataDir = process.env.DATA_DIR ? resolve(process.env.DATA_DIR) : join(process.cwd(), "data");
@@ -16,6 +17,7 @@ const reportsDir = process.env.REPORTS_DIR ? resolve(process.env.REPORTS_DIR) : 
 function readPersistedReports() {
   if (!existsSync(storePath)) return [];
   try {
+    globalState.qualisaudeAuditReportsStoreMtimeMs = statSync(storePath).mtimeMs;
     return JSON.parse(readFileSync(storePath, "utf8")) as StoredAuditReport[];
   } catch {
     return [];
@@ -28,8 +30,13 @@ function saveReportMetadata() {
 }
 
 export function getStoredAuditReports() {
-  if (!globalState.qualisaudeAuditReports) {
+  const currentMtime = existsSync(storePath) ? statSync(storePath).mtimeMs : undefined;
+  if (
+    !globalState.qualisaudeAuditReports ||
+    currentMtime !== globalState.qualisaudeAuditReportsStoreMtimeMs
+  ) {
     globalState.qualisaudeAuditReports = readPersistedReports();
+    globalState.qualisaudeAuditReportsStoreMtimeMs = currentMtime;
   }
   return globalState.qualisaudeAuditReports;
 }
