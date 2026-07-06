@@ -343,7 +343,7 @@ export async function listChecklistAuditStatuses(): Promise<ChecklistAuditStatus
   const latestByChecklist = new Map<string, { audit: AuditWorkflowRecord; responses: AuditWorkflowResponseRecord[] }>();
   const latestReportByChecklist = new Map<string, { id: string }>();
 
-  getStoredAuditReports().forEach((report) => {
+  (await getStoredAuditReports()).forEach((report) => {
     if (!latestReportByChecklist.has(report.checklistId)) {
       latestReportByChecklist.set(report.checklistId, { id: report.id });
     }

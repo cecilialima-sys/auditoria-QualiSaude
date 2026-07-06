@@ -342,6 +342,29 @@ model AuditWorkflow {
   @@map("auditorias")
 }
 
+model AuditStoredReport {
+  id                   String   @id
+  auditCode            String   @unique @map("audit_code")
+  checklistId          String   @map("checklist_id")
+  sector               String
+  auditType            String   @map("audit_type")
+  auditorId            String   @map("auditor_id")
+  auditorName          String   @map("auditor_name")
+  compliancePercentage Int      @map("compliance_percentage")
+  result               String
+  generatedAt          DateTime @map("generated_at")
+  fileHash             String   @map("file_hash")
+  version              Int      @default(2)
+  documentJson         Json     @map("document_json")
+  htmlContent          String   @map("html_content")
+  pdfContent           Bytes    @map("pdf_content")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
+  @@index([checklistId])
+  @@map("audit_stored_reports")
+}
+
 model AuditWorkflowResponse {
   id             String        @id @default(cuid())
   auditId        String        @map("auditoria_id")

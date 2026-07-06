@@ -108,13 +108,13 @@ function buildFindings(items: AuditReportItemInput[], summary: AuditReportSummar
   return `${positiveText} Entretanto, foram observadas oportunidades de melhoria em ${gaps.join("; ")}, exigindo plano de ação e acompanhamento sistemático.`;
 }
 
-function previousNonConformityOccurrences(checklistId: string) {
+async function previousNonConformityOccurrences(checklistId: string) {
   const occurrences = new Map<string, number>();
 
-  getStoredAuditReports()
+  await Promise.all((await getStoredAuditReports())
     .filter((report) => report.checklistId === checklistId)
-    .forEach((storedReport) => {
-      const stored = readStoredAuditReportDocument(storedReport.id);
+    .map(async (storedReport) => {
+      const stored = await readStoredAuditReportDocument(storedReport.id);
       if (!stored) return;
 
       (stored.document.items ?? [])
@@ -122,7 +122,7 @@ function previousNonConformityOccurrences(checklistId: string) {
         .forEach((item) => {
           occurrences.set(item.questionId, (occurrences.get(item.questionId) ?? 0) + 1);
         });
-    });
+    }));
 
   return occurrences;
 }
@@ -170,7 +170,7 @@ export class AuditReportPdfService {
     const now = new Date().toISOString();
     const auditCode = `AUD-${now.slice(0, 10).replaceAll("-", "")}-${reportId.slice(0, 8).toUpperCase()}`;
     const summary = calculateSummary(input.responses);
-    const previousOccurrencesByQuestionId = previousNonConformityOccurrences(input.checklistId);
+    const previousOccurrencesByQuestionId = await previousNonConformityOccurrences(input.checklistId);
     const nonConformities = input.responses
       .filter((item) => item.status === "Não conforme")
       .map((item) => ({ ...item, gravity: gravityFromRisk(item.risk), priority: priorityFromRisk(item.risk) }));
@@ -214,7 +214,7 @@ export class AuditReportPdfService {
     if (!pdf.length) {
       throw new Error("Não foi possível gerar o relatório porque o PDF retornou vazio.");
     }
-    const stored = persistAuditReport(
+    const stored = await persistAuditReport(
       {
         id: reportId,
         auditCode,

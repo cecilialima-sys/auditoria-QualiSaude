@@ -10,7 +10,7 @@ type PageProps = {
 
 export default async function ReportPreviewPage({ params }: PageProps) {
   const { id } = await params;
-  const report = findStoredAuditReport(id);
+  const report = await findStoredAuditReport(id);
 
   if (!report) {
     return (

@@ -5,9 +5,10 @@ import { requirePermission } from "@/backend/presentation/middlewares/authorizat
 export async function GET(request: NextRequest) {
   const auth = await requirePermission(request, "reports.view");
   if (auth.response) return auth.response;
+  const reports = await getStoredAuditReports();
 
   return NextResponse.json({
-    reports: getStoredAuditReports().map((report) => ({
+    reports: reports.map((report) => ({
       id: report.id,
       auditCode: report.auditCode,
       sector: report.sector,

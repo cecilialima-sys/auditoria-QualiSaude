@@ -7,7 +7,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
   if (auth.response) return auth.response;
 
   const { id } = await context.params;
-  const stored = readStoredAuditReportPdf(id);
+  const stored = await readStoredAuditReportPdf(id);
   if (!stored) return NextResponse.json({ error: "Relatório não encontrado." }, { status: 404 });
 
   const download = request.nextUrl.searchParams.get("download") === "1";

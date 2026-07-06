@@ -23,7 +23,7 @@ export async function GET(request: NextRequest, context: Params) {
   if (auth.response) return auth.response;
 
   const { id } = await context.params;
-  const stored = readStoredAuditReportHtml(id);
+  const stored = await readStoredAuditReportHtml(id);
   if (!stored) return NextResponse.json({ error: "Relatorio nao encontrado ou sem HTML de preview." }, { status: 404 });
 
   const shouldPrint = request.nextUrl.searchParams.get("print") === "1";
