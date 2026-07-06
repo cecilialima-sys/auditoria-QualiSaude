@@ -1,5 +1,5 @@
 import { createHash } from "crypto";
-import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "fs";
 import { dirname, join, resolve } from "path";
 import type { AuditReportDocument, StoredAuditReport } from "@/backend/application/reports/auditReportTypes";
 import { getPrismaClient } from "@/backend/infrastructure/database/prismaClient";
@@ -152,6 +152,14 @@ export async function findStoredAuditReport(id: string) {
   return (await getStoredAuditReports()).find((report) => report.id === id);
 }
 
+function removeLocalReportFiles(report: StoredAuditReport) {
+  [report.filePath, report.documentPath, report.htmlPath]
+    .filter((path): path is string => Boolean(path))
+    .forEach((path) => {
+      if (existsSync(path)) rmSync(path, { force: true });
+    });
+}
+
 export async function readStoredAuditReportPdf(id: string) {
   const dbReport = await findDbReport(id);
   if (dbReport) {
@@ -225,4 +233,19 @@ export async function persistAuditReport(
   saveReportMetadata();
   await persistDbReport(stored, pdf, document, html);
   return stored;
+}
+
+export async function deleteStoredAuditReport(id: string) {
+  const report = await findStoredAuditReport(id);
+  if (!report) return null;
+
+  await withPrisma(async (prisma) => {
+    await (prisma as any).auditStoredReport.deleteMany({ where: { id } });
+  });
+
+  globalState.qualisaudeAuditReports = (globalState.qualisaudeAuditReports ?? readPersistedReports())
+    .filter((item) => item.id !== id);
+  saveReportMetadata();
+  removeLocalReportFiles(report);
+  return report;
 }

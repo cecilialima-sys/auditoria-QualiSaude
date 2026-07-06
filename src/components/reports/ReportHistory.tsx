@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Eye, FileDown } from "lucide-react";
+import { Eye, FileDown, Trash2 } from "lucide-react";
 
 type ReportListItem = {
   id: string;
@@ -24,6 +24,7 @@ export function ReportHistory() {
   const [reports, setReports] = useState<ReportListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [deletingId, setDeletingId] = useState("");
 
   useEffect(() => {
     fetch("/api/reports")
@@ -35,6 +36,26 @@ export function ReportHistory() {
       .catch((err) => setError(err instanceof Error ? err.message : "Erro ao carregar relatórios."))
       .finally(() => setLoading(false));
   }, []);
+
+  async function deleteReport(report: ReportListItem) {
+    const confirmed = window.confirm(`Excluir o relatório ${report.auditCode}? Esta ação não pode ser desfeita.`);
+    if (!confirmed) return;
+
+    setDeletingId(report.id);
+    setError("");
+    try {
+      const response = await fetch(`/api/reports/${encodeURIComponent(report.id)}`, {
+        method: "DELETE"
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error ?? "Não foi possível excluir o relatório.");
+      setReports((current) => current.filter((item) => item.id !== report.id));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro ao excluir relatório.");
+    } finally {
+      setDeletingId("");
+    }
+  }
 
   if (loading) {
     return (
@@ -91,6 +112,15 @@ export function ReportHistory() {
               <FileDown size={18} aria-hidden="true" />
               Baixar PDF
             </a>
+            <button
+              className="button secondary"
+              disabled={deletingId === report.id}
+              onClick={() => deleteReport(report)}
+              type="button"
+            >
+              <Trash2 size={18} aria-hidden="true" />
+              {deletingId === report.id ? "Excluindo..." : "Excluir"}
+            </button>
           </div>
         </article>
       ))}
