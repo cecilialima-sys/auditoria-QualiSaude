@@ -4,6 +4,7 @@ import type { AccessUser } from "@/backend/infrastructure/auth/accessStore";
 import { getPrismaClient } from "@/backend/infrastructure/database/prismaClient";
 import { resolveAuditScope } from "@/backend/application/reports/auditScope";
 import { getStoredAuditReports } from "@/backend/infrastructure/reports/auditReportStore";
+import { checklistQuestionInfo } from "@/lib/checklists/question-info";
 import { checklistTemplateGroups, type ChecklistGroup } from "@/lib/checklists/checklist-template";
 
 export type AuditWorkflowStatusApi = "rascunho" | "em_andamento" | "finalizada" | "sincronizacao_pendente" | "cancelada";
@@ -194,16 +195,19 @@ function serializeChecklist(group: ChecklistGroup) {
     titulo: group.category,
     setor: group.sector ?? group.category,
     sourceFile: group.sourceFile,
-    perguntas: group.questions.map((question) => ({
-      id: question.id,
-      text: question.text,
-      pergunta: question.pergunta,
-      criterion: question.criterion,
-      explicacao: question.explicacao,
-      explanation: question.explanation,
-      ordem: question.ordem,
-      obrigatoria: question.obrigatoria ?? true
-    }))
+    perguntas: group.questions.map((question) => {
+      const info = checklistQuestionInfo(question);
+      return {
+        id: question.id,
+        text: question.text,
+        pergunta: question.pergunta,
+        criterion: question.criterion,
+        explicacao: info,
+        explanation: info,
+        ordem: question.ordem,
+        obrigatoria: question.obrigatoria ?? true
+      };
+    })
   };
 }
 

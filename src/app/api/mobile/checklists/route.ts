@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requirePermission } from "@/backend/presentation/middlewares/authorization";
+import { checklistQuestionInfo } from "@/lib/checklists/question-info";
 import { checklistTemplateGroups } from "@/lib/checklists/checklist-template";
 
 export async function GET(request: NextRequest) {
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest) {
         checklistId: group.id,
         area: question.area,
         pergunta: question.pergunta,
-        explicacao: question.explicacao,
+        explicacao: checklistQuestionInfo(question),
         obrigatoria: question.obrigatoria ?? true,
         tipoResposta: question.tipoResposta ?? "sim_nao",
         ordem: question.ordem

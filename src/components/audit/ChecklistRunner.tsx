@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { FileDown, Printer, Save, Send } from "lucide-react";
 import { ChecklistQuestionInfo } from "@/components/audit/ChecklistQuestionInfo";
+import { checklistQuestionInfo } from "@/lib/checklists/question-info";
 import { auditStatuses, riskLevels } from "@/lib/constants/audit-data";
 import { calculateCompliance, countByStatus, intelligentConclusion, type AuditStatus } from "@/lib/utils/compliance";
 
@@ -114,6 +115,10 @@ function statusLabel(status: AuditDetails["auditoria"]["status"]) {
     cancelada: "Cancelada"
   };
   return labels[status] ?? status;
+}
+
+function questionInfoText(item: ChecklistQuestion) {
+  return checklistQuestionInfo(item);
 }
 
 function resizeTextarea(element: HTMLTextAreaElement) {
@@ -390,7 +395,7 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
                 <span className="badge">{auditDetails.checklist.titulo}</span>
                 <h3>
                   {item.text}
-                  {item.explanation || item.explicacao ? <ChecklistQuestionInfo explanation={item.explanation || item.explicacao || ""} /> : null}
+                  <ChecklistQuestionInfo explanation={questionInfoText(item)} />
                 </h3>
                 {item.criterion ? <p className="muted">{item.criterion}</p> : null}
               </div>
