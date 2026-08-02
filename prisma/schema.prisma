@@ -304,6 +304,42 @@ model Notification {
   @@map("notifications")
 }
 
+model CmeForm {
+  id                         String   @id @default(cuid())
+  recordDate                 DateTime @map("record_date")
+  recordTime                 String   @map("record_time")
+  responsible                String
+  sector                     String
+  unit                       String
+  recordType                 String   @map("record_type")
+  process                    String
+  equipment                  String
+  equipmentOtherDescription  String?  @map("equipment_other_description")
+  materialName               String   @map("material_name")
+  materialCode               String?  @map("material_code")
+  quantity                   Int
+  lot                        String?
+  materialNotes              String?  @map("material_notes")
+  chemicalIndicator          String   @map("chemical_indicator")
+  biologicalIndicator        String   @map("biological_indicator")
+  bowieDickTest              String   @map("bowie_dick_test")
+  nonConformities            Json     @default("[]") @map("non_conformities")
+  nonConformityOther         String?  @map("non_conformity_other")
+  generalNotes               String?  @map("general_notes")
+  signerName                 String   @map("signer_name")
+  signerRole                 String   @map("signer_role")
+  signatureDate              DateTime @map("signature_date")
+  signatureTime              String   @map("signature_time")
+  createdAt                  DateTime @default(now()) @map("created_at")
+  updatedAt                  DateTime @updatedAt @map("updated_at")
+
+  @@index([recordDate])
+  @@index([sector])
+  @@index([responsible])
+  @@index([process])
+  @@map("cme_forms")
+}
+
 model AuditLog {
   id        String   @id @default(cuid())
   userId    String   @map("user_id")

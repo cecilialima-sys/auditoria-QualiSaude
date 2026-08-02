@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ClipboardCheck } from "lucide-react";
 
@@ -26,13 +26,16 @@ export function NewAuditForm({ sectors, auditTypes, checklists }: Props) {
   const router = useRouter();
   const [setor, setSetor] = useState("");
   const [responsavelSetor, setResponsavelSetor] = useState("");
-  const [checklistId, setChecklistId] = useState("");
   const [tipoAuditoria, setTipoAuditoria] = useState("");
   const [observacoesIniciais, setObservacoesIniciais] = useState("");
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const checklist = useMemo(
+    () => checklists.find((item) => item.setor.localeCompare(setor, "pt-BR", { sensitivity: "base" }) === 0) ?? null,
+    [checklists, setor]
+  );
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -56,8 +59,8 @@ export function NewAuditForm({ sectors, auditTypes, checklists }: Props) {
       setError("Informe o responsável do setor.");
       return;
     }
-    if (!checklistId) {
-      setError("Selecione um checklist.");
+    if (!checklist) {
+      setError("Este setor ainda não possui um questionário configurado. Configure um questionário para o setor antes de iniciar a auditoria.");
       return;
     }
 
@@ -69,7 +72,6 @@ export function NewAuditForm({ sectors, auditTypes, checklists }: Props) {
         body: JSON.stringify({
           setor,
           responsavelSetor,
-          checklistId,
           tipoAuditoria,
           observacoesIniciais
         })
@@ -91,7 +93,15 @@ export function NewAuditForm({ sectors, auditTypes, checklists }: Props) {
       <div className="grid grid-3">
         <div className="field">
           <label htmlFor="audit-sector">Setor auditado</label>
-          <select className="input" id="audit-sector" value={setor} onChange={(event) => setSetor(event.target.value)}>
+          <select
+            className="input"
+            id="audit-sector"
+            value={setor}
+            onChange={(event) => {
+              setSetor(event.target.value);
+              setError("");
+            }}
+          >
             <option value="" disabled>Selecione o setor</option>
             {sectors.map((sector) => <option key={sector} value={sector}>{sector}</option>)}
           </select>
@@ -117,14 +127,13 @@ export function NewAuditForm({ sectors, auditTypes, checklists }: Props) {
         </div>
         <div className="field">
           <label htmlFor="audit-checklist">Checklist</label>
-          <select className="input" id="audit-checklist" value={checklistId} onChange={(event) => setChecklistId(event.target.value)}>
-            <option value="" disabled>Selecione o checklist</option>
-            {checklists.map((checklist) => (
-              <option key={checklist.id} value={checklist.id}>
-                {checklist.titulo} ({checklist.totalPerguntas} itens)
-              </option>
-            ))}
-          </select>
+          <input
+            aria-live="polite"
+            className="input"
+            id="audit-checklist"
+            readOnly
+            value={checklist ? `${checklist.titulo} (${checklist.totalPerguntas} itens)` : "Selecione um setor para carregar o questionário"}
+          />
         </div>
         <div className="field">
           <label htmlFor="audit-type">Tipo de auditoria</label>

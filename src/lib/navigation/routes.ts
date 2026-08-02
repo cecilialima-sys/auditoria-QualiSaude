@@ -1,6 +1,7 @@
 ﻿import {
   BarChart3,
   ClipboardCheck,
+  ClipboardList,
   FileText,
   Home,
   Hospital,
@@ -26,6 +27,7 @@ export const appRoutes: AppRoute[] = [
   { href: "/dashboard", label: "Dashboard", icon: Home, permission: "dashboard.view" },
   { href: "/sectors", label: "Setores", icon: Hospital, permission: "sectors.view" },
   { href: "/audits/new", label: "Auditoria", icon: ClipboardCheck, permission: "records.create" },
+  { href: "/cme", label: "Formulários CME", icon: ClipboardList, permission: "records.create" },
   { href: "/mobile/checklists.html", label: "Mobile offline", icon: Smartphone, permission: "checklists.view" },
   { href: "/reports", label: "Relatórios", icon: FileText, permission: "reports.view" },
   { href: "/metrics", label: "Métricas", icon: BarChart3, permission: "metrics.view" },
@@ -38,4 +40,3 @@ export const appRoutes: AppRoute[] = [
 ];
 
 export const mainFallbackRoutes = ["/welcome", "/dashboard", "/profile"];
-
