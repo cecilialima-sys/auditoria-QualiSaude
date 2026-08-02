@@ -88,6 +88,7 @@ export type AuditDashboardMetrics = {
 export type CreateAuditWorkflowInput = {
   setor?: string;
   responsavelSetor?: string;
+  /** @deprecated The checklist is resolved from the selected sector on the server. */
   checklistId?: string;
   tipoAuditoria?: string;
   observacoesIniciais?: string;
@@ -279,6 +280,29 @@ export function getChecklistCatalog() {
   }));
 }
 
+function normalizeSectorName(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLocaleLowerCase("pt-BR");
+}
+
+/** Returns the configured default checklist for a sector. */
+export function getChecklistForSector(sector: string) {
+  const normalizedSector = normalizeSectorName(sector);
+  if (!normalizedSector) return null;
+
+  return checklistTemplateGroups.find((group) => normalizeSectorName(group.sector ?? group.category) === normalizedSector) ?? null;
+}
+
+/** Sectors that currently have a default checklist configured. */
+export function getConfiguredAuditSectors() {
+  return Array.from(
+    new Set(checklistTemplateGroups.map((group) => (group.sector ?? group.category).trim()).filter(Boolean))
+  ).sort((first, second) => first.localeCompare(second, "pt-BR"));
+}
+
 function statusForWorkflow(audit?: AuditWorkflowRecord | null): ChecklistAuditStatus["status"] {
   if (!audit) return "nao_iniciado";
   if (audit.status === "finalizada") return "auditado";
@@ -407,7 +431,13 @@ export async function getAuditDashboardMetrics(): Promise<AuditDashboardMetrics>
 export async function createAuditWorkflow(input: CreateAuditWorkflowInput, user: AccessUser, ip?: string) {
   const setor = input.setor?.trim();
   const responsavelSetor = input.responsavelSetor?.trim();
-  const checklistId = input.checklistId?.trim();
+  const configuredChecklist = setor ? getChecklistForSector(setor) : null;
+  if (setor && !configuredChecklist) {
+    console.error("[audit-workflow] Sector without a configured default checklist", { setor });
+    throw new Error("Este setor ainda não possui um questionário configurado. Configure um questionário para o setor antes de iniciar a auditoria.");
+  }
+  // The association is resolved on the server, never from a client-provided id.
+  const checklistId = configuredChecklist?.id;
   if (!setor) throw new Error("Informe o setor auditado.");
   if (!responsavelSetor) throw new Error("Informe o responsável do setor.");
   if (!checklistId) throw new Error("Selecione um checklist.");
