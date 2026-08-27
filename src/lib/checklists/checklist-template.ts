@@ -8640,5 +8640,127 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
     }
 ];
 
+const cmeChecklistItems: Array<{ pergunta: string; explicacao: string }> = [
+  {
+    pergunta: "O CME possui identificação do serviço, responsável técnico e equipe com atribuições formalizadas?",
+    explicacao: "Verifique a identificação da Central de Material e Esterilização, a designação do responsável técnico e os registros de qualificação e atribuições dos profissionais."
+  },
+  {
+    pergunta: "O dimensionamento de profissionais, equipamentos e insumos atende à demanda do CME?",
+    explicacao: "Avalie escalas, disponibilidade de equipamentos, materiais, EPIs e plano de contingência para assegurar a continuidade das atividades."
+  },
+  {
+    pergunta: "A equipe recebe capacitação periódica sobre processamento de produtos para saúde?",
+    explicacao: "Confirme treinamentos documentados sobre limpeza, preparo, embalagem, esterilização, rastreabilidade, biossegurança e resposta a incidentes."
+  },
+  {
+    pergunta: "Existe controle da demanda, do recebimento e da devolução dos produtos para saúde?",
+    explicacao: "Verifique registros de entrada e saída, priorização de demandas e comunicação com as unidades assistenciais."
+  },
+  {
+    pergunta: "As condições estruturais, ambientais e de fluxo físico do CME são adequadas?",
+    explicacao: "Avalie segregação entre áreas suja e limpa, circulação, iluminação, ventilação, água, superfícies e condições de trabalho seguras."
+  },
+  {
+    pergunta: "O CME possui plano de contingência para falhas de equipamentos, energia, água ou aumento de demanda?",
+    explicacao: "Confirme plano atualizado, responsabilidades definidas, meios de comunicação e evidências de testes ou revisões periódicas."
+  },
+  {
+    pergunta: "Os equipamentos críticos possuem manutenção preventiva, calibração e registros atualizados?",
+    explicacao: "Verifique cronogramas, ordens de serviço, qualificações, testes de segurança e liberação dos equipamentos após intervenções."
+  },
+  {
+    pergunta: "Há qualificação e avaliação de fornecedores críticos de materiais e serviços?",
+    explicacao: "Avalie critérios de homologação, acompanhamento de desempenho, tratamento de desvios e registros de recebimento."
+  },
+  {
+    pergunta: "A equipe conhece e utiliza o fluxo de notificação de incidentes e eventos adversos?",
+    explicacao: "Verifique protocolos, registros de notificações, investigação, plano de ação e comunicação das lições aprendidas."
+  },
+  {
+    pergunta: "Existem medidas efetivas de prevenção e controle de infecções relacionadas ao processamento?",
+    explicacao: "Avalie protocolos, monitoramento de indicadores, higiene das mãos, limpeza ambiental e participação do SCIH quando aplicável."
+  },
+  {
+    pergunta: "A equipe utiliza corretamente os EPIs e segue práticas de biossegurança?",
+    explicacao: "Observe disponibilidade, uso, descarte e treinamento para EPIs, além de medidas para prevenção de acidentes ocupacionais."
+  },
+  {
+    pergunta: "Os critérios de segurança para limpeza, transporte, inspeção, preparo e armazenamento estão definidos e são seguidos?",
+    explicacao: "Verifique procedimentos operacionais, validações, identificação de materiais e monitoramento do cumprimento do fluxo."
+  },
+  {
+    pergunta: "O controle de qualidade da limpeza é realizado e documentado?",
+    explicacao: "Confirme inspeção visual, testes aplicáveis, critérios de aceitação, registros de não conformidade e ações corretivas."
+  },
+  {
+    pergunta: "Os critérios para inspeção, preparo, montagem, embalagem e selagem são cumpridos?",
+    explicacao: "Avalie integridade, funcionalidade, identificação, compatibilidade da embalagem e liberação do produto processado."
+  },
+  {
+    pergunta: "Os processos de esterilização são monitorados com indicadores físicos, químicos e biológicos?",
+    explicacao: "Verifique registros de ciclos, indicadores químicos e biológicos, teste Bowie-Dick quando aplicável, análise de resultados e conduta para falhas."
+  },
+  {
+    pergunta: "A rastreabilidade do processamento está garantida do recebimento à distribuição?",
+    explicacao: "Confirme identificação de carga, lote, equipamento, operador, ciclo, data, validade e unidade de destino."
+  },
+  {
+    pergunta: "Os produtos processados são liberados somente após critérios documentados de aceitação?",
+    explicacao: "Verifique a rotina de liberação, conferência dos parâmetros do ciclo, registros de responsável e segregação de materiais não conformes."
+  },
+  {
+    pergunta: "O transporte de materiais limpos, contaminados e esterilizados ocorre de forma segura?",
+    explicacao: "Avalie recipientes, carrinhos, identificação, rotas, higienização e prevenção de cruzamento entre fluxos limpo e sujo."
+  },
+  {
+    pergunta: "O armazenamento mantém a integridade e a validade dos produtos esterilizados?",
+    explicacao: "Verifique limpeza, organização, controle de temperatura e umidade quando aplicável, prazo de validade, estoque e inspeções periódicas."
+  },
+  {
+    pergunta: "Existe inventário atualizado de instrumentais e produtos para saúde?",
+    explicacao: "Avalie identificação, quantidade, condições de conservação, reposição, manutenção e controle de materiais em falta ou danificados."
+  },
+  {
+    pergunta: "A documentação dos processos do CME está atualizada, disponível e controlada?",
+    explicacao: "Verifique POPs, protocolos, formulários, versões vigentes, responsáveis e evidências de revisão periódica."
+  },
+  {
+    pergunta: "São monitorados indicadores de desempenho e qualidade do CME?",
+    explicacao: "Avalie indicadores de produtividade, não conformidades, tempo de processamento, falhas de ciclo, retrabalho e planos de melhoria."
+  },
+  {
+    pergunta: "As não conformidades do CME são analisadas e tratadas com ações corretivas?",
+    explicacao: "Confirme registros, análise de causa, definição de responsáveis, prazos, acompanhamento da efetividade e comunicação à equipe."
+  },
+  {
+    pergunta: "Há procedimentos para gerenciamento de resíduos e descarte seguro no CME?",
+    explicacao: "Verifique segregação, acondicionamento, identificação, coleta, armazenamento temporário e treinamento da equipe."
+  },
+  {
+    pergunta: "O CME realiza avaliação periódica de riscos e oportunidades de melhoria?",
+    explicacao: "Avalie rondas, auditorias internas, análise de riscos, planos de ação, registros de acompanhamento e revisão de processos."
+  }
+];
+
+checklistTemplateGroups.push({
+  id: "cme-central-material-esterilizacao",
+  sourceFile: "CME.pdf",
+  sector: "CME - Central de Material e Esterilização",
+  category: "Checklist CME - Central de Material e Esterilização",
+  questions: cmeChecklistItems.map((item, index) => ({
+    id: `cme-central-material-esterilizacao-r${String(index + 1).padStart(2, "0")}`,
+    area: "CME - Central de Material e Esterilização",
+    pergunta: item.pergunta,
+    explicacao: item.explicacao,
+    obrigatoria: true,
+    tipoResposta: "sim_nao",
+    ordem: index + 1,
+    text: item.pergunta,
+    criterion: "",
+    explanation: item.explicacao,
+    order: index + 1
+  }))
+});
 
 
