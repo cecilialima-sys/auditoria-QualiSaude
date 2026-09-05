@@ -21,6 +21,8 @@ export async function GET(request: NextRequest) {
         area: question.area,
         pergunta: question.pergunta,
         explicacao: checklistQuestionInfo(question),
+        section: question.section ?? group.category,
+        itemNumber: question.itemNumber ?? `${group.category.match(/^\d+(?:\.\d+)?/)?.[0] ?? ""}.${question.ordem}`,
         obrigatoria: question.obrigatoria ?? true,
         tipoResposta: question.tipoResposta ?? "sim_nao",
         ordem: question.ordem

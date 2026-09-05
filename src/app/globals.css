@@ -506,7 +506,8 @@ th {
 }
 
 .question-info:hover .question-info-content,
-.question-info:focus-within .question-info-content {
+.question-info:focus-within .question-info-content,
+.question-info.open .question-info-content {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);

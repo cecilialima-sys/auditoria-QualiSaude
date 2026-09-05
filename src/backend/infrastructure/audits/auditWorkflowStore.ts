@@ -205,6 +205,8 @@ function serializeChecklist(group: ChecklistGroup) {
         criterion: question.criterion,
         explicacao: info,
         explanation: info,
+        section: question.section ?? group.category,
+        itemNumber: question.itemNumber ?? `${group.category.match(/^\d+(?:\.\d+)?/)?.[0] ?? ""}.${question.ordem}`,
         ordem: question.ordem,
         obrigatoria: question.obrigatoria ?? true
       };

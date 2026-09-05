@@ -1,5 +1,7 @@
 ﻿export type ChecklistResponseType = "sim_nao" | "multipla_escolha" | "texto" | "numero" | "data";
 
+import { importedChecklistGroups } from "@/lib/checklists/imported-checklists";
+
 export type ChecklistQuestion = {
   id: string;
   area: string;
@@ -12,6 +14,8 @@ export type ChecklistQuestion = {
   criterion: string;
   explanation: string;
   order: number;
+  section?: string;
+  itemNumber?: string;
 };
 
 export type ChecklistGroup = {
@@ -8763,4 +8767,6 @@ checklistTemplateGroups.push({
   }))
 });
 
-
+// Os grupos importados usam IDs próprios e, portanto, mantêm as respostas
+// isoladas entre auditorias e entre as quatro modalidades do checklist 3.4.
+checklistTemplateGroups.push(...importedChecklistGroups);

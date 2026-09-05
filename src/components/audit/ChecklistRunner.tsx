@@ -47,6 +47,8 @@ type ChecklistQuestion = {
   criterion: string;
   explanation?: string;
   explicacao?: string;
+  section?: string;
+  itemNumber?: string;
   ordem: number;
 };
 
@@ -394,7 +396,7 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
               <div>
                 <span className="badge">{auditDetails.checklist.titulo}</span>
                 <h3>
-                  {item.text}
+                  {item.itemNumber && !item.text.startsWith(item.itemNumber) ? `${item.itemNumber} ` : ""}{item.text}
                   <ChecklistQuestionInfo explanation={questionInfoText(item)} />
                 </h3>
                 {item.criterion ? <p className="muted">{item.criterion}</p> : null}
