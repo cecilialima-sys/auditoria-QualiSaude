@@ -52,6 +52,15 @@ export type AuditWorkflowResponseRecord = {
   updatedAt: string;
 };
 
+export type AuditWorkflowTextDraftRecord = {
+  auditoriaId: string;
+  perguntaId: string;
+  campo: "observacao" | "evidencia";
+  valor: string;
+  revisao: number;
+  updatedAt: string;
+};
+
 export type AuditWorkflowMetrics = {
   totalItems: number;
   applicableItems: number;
@@ -120,6 +129,7 @@ type PersistedAuditWorkflowStore = {
   auditorias: AuditWorkflowRecord[];
   respostas: AuditWorkflowResponseRecord[];
   logs: AuditWorkflowLog[];
+  rascunhosTexto?: AuditWorkflowTextDraftRecord[];
 };
 
 type AuditWorkflowLog = {
@@ -167,7 +177,8 @@ function readPersistedStore(): PersistedAuditWorkflowStore {
     return {
       auditorias: parsed.auditorias ?? [],
       respostas: parsed.respostas ?? [],
-      logs: parsed.logs ?? []
+      logs: parsed.logs ?? [],
+      rascunhosTexto: parsed.rascunhosTexto ?? []
     };
   } catch {
     return { auditorias: [], respostas: [], logs: [] };
@@ -179,6 +190,17 @@ function getFileStore() {
     globalState.qualisaudeAuditWorkflowStore = readPersistedStore();
   }
   return globalState.qualisaudeAuditWorkflowStore;
+}
+
+function dbTextDraftToRecord(row: any): AuditWorkflowTextDraftRecord {
+  return {
+    auditoriaId: row.auditId,
+    perguntaId: row.questionId,
+    campo: row.field,
+    valor: row.value,
+    revisao: row.revision,
+    updatedAt: new Date(row.updatedAt).toISOString()
+  };
 }
 
 function saveFileStore() {
@@ -528,6 +550,62 @@ export async function getAuditWorkflowResponses(auditoriaId: string) {
   return getFileStore().respostas.filter((response) => response.auditoriaId === auditoriaId);
 }
 
+export async function getAuditWorkflowTextDrafts(auditoriaId: string) {
+  const prismaRecords = await withPrisma(async (prisma) => {
+    const rows = await (prisma as any).auditWorkflowTextDraft.findMany({ where: { auditId: auditoriaId } });
+    return rows.map(dbTextDraftToRecord) as AuditWorkflowTextDraftRecord[];
+  });
+  if (prismaRecords) return prismaRecords;
+  return (getFileStore().rascunhosTexto ?? []).filter((draft) => draft.auditoriaId === auditoriaId);
+}
+
+export async function saveAuditWorkflowTextDraft(
+  auditoriaId: string,
+  input: { perguntaId?: string; campo?: string; valor?: string; revisaoBase?: number },
+  user: AccessUser,
+  ip?: string
+) {
+  const auditoria = await getAuditWorkflow(auditoriaId);
+  if (!auditoria) throw new Error("Auditoria não encontrada.");
+  ensureOwner(auditoria, user);
+  if (auditoria.status === "finalizada" || auditoria.status === "cancelada") throw new Error("Esta auditoria não pode mais ser alterada.");
+  const checklist = checklistById(auditoria.checklistId);
+  if (!checklist?.questions.some((question) => question.id === input.perguntaId)) throw new Error("Item de checklist inválido.");
+  if (input.campo !== "observacao" && input.campo !== "evidencia") throw new Error("Campo de rascunho inválido.");
+  if (typeof input.valor !== "string" || input.valor.length > 20_000) throw new Error("O texto do rascunho é inválido ou excede o limite permitido.");
+  const base = Number.isInteger(input.revisaoBase) && input.revisaoBase! >= 0 ? input.revisaoBase! : 0;
+
+  const saved = await withPrisma(async (prisma) => {
+    const existing = await (prisma as any).auditWorkflowTextDraft.findUnique({
+      where: { auditId_questionId_field: { auditId: auditoriaId, questionId: input.perguntaId, field: input.campo } }
+    });
+    if (!existing) {
+      if (base !== 0) return { conflict: true as const, draft: null };
+      const row = await (prisma as any).auditWorkflowTextDraft.create({
+        data: { auditId: auditoriaId, questionId: input.perguntaId, field: input.campo, value: input.valor, revision: 1 }
+      });
+      return { conflict: false as const, draft: dbTextDraftToRecord(row) };
+    }
+    if (existing.revision !== base) return { conflict: true as const, draft: dbTextDraftToRecord(existing) };
+    const row = await (prisma as any).auditWorkflowTextDraft.update({
+      where: { id: existing.id }, data: { value: input.valor, revision: { increment: 1 } }
+    });
+    return { conflict: false as const, draft: dbTextDraftToRecord(row) };
+  });
+  if (saved) return saved;
+
+  const store = getFileStore();
+  store.rascunhosTexto ??= [];
+  const existing = store.rascunhosTexto.find((draft) => draft.auditoriaId === auditoriaId && draft.perguntaId === input.perguntaId && draft.campo === input.campo);
+  if (existing && existing.revisao !== base) return { conflict: true as const, draft: existing };
+  const now = new Date().toISOString();
+  const draft: AuditWorkflowTextDraftRecord = { auditoriaId, perguntaId: input.perguntaId!, campo: input.campo, valor: input.valor!, revisao: base + 1, updatedAt: now };
+  if (existing) Object.assign(existing, draft); else store.rascunhosTexto.push(draft);
+  appendFileLog(auditoriaId, user, "RESPONSES_SAVED", ip);
+  saveFileStore();
+  return { conflict: false as const, draft };
+}
+
 export async function listUnfinishedAuditWorkflows(user: AccessUser) {
   const unfinishedStatuses = ["DRAFT", "IN_PROGRESS", "SYNC_PENDING"];
   const prismaRecords = await withPrisma(async (prisma) => {
@@ -557,7 +635,8 @@ export async function getAuditWorkflowDetails(id: string, user: AccessUser) {
   return {
     auditoria,
     checklist: serializeChecklist(checklist),
-    respostas: await getAuditWorkflowResponses(id)
+    respostas: await getAuditWorkflowResponses(id),
+    rascunhosTexto: await getAuditWorkflowTextDrafts(id)
   };
 }
 

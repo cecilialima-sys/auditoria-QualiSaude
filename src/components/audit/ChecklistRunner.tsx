@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { FileDown, Printer, Save, Send, Sparkles } from "lucide-react";
 import { ChecklistQuestionInfo } from "@/components/audit/ChecklistQuestionInfo";
@@ -88,10 +88,15 @@ type AuditDetails = {
     fonteEvidenciaFinal?: "original" | "ia" | "manual";
     risco?: string;
   }>;
+  rascunhosTexto?: Array<{ perguntaId: string; campo: "observacao" | "evidencia"; valor: string; revisao: number; updatedAt: string }>;
 };
 
-function emptyResponses(questions: ChecklistQuestion[], saved: AuditDetails["respostas"] = []) {
+type TextField = "observation" | "evidence";
+type FieldSync = "idle" | "dirty" | "saving" | "saved" | "error" | "conflict";
+
+function emptyResponses(questions: ChecklistQuestion[], saved: AuditDetails["respostas"] = [], drafts: NonNullable<AuditDetails["rascunhosTexto"]> = []) {
   const savedByQuestion = new Map(saved.map((response) => [response.perguntaId, response]));
+  const draftsByField = new Map(drafts.map((draft) => [`${draft.perguntaId}:${draft.campo}`, draft]));
   return Object.fromEntries(
     questions.map((question) => {
       const current = savedByQuestion.get(question.id);
@@ -99,8 +104,8 @@ function emptyResponses(questions: ChecklistQuestion[], saved: AuditDetails["res
         question.id,
         {
           status: current?.resposta ?? "",
-          observation: current?.observacao ?? "",
-          evidence: current?.evidenciaOriginal ?? current?.evidencia ?? "",
+          observation: draftsByField.get(`${question.id}:observacao`)?.valor ?? current?.observacao ?? "",
+          evidence: draftsByField.get(`${question.id}:evidencia`)?.valor ?? current?.evidenciaOriginal ?? current?.evidencia ?? "",
           aiSuggestion: current?.evidenciaIa ?? "",
           finalEvidence: current?.evidenciaFinal ?? "",
           finalEvidenceSource: current?.fonteEvidenciaFinal ?? "",
@@ -152,6 +157,11 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
   const [lastReport, setLastReport] = useState<GeneratedReport | null>(null);
   const [improvingEvidenceIds, setImprovingEvidenceIds] = useState<Record<string, boolean>>({});
   const [improvingAllEvidence, setImprovingAllEvidence] = useState(false);
+  const [fieldSync, setFieldSync] = useState<Record<string, FieldSync>>({});
+  const [recoveryDrafts, setRecoveryDrafts] = useState<Record<string, { value: string; updatedAt: number }>>({});
+  const queuesRef = useRef<Record<string, { value: string; revision: number; serverRevision: number; confirmed: string; timer?: ReturnType<typeof setTimeout>; running?: Promise<void>; attempts: number }>>({});
+  const responsesRef = useRef(responses);
+  const hydratedRef = useRef(false);
 
   const selectedItems = auditDetails?.checklist.perguntas ?? [];
   const auditFinalized = auditDetails?.auditoria.status === "finalizada";
@@ -190,11 +200,28 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
       })
       .then((data) => {
         setAuditDetails(data);
-        setResponses(emptyResponses(data.checklist.perguntas, data.respostas));
+        const initial = emptyResponses(data.checklist.perguntas, data.respostas, data.rascunhosTexto);
+        const queues: typeof queuesRef.current = {};
+        const local: Record<string, { value: string; updatedAt: number }> = {};
+        (data.rascunhosTexto ?? []).forEach((draft) => {
+          const key = `${draft.perguntaId}:${draft.campo}`;
+          queues[key] = { value: draft.valor, confirmed: draft.valor, revision: draft.revisao, serverRevision: draft.revisao, attempts: 0 };
+          try {
+            const backup = JSON.parse(localStorage.getItem(`auditDraft:${data.auditoria.id}:${key}`) ?? "null");
+            if (backup?.value !== draft.valor && Number(backup?.updatedAt) > new Date(draft.updatedAt).getTime()) local[key] = backup;
+          } catch { /* Backup local inválido não bloqueia a auditoria. */ }
+        });
+        queuesRef.current = queues;
+        responsesRef.current = initial;
+        setResponses(initial);
+        setRecoveryDrafts(local);
+        hydratedRef.current = true;
       })
       .catch((error) => setReportError(error instanceof Error ? error.message : "Não foi possível carregar a auditoria."))
       .finally(() => setLoadingAudit(false));
   }, [auditId]);
+
+  useEffect(() => { responsesRef.current = responses; }, [responses]);
 
   useEffect(() => {
     document.querySelectorAll<HTMLTextAreaElement>("textarea[data-autogrow='true']").forEach(resizeTextarea);
@@ -219,6 +246,86 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
     setDraftMessage("");
   }
 
+  function fieldKey(questionId: string, field: TextField) { return `${questionId}:${field === "observation" ? "observacao" : "evidencia"}`; }
+
+  async function processTextDraft(key: string, questionId: string, field: TextField) {
+    const queue = queuesRef.current[key];
+    if (!queue || queue.running || !auditId) return queue?.running;
+    queue.running = (async () => {
+      while (queue.value !== queue.confirmed) {
+        const value = queue.value;
+        const revision = queue.serverRevision;
+        setFieldSync((current) => ({ ...current, [key]: "saving" }));
+        try {
+          const response = await fetch(`/api/auditorias/${encodeURIComponent(auditId)}/rascunhos-texto`, {
+            method: "PATCH", headers: { "Content-Type": "application/json" }, keepalive: true,
+            body: JSON.stringify({ perguntaId: questionId, campo: field === "observation" ? "observacao" : "evidencia", valor: value, revisaoBase: revision })
+          });
+          const data = await response.json();
+          if (response.status === 409) { setFieldSync((current) => ({ ...current, [key]: "conflict" })); return; }
+          if (!response.ok) throw new Error(data.error ?? "Falha no autosave");
+          queue.serverRevision = data.draft.revisao;
+          queue.confirmed = value;
+          queue.attempts = 0;
+          localStorage.removeItem(`auditDraft:${auditId}:${key}`);
+          setFieldSync((current) => ({ ...current, [key]: queue.value === value ? "saved" : "dirty" }));
+        } catch {
+          queue.attempts += 1;
+          setFieldSync((current) => ({ ...current, [key]: "error" }));
+          if (queue.attempts <= 2) window.setTimeout(() => void processTextDraft(key, questionId, field), 3000 * queue.attempts);
+          return;
+        }
+      }
+    })().finally(() => { queue.running = undefined; });
+    return queue.running;
+  }
+
+  function scheduleTextDraft(questionId: string, field: TextField, value: string, immediate = false) {
+    if (!auditId || !hydratedRef.current || auditFinalized) return;
+    const key = fieldKey(questionId, field);
+    const queue = queuesRef.current[key] ?? { value: "", confirmed: "", revision: 0, serverRevision: 0, attempts: 0 };
+    queue.value = value;
+    queue.revision += 1;
+    queuesRef.current[key] = queue;
+    localStorage.setItem(`auditDraft:${auditId}:${key}`, JSON.stringify({ value, updatedAt: Date.now() }));
+    setFieldSync((current) => ({ ...current, [key]: "dirty" }));
+    if (queue.timer) clearTimeout(queue.timer);
+    if (immediate) void processTextDraft(key, questionId, field);
+    else queue.timer = setTimeout(() => void processTextDraft(key, questionId, field), 1000);
+  }
+
+  function updateText(id: string, field: TextField, value: string) {
+    update(id, { [field]: value });
+    scheduleTextDraft(id, field, value);
+  }
+
+  async function flushTextDrafts() {
+    await Promise.all(Object.keys(queuesRef.current).map((key) => {
+      const [questionId, campo] = key.split(":");
+      const field = campo === "observacao" ? "observation" : "evidence";
+      const queue = queuesRef.current[key];
+      if (queue.timer) clearTimeout(queue.timer);
+      return processTextDraft(key, questionId, field);
+    }));
+  }
+
+  function restoreLocalDrafts() {
+    Object.entries(recoveryDrafts).forEach(([key, draft]) => {
+      const [questionId, campo] = key.split(":");
+      const field = campo === "observacao" ? "observation" : "evidence";
+      setResponses((current) => ({ ...current, [questionId]: { ...current[questionId], [field]: draft.value } }));
+      scheduleTextDraft(questionId, field, draft.value, true);
+    });
+    setRecoveryDrafts({});
+  }
+
+  useEffect(() => {
+    const flush = () => { void flushTextDrafts(); };
+    window.addEventListener("pagehide", flush);
+    window.addEventListener("online", flush);
+    return () => { window.removeEventListener("pagehide", flush); window.removeEventListener("online", flush); };
+  });
+
   function payloadResponses(includeOnlyAnswered = true) {
     return selectedItems
       .map((item) => ({ item, response: responses[item.id] }))
@@ -242,6 +349,10 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
     setReportError("");
     setSavingDraft(true);
     try {
+      await flushTextDrafts();
+      if (Object.values(queuesRef.current).some((queue) => queue.value !== queue.confirmed)) {
+        throw new Error("Há textos que ainda não foram confirmados pelo servidor. Verifique os campos sinalizados antes de continuar.");
+      }
       const draftResponses = payloadResponses(true);
       const response = await fetch(`/api/auditorias/${encodeURIComponent(auditId)}/respostas`, {
         method: "POST",
@@ -373,6 +484,10 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
 
     setLoadingReport(true);
     try {
+      await flushTextDrafts();
+      if (Object.values(queuesRef.current).some((queue) => queue.value !== queue.confirmed)) {
+        throw new Error("Há textos pendentes de salvamento. Aguarde a confirmação antes de finalizar.");
+      }
       const response = await fetch(`/api/auditorias/${encodeURIComponent(auditId)}/finalizar`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -428,6 +543,16 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
 
   return (
     <div className="grid">
+      {Object.keys(recoveryDrafts).length ? (
+        <section className="card" aria-live="polite">
+          <strong>Encontramos {Object.keys(recoveryDrafts).length} rascunho(s) local(is) mais recente(s).</strong>
+          <p className="muted">Esses textos não foram descartados. Você pode restaurá-los e sincronizá-los com o servidor.</p>
+          <div className="button-row">
+            <button className="button secondary" onClick={restoreLocalDrafts} type="button">Restaurar rascunhos</button>
+            <button className="button secondary" onClick={() => setRecoveryDrafts({})} type="button">Manter versão salva</button>
+          </div>
+        </section>
+      ) : null}
       <section className="card" aria-labelledby="audit-context-title">
         <h2 className="section-title" id="audit-context-title">Auditoria em andamento</h2>
         <div className="grid grid-4">
@@ -550,10 +675,12 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
                   rows={1}
                   value={responses[item.id]?.observation ?? ""}
                   onChange={(event) => {
-                    update(item.id, { observation: event.target.value });
+                    updateText(item.id, "observation", event.target.value);
                     resizeTextarea(event.currentTarget);
                   }}
+                  onBlur={() => scheduleTextDraft(item.id, "observation", responsesRef.current[item.id]?.observation ?? "", true)}
                 />
+                {fieldSync[fieldKey(item.id, "observation")] ? <small className="muted">{fieldSync[fieldKey(item.id, "observation")] === "saving" ? "Salvando..." : fieldSync[fieldKey(item.id, "observation")] === "saved" ? "Salvo automaticamente ✓" : fieldSync[fieldKey(item.id, "observation")] === "conflict" ? "Alterado em outra sessão. Revise antes de substituir." : fieldSync[fieldKey(item.id, "observation")] === "error" ? "Erro ao salvar. Tentaremos novamente." : "Alteração pendente"}</small> : null}
               </div>
               <div className="field field-wide">
                 <label htmlFor={`${item.id}-evidence`}>Evidência original, se houver</label>
@@ -567,15 +694,17 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
                   onChange={(event) => {
                     // Alterar a evidência de origem exige uma nova revisão; uma sugestão
                     // baseada no texto anterior não pode ser reutilizada silenciosamente.
+                    updateText(item.id, "evidence", event.target.value);
                     update(item.id, {
-                      evidence: event.target.value,
                       aiSuggestion: "",
                       finalEvidence: "",
                       finalEvidenceSource: ""
                     });
                     resizeTextarea(event.currentTarget);
                   }}
+                  onBlur={() => scheduleTextDraft(item.id, "evidence", responsesRef.current[item.id]?.evidence ?? "", true)}
                 />
+                {fieldSync[fieldKey(item.id, "evidence")] ? <small className="muted">{fieldSync[fieldKey(item.id, "evidence")] === "saving" ? "Salvando..." : fieldSync[fieldKey(item.id, "evidence")] === "saved" ? "Salvo automaticamente ✓" : fieldSync[fieldKey(item.id, "evidence")] === "conflict" ? "Alterado em outra sessão. Revise antes de substituir." : fieldSync[fieldKey(item.id, "evidence")] === "error" ? "Erro ao salvar. Tentaremos novamente." : "Alteração pendente"}</small> : null}
                 <div className="button-row" style={{ marginTop: 8 }}>
                   <button
                     className="button secondary"

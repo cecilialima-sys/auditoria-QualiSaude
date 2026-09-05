@@ -374,6 +374,7 @@ model AuditWorkflow {
   createdAt            DateTime            @default(now()) @map("created_at")
   updatedAt            DateTime            @updatedAt @map("updated_at")
   responses            AuditWorkflowResponse[]
+  textDrafts           AuditWorkflowTextDraft[]
 
   @@map("auditorias")
 }
@@ -426,4 +427,19 @@ model AuditWorkflowResponse {
 
   @@unique([auditId, questionId])
   @@map("auditoria_respostas")
+}
+
+model AuditWorkflowTextDraft {
+  id        String        @id @default(cuid())
+  auditId   String        @map("auditoria_id")
+  audit     AuditWorkflow @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  questionId String       @map("pergunta_id")
+  field     String
+  value     String        @default("")
+  revision  Int           @default(0)
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  @@unique([auditId, questionId, field])
+  @@map("auditoria_rascunhos_texto")
 }
