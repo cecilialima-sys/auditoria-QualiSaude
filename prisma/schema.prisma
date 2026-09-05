@@ -411,6 +411,13 @@ model AuditWorkflowResponse {
   status         String
   observation    String?       @map("observacao")
   evidence       String?       @map("evidencia")
+  evidenceOriginal String?     @map("evidencia_original")
+  evidenceAiSuggestion String? @map("evidencia_ia")
+  evidenceFinal  String?       @map("evidencia_final")
+  evidenceFinalSource String?  @map("fonte_evidencia_final")
+  evidenceFinalApprovedById String? @map("evidencia_final_por")
+  evidenceFinalApprovedAt DateTime? @map("evidencia_final_at")
+  evidenceAiUpdatedAt DateTime? @map("evidencia_ia_at")
   risk           String?       @map("risco")
   localId        String?       @unique @map("id_local")
   synced         Boolean       @default(true) @map("sincronizado")

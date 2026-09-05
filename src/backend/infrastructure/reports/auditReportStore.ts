@@ -68,11 +68,13 @@ function dbReportToStored(row: any): StoredAuditReport {
   };
 }
 
-function mergeReports(primary: StoredAuditReport[], fallback: StoredAuditReport[]) {
-  const seen = new Set(primary.map((report) => report.id));
+function mergeReports(primary: StoredAuditReport[] | null | undefined, fallback: StoredAuditReport[] | null | undefined) {
+  const primaryReports = primary ?? [];
+  const fallbackReports = fallback ?? [];
+  const seen = new Set(primaryReports.map((report) => report.id));
   return [
-    ...primary,
-    ...fallback.filter((report) => !seen.has(report.id))
+    ...primaryReports,
+    ...fallbackReports.filter((report) => !seen.has(report.id))
   ].sort((a, b) => new Date(b.generatedAt).getTime() - new Date(a.generatedAt).getTime());
 }
 
@@ -145,7 +147,7 @@ export async function getStoredAuditReports() {
 
   const dbReports = await readDbReports();
   if (!dbReports) return globalState.qualisaudeAuditReports;
-  return mergeReports(dbReports, globalState.qualisaudeAuditReports);
+  return mergeReports(dbReports, globalState.qualisaudeAuditReports ?? []);
 }
 
 export async function findStoredAuditReport(id: string) {

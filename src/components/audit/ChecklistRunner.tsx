@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { FileDown, Printer, Save, Send } from "lucide-react";
+import { FileDown, Printer, Save, Send, Sparkles } from "lucide-react";
 import { ChecklistQuestionInfo } from "@/components/audit/ChecklistQuestionInfo";
 import { checklistQuestionInfo } from "@/lib/checklists/question-info";
 import { auditStatuses, riskLevels } from "@/lib/constants/audit-data";
@@ -12,6 +12,9 @@ type ResponseState = {
   status: AuditStatus | "";
   observation: string;
   evidence: string;
+  aiSuggestion: string;
+  finalEvidence: string;
+  finalEvidenceSource: "original" | "ia" | "manual" | "";
   risk: string;
 };
 
@@ -79,6 +82,10 @@ type AuditDetails = {
     resposta: AuditStatus;
     observacao?: string;
     evidencia?: string;
+    evidenciaOriginal?: string;
+    evidenciaIa?: string;
+    evidenciaFinal?: string;
+    fonteEvidenciaFinal?: "original" | "ia" | "manual";
     risco?: string;
   }>;
 };
@@ -93,7 +100,10 @@ function emptyResponses(questions: ChecklistQuestion[], saved: AuditDetails["res
         {
           status: current?.resposta ?? "",
           observation: current?.observacao ?? "",
-          evidence: current?.evidencia ?? "",
+          evidence: current?.evidenciaOriginal ?? current?.evidencia ?? "",
+          aiSuggestion: current?.evidenciaIa ?? "",
+          finalEvidence: current?.evidenciaFinal ?? "",
+          finalEvidenceSource: current?.fonteEvidenciaFinal ?? "",
           risk: current?.risco ?? "Baixo"
         } satisfies ResponseState
       ];
@@ -140,6 +150,8 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
   const [reportError, setReportError] = useState("");
   const [draftMessage, setDraftMessage] = useState("");
   const [lastReport, setLastReport] = useState<GeneratedReport | null>(null);
+  const [improvingEvidenceIds, setImprovingEvidenceIds] = useState<Record<string, boolean>>({});
+  const [improvingAllEvidence, setImprovingAllEvidence] = useState(false);
 
   const selectedItems = auditDetails?.checklist.perguntas ?? [];
   const auditFinalized = auditDetails?.auditoria.status === "finalizada";
@@ -217,6 +229,10 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
         status: response?.status || "",
         observacao: response?.observation || "",
         evidencia: response?.evidence || "",
+        evidenciaOriginal: response?.evidence || "",
+        evidenciaIa: response?.aiSuggestion || "",
+        evidenciaFinal: response?.finalEvidence || "",
+        fonteEvidenciaFinal: response?.finalEvidenceSource || undefined,
         risco: response?.risk || ""
       }));
   }
@@ -240,6 +256,98 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
       setReportError(error instanceof Error ? error.message : "Não foi possível salvar respostas.");
     } finally {
       setSavingDraft(false);
+    }
+  }
+
+  async function improveEvidence(item: ChecklistQuestion) {
+    if (!auditId || auditFinalized) return;
+    const current = responses[item.id];
+    if (!current?.evidence.trim()) {
+      setReportError("Adicione uma evidência antes de utilizar a melhoria por IA.");
+      return;
+    }
+    if (!current.status) {
+      setReportError("Selecione a classificação do item antes de melhorar a evidência.");
+      return;
+    }
+
+    setReportError("");
+    setImprovingEvidenceIds((ids) => ({ ...ids, [item.id]: true }));
+    try {
+      const response = await fetch(`/api/auditorias/${encodeURIComponent(auditId)}/evidencias/ia`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          evidencias: [{
+            perguntaId: item.id,
+            resposta: current.status,
+            evidenciaOriginal: current.evidence,
+            observacao: current.observation,
+            risco: current.risk
+          }]
+        })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error ?? "Não foi possível melhorar a evidência.");
+      const suggestion = data.resultados?.[0]?.sugestao;
+      if (!suggestion) throw new Error(data.resultados?.[0]?.error ?? "A IA não retornou uma sugestão.");
+      update(item.id, { aiSuggestion: suggestion });
+      setDirty(false);
+      setDraftMessage("Sugestão da IA gerada. Revise e escolha a versão que entrará no relatório.");
+    } catch (error) {
+      setReportError(error instanceof Error ? error.message : "Não foi possível melhorar a evidência.");
+    } finally {
+      setImprovingEvidenceIds((ids) => ({ ...ids, [item.id]: false }));
+    }
+  }
+
+  async function improveAllEvidence() {
+    if (!auditId || auditFinalized || improvingAllEvidence) return;
+    const evidences = selectedItems
+      .map((item) => ({ item, response: responses[item.id] }))
+      .filter(({ response }) => Boolean(response?.status && response.evidence.trim()))
+      .map(({ item, response }) => ({
+        perguntaId: item.id,
+        resposta: response.status,
+        evidenciaOriginal: response.evidence,
+        observacao: response.observation,
+        risco: response.risk
+      }));
+    if (!evidences.length) {
+      setReportError("Adicione ao menos uma evidência e selecione a classificação do item antes de melhorar todas.");
+      return;
+    }
+
+    setReportError("");
+    setImprovingAllEvidence(true);
+    try {
+      const response = await fetch(`/api/auditorias/${encodeURIComponent(auditId)}/evidencias/ia`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ evidencias: evidences })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error ?? "Não foi possível melhorar as evidências.");
+      const suggestions = new Map<string, string>(
+        (data.resultados ?? [])
+          .filter((result: { perguntaId?: string; sugestao?: string }) => result.perguntaId && result.sugestao)
+          .map((result: { perguntaId: string; sugestao: string }) => [result.perguntaId, result.sugestao])
+      );
+      setResponses((current) => Object.fromEntries(Object.entries(current).map(([id, item]) => [
+        id,
+        suggestions.has(id) ? { ...item, aiSuggestion: suggestions.get(id)! } : item
+      ])));
+      setDirty(false);
+      const failures = (data.resultados ?? []).filter((result: { error?: string }) => result.error).length;
+      setDraftMessage(
+        failures
+          ? "As sugestões disponíveis foram geradas; algumas evidências não puderam ser processadas. Revise cada item."
+          : "Sugestões geradas. Revise cada evidência antes de finalizar a auditoria."
+      );
+    } catch (error) {
+      setReportError(error instanceof Error ? error.message : "Não foi possível melhorar as evidências.");
+    } finally {
+      setImprovingAllEvidence(false);
     }
   }
 
@@ -448,7 +556,7 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
                 />
               </div>
               <div className="field field-wide">
-                <label htmlFor={`${item.id}-evidence`}>Evidência, se houver</label>
+                <label htmlFor={`${item.id}-evidence`}>Evidência original, se houver</label>
                 <textarea
                   className="input textarea-autogrow"
                   data-autogrow="true"
@@ -457,10 +565,83 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
                   rows={1}
                   value={responses[item.id]?.evidence ?? ""}
                   onChange={(event) => {
-                    update(item.id, { evidence: event.target.value });
+                    // Alterar a evidência de origem exige uma nova revisão; uma sugestão
+                    // baseada no texto anterior não pode ser reutilizada silenciosamente.
+                    update(item.id, {
+                      evidence: event.target.value,
+                      aiSuggestion: "",
+                      finalEvidence: "",
+                      finalEvidenceSource: ""
+                    });
                     resizeTextarea(event.currentTarget);
                   }}
                 />
+                <div className="button-row" style={{ marginTop: 8 }}>
+                  <button
+                    className="button secondary"
+                    disabled={auditFinalized || Boolean(improvingEvidenceIds[item.id])}
+                    onClick={() => improveEvidence(item)}
+                    type="button"
+                  >
+                    <Sparkles size={16} aria-hidden="true" />
+                    {improvingEvidenceIds[item.id] ? "Melhorando redação..." : "Melhorar com IA"}
+                  </button>
+                </div>
+                {responses[item.id]?.aiSuggestion ? (
+                  <section className="card" style={{ marginTop: 12, background: "#f6fbff", boxShadow: "none" }} aria-label={`Revisão da sugestão de IA para ${item.text}`}>
+                    <strong>✨ Sugestão de redação da IA</strong>
+                    <p className="muted" style={{ margin: "6px 0" }}>Revise e edite livremente antes de escolher a versão final.</p>
+                    <textarea
+                      className="input textarea-autogrow"
+                      data-autogrow="true"
+                      disabled={auditFinalized}
+                      id={`${item.id}-ai-evidence`}
+                      rows={3}
+                      value={responses[item.id]?.aiSuggestion ?? ""}
+                      onChange={(event) => {
+                        update(item.id, { aiSuggestion: event.target.value });
+                        resizeTextarea(event.currentTarget);
+                      }}
+                    />
+                    <div className="button-row" style={{ marginTop: 8 }}>
+                      <button
+                        className="button secondary"
+                        disabled={auditFinalized}
+                        onClick={() => update(item.id, {
+                          finalEvidence: responses[item.id]?.aiSuggestion ?? "",
+                          finalEvidenceSource: "ia"
+                        })}
+                        type="button"
+                      >
+                        Usar versão da IA
+                      </button>
+                      <button
+                        className="button secondary"
+                        disabled={auditFinalized}
+                        onClick={() => update(item.id, {
+                          finalEvidence: responses[item.id]?.evidence ?? "",
+                          finalEvidenceSource: "original"
+                        })}
+                        type="button"
+                      >
+                        Manter original
+                      </button>
+                      <button
+                        className="button secondary"
+                        disabled={auditFinalized || Boolean(improvingEvidenceIds[item.id])}
+                        onClick={() => improveEvidence(item)}
+                        type="button"
+                      >
+                        Gerar novamente
+                      </button>
+                    </div>
+                  </section>
+                ) : null}
+                {responses[item.id]?.finalEvidence ? (
+                  <p className="muted" style={{ margin: "8px 0 0" }}>
+                    ✨ Texto {responses[item.id]?.finalEvidenceSource === "original" ? "original confirmado" : "aprimorado com IA"} para o relatório.
+                  </p>
+                ) : null}
               </div>
             </div>
           </article>
@@ -475,6 +656,15 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
           <div>Não aplicáveis: <strong>{counts["Não se aplica"] ?? 0}</strong></div>
         </div>
         <p>{intelligentConclusion(compliance.classification)}</p>
+        {!auditFinalized ? (
+          <div className="button-row" style={{ marginBottom: 12 }}>
+            <button className="button secondary" disabled={improvingAllEvidence} onClick={improveAllEvidence} type="button">
+              <Sparkles size={18} aria-hidden="true" />
+              {improvingAllEvidence ? "Melhorando evidências..." : "Melhorar todas as evidências com IA"}
+            </button>
+            <span className="muted">As sugestões não entram no relatório sem sua aprovação.</span>
+          </div>
+        ) : null}
         {draftMessage ? <div className="badge success">{draftMessage}</div> : null}
         {reportError ? <div className="badge danger">{reportError}</div> : null}
         {lastReport ? (

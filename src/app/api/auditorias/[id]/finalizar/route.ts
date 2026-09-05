@@ -69,7 +69,9 @@ export async function POST(request: NextRequest, context: Params) {
             criterion: question.criterion,
             status: (answer?.resposta || "Não se aplica") as "Conforme" | "Não conforme" | "Não se aplica",
             observation: answer?.observacao,
-            evidence: answer?.evidencia,
+            // Somente a versão explicitamente aprovada entra no relatório. Para dados
+            // anteriores, a evidência já existente continua sendo utilizada.
+            evidence: answer?.evidenciaFinal || answer?.evidenciaOriginal || answer?.evidencia,
             risk: answer?.risco
           };
         })

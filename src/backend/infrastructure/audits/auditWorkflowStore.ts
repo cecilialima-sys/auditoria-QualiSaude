@@ -38,6 +38,13 @@ export type AuditWorkflowResponseRecord = {
   status: string;
   observacao?: string;
   evidencia?: string;
+  evidenciaOriginal?: string;
+  evidenciaIa?: string;
+  evidenciaFinal?: string;
+  fonteEvidenciaFinal?: "original" | "ia" | "manual";
+  evidenciaFinalAprovadaPor?: string;
+  evidenciaFinalAprovadaEm?: string;
+  evidenciaIaAtualizadaEm?: string;
   risco?: string;
   idLocal?: string;
   sincronizado: boolean;
@@ -100,6 +107,10 @@ export type SaveAuditWorkflowResponseInput = {
   status?: string;
   observacao?: string;
   evidencia?: string;
+  evidenciaOriginal?: string;
+  evidenciaIa?: string;
+  evidenciaFinal?: string;
+  fonteEvidenciaFinal?: "original" | "ia" | "manual";
   risco?: string;
   idLocal?: string;
   sincronizado?: boolean;
@@ -116,7 +127,7 @@ type AuditWorkflowLog = {
   auditoriaId: string;
   actorId: string;
   actorEmail: string;
-  action: "AUDIT_CREATED" | "RESPONSES_SAVED" | "AUDIT_FINALIZED" | "AUDIT_DELETED";
+  action: "AUDIT_CREATED" | "RESPONSES_SAVED" | "EVIDENCE_AI_SUGGESTED" | "AUDIT_FINALIZED" | "AUDIT_DELETED";
   createdAt: string;
   ip?: string;
 };
@@ -246,6 +257,13 @@ function dbResponseToRecord(row: any): AuditWorkflowResponseRecord {
     status: row.status,
     observacao: row.observation ?? undefined,
     evidencia: row.evidence ?? undefined,
+    evidenciaOriginal: row.evidenceOriginal ?? row.evidence ?? undefined,
+    evidenciaIa: row.evidenceAiSuggestion ?? undefined,
+    evidenciaFinal: row.evidenceFinal ?? undefined,
+    fonteEvidenciaFinal: row.evidenceFinalSource ?? undefined,
+    evidenciaFinalAprovadaPor: row.evidenceFinalApprovedById ?? undefined,
+    evidenciaFinalAprovadaEm: row.evidenceFinalApprovedAt ? new Date(row.evidenceFinalApprovedAt).toISOString() : undefined,
+    evidenciaIaAtualizadaEm: row.evidenceAiUpdatedAt ? new Date(row.evidenceAiUpdatedAt).toISOString() : undefined,
     risco: row.risk ?? undefined,
     idLocal: row.localId ?? undefined,
     sincronizado: row.synced,
@@ -599,6 +617,15 @@ function validateResponses(checklist: ChecklistGroup, respostas: SaveAuditWorkfl
   if (invalid) throw new Error("Existem respostas inválidas para este checklist.");
 }
 
+function normalizeOptionalText(value?: string) {
+  const normalized = value?.trim();
+  return normalized || null;
+}
+
+function normalizeEvidenceSource(value?: string) {
+  return value === "original" || value === "ia" || value === "manual" ? value : null;
+}
+
 export async function saveAuditWorkflowResponses(
   auditoriaId: string,
   respostas: SaveAuditWorkflowResponseInput[],
@@ -634,9 +661,21 @@ export async function saveAuditWorkflowResponses(
           update: {
             answer: response.resposta,
             status: response.status || response.resposta,
-            observation: response.observacao?.trim() || null,
-            evidence: response.evidencia?.trim() || null,
-            risk: response.risco?.trim() || null,
+            observation: normalizeOptionalText(response.observacao),
+            evidence: normalizeOptionalText(response.evidencia),
+            evidenceOriginal: normalizeOptionalText(response.evidenciaOriginal ?? response.evidencia),
+            ...(response.evidenciaIa !== undefined
+              ? { evidenceAiSuggestion: normalizeOptionalText(response.evidenciaIa), evidenceAiUpdatedAt: new Date() }
+              : {}),
+            ...(response.evidenciaFinal !== undefined
+              ? {
+                  evidenceFinal: normalizeOptionalText(response.evidenciaFinal),
+                  evidenceFinalSource: normalizeEvidenceSource(response.fonteEvidenciaFinal),
+                  evidenceFinalApprovedById: user.id,
+                  evidenceFinalApprovedAt: new Date()
+                }
+              : {}),
+            risk: normalizeOptionalText(response.risco),
             localId: response.idLocal || undefined,
             synced: response.sincronizado ?? true
           },
@@ -646,9 +685,16 @@ export async function saveAuditWorkflowResponses(
             questionId: response.perguntaId,
             answer: response.resposta,
             status: response.status || response.resposta,
-            observation: response.observacao?.trim() || null,
-            evidence: response.evidencia?.trim() || null,
-            risk: response.risco?.trim() || null,
+            observation: normalizeOptionalText(response.observacao),
+            evidence: normalizeOptionalText(response.evidencia),
+            evidenceOriginal: normalizeOptionalText(response.evidenciaOriginal ?? response.evidencia),
+            evidenceAiSuggestion: normalizeOptionalText(response.evidenciaIa),
+            evidenceFinal: normalizeOptionalText(response.evidenciaFinal),
+            evidenceFinalSource: normalizeEvidenceSource(response.fonteEvidenciaFinal),
+            evidenceFinalApprovedById: response.evidenciaFinal === undefined ? null : user.id,
+            evidenceFinalApprovedAt: response.evidenciaFinal === undefined ? null : new Date(),
+            evidenceAiUpdatedAt: response.evidenciaIa === undefined ? null : new Date(),
+            risk: normalizeOptionalText(response.risco),
             localId: response.idLocal || null,
             synced: response.sincronizado ?? true
           }
@@ -674,6 +720,13 @@ export async function saveAuditWorkflowResponses(
       status: response.status || response.resposta!,
       observacao: response.observacao?.trim() || undefined,
       evidencia: response.evidencia?.trim() || undefined,
+      evidenciaOriginal: response.evidenciaOriginal?.trim() || response.evidencia?.trim() || undefined,
+      evidenciaIa: response.evidenciaIa?.trim() || undefined,
+      evidenciaFinal: response.evidenciaFinal?.trim() || undefined,
+      fonteEvidenciaFinal: normalizeEvidenceSource(response.fonteEvidenciaFinal) ?? undefined,
+      evidenciaFinalAprovadaPor: response.evidenciaFinal === undefined ? existing?.evidenciaFinalAprovadaPor : user.id,
+      evidenciaFinalAprovadaEm: response.evidenciaFinal === undefined ? existing?.evidenciaFinalAprovadaEm : now,
+      evidenciaIaAtualizadaEm: response.evidenciaIa === undefined ? existing?.evidenciaIaAtualizadaEm : now,
       risco: response.risco?.trim() || undefined,
       idLocal: response.idLocal,
       sincronizado: response.sincronizado ?? true,
@@ -692,7 +745,12 @@ export async function saveAuditWorkflowResponses(
     auditInStore.status = "em_andamento";
     auditInStore.updatedAt = now;
   }
-  appendFileLog(auditoriaId, user, "RESPONSES_SAVED", ip);
+  appendFileLog(
+    auditoriaId,
+    user,
+    respostas.some((response) => response.evidenciaIa !== undefined) ? "EVIDENCE_AI_SUGGESTED" : "RESPONSES_SAVED",
+    ip
+  );
   saveFileStore();
   return saved;
 }
