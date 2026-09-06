@@ -144,7 +144,6 @@ type AuditWorkflowLog = {
 
 const globalState = globalThis as typeof globalThis & {
   qualisaudeAuditWorkflowStore?: PersistedAuditWorkflowStore;
-  qualisaudeAuditWorkflowPrismaUnavailable?: boolean;
 };
 
 const dataDir = process.env.DATA_DIR ? resolve(process.env.DATA_DIR) : join(process.cwd(), "data");
@@ -209,13 +208,17 @@ function saveFileStore() {
 }
 
 async function withPrisma<T>(operation: (prisma: ReturnType<typeof getPrismaClient>) => Promise<T>) {
-  if (globalState.qualisaudeAuditWorkflowPrismaUnavailable) return null;
+  // The file store exists only to support local development without a database.
+  // In a deployed environment, falling back after a single Prisma error makes
+  // persisted audits appear to disappear because the container filesystem is empty.
+  if (!process.env.DATABASE_URL?.trim()) return null;
   try {
     return await operation(getPrismaClient());
   } catch (error) {
-    globalState.qualisaudeAuditWorkflowPrismaUnavailable = true;
-    console.warn("[audit-workflow] Prisma indisponível. Usando store local.", error instanceof Error ? error.message : error);
-    return null;
+    console.error("[audit-workflow] Database operation failed", {
+      message: error instanceof Error ? error.message : String(error)
+    });
+    throw error;
   }
 }
 
