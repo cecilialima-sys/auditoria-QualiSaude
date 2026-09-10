@@ -59,14 +59,19 @@ export function WelcomePortal() {
     <div className="grid">
       <section className="card welcome-hero" aria-labelledby="welcome-title">
         <div>
+          <div className="welcome-brand">
+            <img src="/qualisaude-logo-white-bg.png" alt="QualiSaúde Hospitalar" />
+            <span>Projeto de extensão • UNIFAL-MG</span>
+          </div>
           <span className="badge">
             <Sparkles size={15} aria-hidden="true" />
             Portal inicial
           </span>
           <h1 className="page-title" id="welcome-title">Boas-Vindas, {firstName}</h1>
           <p className="muted welcome-intro">
-            Este e o ponto de entrada do QualiSaude Hospitalar para apoiar auditorias, registros de conformidade,
-            acompanhamento de acoes e consulta aos indicadores institucionais.
+            O QualiSaúde Hospitalar é um projeto de extensão da UNIFAL-MG voltado ao apoio das auditorias hospitalares.
+            A plataforma organiza checklists, evidências, não conformidades, relatórios e indicadores para fortalecer
+            a qualidade, a segurança e a melhoria contínua dos serviços de saúde.
           </p>
         </div>
         <div className="welcome-clock" aria-label="Data e hora atual">

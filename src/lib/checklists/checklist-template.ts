@@ -8770,3 +8770,26 @@ checklistTemplateGroups.push({
 // Os grupos importados usam IDs próprios e, portanto, mantêm as respostas
 // isoladas entre auditorias e entre as quatro modalidades do checklist 3.4.
 checklistTemplateGroups.push(...importedChecklistGroups);
+
+// Versão independente do checklist ambulatorial geral. Os identificadores
+// próprios evitam que respostas desta versão sejam compartilhadas com a
+// especialidade de Oncologia que serviu como base.
+const ambulatoryOncologyChecklist = checklistTemplateGroups.find(
+  (group) => group.id === "2-2-atendimento-ambulatorial-oncologia"
+);
+
+if (!ambulatoryOncologyChecklist) {
+  throw new Error("Checklist base de Atendimento Ambulatorial não encontrado.");
+}
+
+checklistTemplateGroups.push({
+  ...ambulatoryOncologyChecklist,
+  id: "2-2-atendimento-ambulatorial",
+  sector: "Atendimento ambulatorial",
+  category: "Atendimento ambulatorial",
+  questions: ambulatoryOncologyChecklist.questions.map((question) => ({
+    ...question,
+    id: question.id.replace("2-2-atendimento-ambulatorial-oncologia", "2-2-atendimento-ambulatorial"),
+    area: "Atendimento ambulatorial"
+  }))
+});
