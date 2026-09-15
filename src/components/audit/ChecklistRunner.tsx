@@ -224,6 +224,21 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
       .finally(() => setLoadingAudit(false));
   }, [auditId]);
 
+  // A opção do segundo relatório precisa continuar disponível quando uma
+  // auditoria finalizada é aberta novamente, e não somente no instante da
+  // finalização.
+  useEffect(() => {
+    if (!auditId || !auditFinalized) return;
+    fetch(`/api/auditorias/${encodeURIComponent(auditId)}/relatorio-tecnico`)
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error ?? "Não foi possível carregar o relatório técnico-crítico.");
+        return data.report as GeneratedTechnicalReport;
+      })
+      .then(setLastTechnicalReport)
+      .catch((error) => setReportError(error instanceof Error ? error.message : "Não foi possível carregar o relatório técnico-crítico."));
+  }, [auditFinalized, auditId]);
+
   useEffect(() => { responsesRef.current = responses; }, [responses]);
 
   useEffect(() => {
@@ -837,7 +852,7 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
           <div className="card" style={{ background: "#fbf8ff", boxShadow: "none", marginTop: 12 }}>
             <strong>Relatório Técnico-Crítico: {lastTechnicalReport.auditCode}</strong>
             <p className="muted">Revise as análises geradas por IA antes de emitir o documento técnico.</p>
-            <Link className="button secondary" href={lastTechnicalReport.editUrl}>Gerar e revisar relatório técnico-crítico</Link>
+            <Link className="button secondary" href={lastTechnicalReport.editUrl}>Gerar relatório técnico-crítico com IA</Link>
           </div>
         ) : null}
         <label className="inline-check">
