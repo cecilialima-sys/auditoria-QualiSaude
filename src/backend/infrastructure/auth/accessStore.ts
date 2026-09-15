@@ -162,7 +162,10 @@ async function findDbUserByEmail(email: string) {
 function toAccessUser(user: NonNullable<DbUser>): AccessUser {
   const permissions = user.isPrimaryAdmin
     ? allPermissionKeys
-    : user.permissions.map((permission) => permission.permission.key);
+    // Usuários já existentes podem não ter a relação de permissões carregada
+    // durante uma migração. A autenticação não deve derrubar outras telas.
+    : (Array.isArray(user.permissions) ? user.permissions : [])
+      .map((permission) => permission.permission.key);
 
   return {
     id: user.id,
