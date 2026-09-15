@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Eye, FileDown, Trash2 } from "lucide-react";
+import { Eye, FileDown, Sparkles, Trash2 } from "lucide-react";
 
 type ReportListItem = {
   id: string;
@@ -14,6 +14,8 @@ type ReportListItem = {
   generatedAt: string;
   viewUrl: string;
   downloadUrl: string;
+  technicalAuditId?: string;
+  technicalUrl?: string;
 };
 
 function formatDate(value: string) {
@@ -25,6 +27,7 @@ export function ReportHistory() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [deletingId, setDeletingId] = useState("");
+  const [creatingTechnicalId, setCreatingTechnicalId] = useState("");
 
   useEffect(() => {
     fetch("/api/reports")
@@ -54,6 +57,26 @@ export function ReportHistory() {
       setError(err instanceof Error ? err.message : "Erro ao excluir relatório.");
     } finally {
       setDeletingId("");
+    }
+  }
+
+  async function openTechnicalReport(report: ReportListItem) {
+    if (!report.technicalAuditId) return;
+    setCreatingTechnicalId(report.id);
+    setError("");
+    try {
+      const response = await fetch(`/api/auditorias/${encodeURIComponent(report.technicalAuditId)}/relatorio-tecnico`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({})
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error ?? "Não foi possível preparar o relatório técnico-crítico.");
+      window.location.assign(data.report.viewUrl);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Não foi possível preparar o relatório técnico-crítico.");
+    } finally {
+      setCreatingTechnicalId("");
     }
   }
 
@@ -112,6 +135,17 @@ export function ReportHistory() {
               <FileDown size={18} aria-hidden="true" />
               Baixar PDF
             </a>
+            {report.technicalAuditId ? (
+              <button
+                className="button secondary"
+                disabled={creatingTechnicalId === report.id}
+                onClick={() => openTechnicalReport(report)}
+                type="button"
+              >
+                <Sparkles size={18} aria-hidden="true" />
+                {creatingTechnicalId === report.id ? "Preparando..." : report.technicalUrl ? "Revisar relatório técnico" : "Gerar relatório técnico"}
+              </button>
+            ) : null}
             <button
               className="button secondary"
               disabled={deletingId === report.id}

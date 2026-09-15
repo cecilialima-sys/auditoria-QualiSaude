@@ -186,6 +186,7 @@ export class AuditReportPdfService {
 
     const document: AuditReportDocument = {
       id: reportId,
+      auditId: input.auditId,
       auditCode,
       checklistId: input.checklistId,
       institution: input.institution?.trim() || "QualiSaúde Hospitalar",

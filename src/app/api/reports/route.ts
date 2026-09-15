@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getStoredAuditReports } from "@/backend/infrastructure/reports/auditReportStore";
+import { getStoredAuditReports, readStoredAuditReportDocument } from "@/backend/infrastructure/reports/auditReportStore";
+import { findTechnicalAuditReportByAudit } from "@/backend/infrastructure/reports/technicalAuditReportStore";
+import { resolveAuditIdForStoredReport } from "@/backend/infrastructure/audits/auditWorkflowStore";
 import { requirePermission } from "@/backend/presentation/middlewares/authorization";
 
 export async function GET(request: NextRequest) {
@@ -7,8 +9,16 @@ export async function GET(request: NextRequest) {
   if (auth.response) return auth.response;
   const reports = await getStoredAuditReports();
 
-  return NextResponse.json({
-    reports: reports.map((report) => ({
+  const items = await Promise.all(reports.map(async (report) => {
+    const stored = await readStoredAuditReportDocument(report.id);
+    const auditId = stored?.document.auditId ?? await resolveAuditIdForStoredReport({
+      checklistId: report.checklistId,
+      auditorId: report.auditorId,
+      auditType: report.auditType,
+      sector: report.sector
+    });
+    const technical = auditId ? await findTechnicalAuditReportByAudit(auditId) : null;
+    return {
       id: report.id,
       auditCode: report.auditCode,
       sector: report.sector,
@@ -18,7 +28,12 @@ export async function GET(request: NextRequest) {
       result: report.result,
       generatedAt: report.generatedAt,
       viewUrl: `/reports/${report.id}`,
-      downloadUrl: `/api/reports/${report.id}/pdf?download=1`
-    }))
+      downloadUrl: `/api/reports/${report.id}/pdf?download=1`,
+      technicalAuditId: auditId,
+      technicalUrl: technical ? `/technical-reports/${technical.report.id}` : undefined
+    };
+  }));
+  return NextResponse.json({
+    reports: items
   });
 }

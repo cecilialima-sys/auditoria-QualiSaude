@@ -4,6 +4,8 @@ import type { AuditIntervention } from "@/backend/application/reports/auditInter
 export type AuditReportStatus = "Conforme" | "Não conforme" | "Não se aplica";
 
 export type AuditReportInput = {
+  /** Auditoria de origem; usado para acessar o relatório técnico independente. */
+  auditId?: string;
   checklistId: string;
   institution?: string;
   sector: string;
@@ -54,6 +56,7 @@ export type AuditActionPlan = AuditRecommendation & {
 
 export type AuditReportDocument = {
   id: string;
+  auditId?: string;
   auditCode: string;
   checklistId: string;
   institution: string;

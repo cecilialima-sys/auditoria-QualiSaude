@@ -54,6 +54,7 @@ export async function POST(request: NextRequest, context: Params) {
     const service = new AuditReportPdfService();
     const result = await service.finalizeAndGenerate(
       {
+        auditId: id,
         checklistId: details.auditoria.checklistId,
         institution: "QualiSaúde Hospitalar",
         unit: details.auditoria.setor,

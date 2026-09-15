@@ -541,6 +541,38 @@ export async function getAuditWorkflow(id: string) {
   return getFileStore().auditorias.find((audit) => audit.id === id) ?? null;
 }
 
+/**
+ * Relatórios antigos não possuíam o identificador da auditoria no JSON salvo.
+ * Recuperamos o vínculo apenas quando houver uma única auditoria finalizada
+ * compatível, evitando ligar um relatório ao registro errado.
+ */
+export async function resolveAuditIdForStoredReport(input: {
+  checklistId: string;
+  auditorId: string;
+  auditType: string;
+  sector: string;
+}) {
+  const sameSector = (sector: string) => {
+    const normalize = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const expected = normalize(input.sector);
+    const candidate = normalize(sector);
+    return expected.includes(candidate) || candidate.includes(expected);
+  };
+  const rows = await withPrisma(async (prisma) => {
+    const result = await (prisma as any).auditWorkflow.findMany({
+      where: { status: "COMPLETED", checklistId: input.checklistId, auditorId: input.auditorId },
+      select: { id: true, sector: true, auditType: true }
+    });
+    return result.filter((row: any) => sameSector(row.sector) && (!input.auditType || row.auditType === input.auditType));
+  });
+  if (rows) return rows.length === 1 ? rows[0].id as string : undefined;
+  const candidates = getFileStore().auditorias.filter((audit) =>
+    audit.status === "finalizada" && audit.checklistId === input.checklistId && audit.auditorId === input.auditorId &&
+    sameSector(audit.setor) && (!input.auditType || audit.tipoAuditoria === input.auditType)
+  );
+  return candidates.length === 1 ? candidates[0].id : undefined;
+}
+
 export async function getAuditWorkflowResponses(auditoriaId: string) {
   const prismaRecords = await withPrisma(async (prisma) => {
     const rows = await (prisma as any).auditWorkflowResponse.findMany({
