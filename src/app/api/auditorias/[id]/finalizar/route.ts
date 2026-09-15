@@ -7,6 +7,8 @@ import {
   type AuditWorkflowResponseRecord
 } from "@/backend/infrastructure/audits/auditWorkflowStore";
 import { requirePermission } from "@/backend/presentation/middlewares/authorization";
+import { createTechnicalReport, persistTechnicalReport } from "@/backend/application/reports/TechnicalAuditReportService";
+import { findTechnicalAuditReportByAudit } from "@/backend/infrastructure/reports/technicalAuditReportStore";
 
 type Params = {
   params: Promise<{ id: string }>;
@@ -84,6 +86,22 @@ export async function POST(request: NextRequest, context: Params) {
         ? { auditoria: details.auditoria }
         : await finalizeAuditWorkflow(id, auth.user, ip);
 
+    // The technical report is an independent review layer. Creating its pending
+    // record never changes the answers or blocks the original report.
+    let technicalReport: { id: string; auditCode: string; status: string; editUrl: string } | null = null;
+    try {
+      const existingTechnical = await findTechnicalAuditReportByAudit(id);
+      const technical = existingTechnical?.document ?? await persistTechnicalReport(createTechnicalReport({
+        auditId: id,
+        checklist: details.checklist as any,
+        audit: details.auditoria,
+        responses: details.respostas
+      }));
+      technicalReport = { id: technical.id, auditCode: technical.auditCode, status: technical.status, editUrl: `/technical-reports/${technical.id}` };
+    } catch (technicalError) {
+      console.warn("[technical-audit-report] Pending report could not be initialized", technicalError instanceof Error ? technicalError.message : technicalError);
+    }
+
     return NextResponse.json({
       ok: true,
       auditoria: finalized.auditoria,
@@ -97,7 +115,8 @@ export async function POST(request: NextRequest, context: Params) {
         generatedAt: result.report.generatedAt,
         viewUrl: `/reports/${result.report.id}`,
         downloadUrl: `/api/reports/${result.report.id}/pdf?download=1`
-      }
+      },
+      technicalReport
     });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Não foi possível finalizar auditoria." }, { status: 400 });

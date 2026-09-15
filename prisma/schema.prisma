@@ -375,8 +375,30 @@ model AuditWorkflow {
   updatedAt            DateTime            @updatedAt @map("updated_at")
   responses            AuditWorkflowResponse[]
   textDrafts           AuditWorkflowTextDraft[]
+  technicalReport      AuditTechnicalReport?
 
   @@map("auditorias")
+}
+
+enum TechnicalReportStatus {
+  PENDING
+  IN_PROGRESS
+  READY
+}
+
+model AuditTechnicalReport {
+  id           String                @id
+  auditId      String                @unique @map("auditoria_id")
+  audit        AuditWorkflow         @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  auditCode    String                @unique @map("audit_code")
+  status       TechnicalReportStatus @default(PENDING)
+  documentJson Json                  @map("document_json")
+  htmlContent  String                @map("html_content")
+  pdfContent   Bytes                 @map("pdf_content")
+  createdAt    DateTime              @default(now()) @map("created_at")
+  updatedAt    DateTime              @updatedAt @map("updated_at")
+
+  @@map("relatorios_tecnico_criticos")
 }
 
 model AuditStoredReport {

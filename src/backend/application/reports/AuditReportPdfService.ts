@@ -404,6 +404,30 @@ export class AuditReportPdfService {
   }
 }
 
+/** Shared server-side renderer used by the independently stored technical report. */
+export async function renderAuditHtmlToPdf(html: string, title = "relatorio") {
+  try {
+    const executablePath = browserExecutablePath();
+    const browser = await puppeteer.launch({
+      headless: true,
+      ...(executablePath ? { executablePath } : {}),
+      pipe: true,
+      timeout: Number(process.env.PUPPETEER_LAUNCH_TIMEOUT_MS || 60000),
+      protocolTimeout: Number(process.env.PUPPETEER_PROTOCOL_TIMEOUT_MS || 60000),
+      args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", "--disable-gpu", "--no-first-run", "--no-zygote"]
+    });
+    try {
+      const page = await browser.newPage();
+      await page.setContent(html, { waitUntil: "load", timeout: 30000 });
+      await page.emulateMediaType("print");
+      return Buffer.from(await page.pdf({ format: "A4", printBackground: true, displayHeaderFooter: true, headerTemplate: "<div></div>", footerTemplate: '<div style="width:100%;font-size:8px;text-align:center;padding:0 10mm;">Página <span class="pageNumber"></span> de <span class="totalPages"></span></div>', margin: { top: "12mm", right: "10mm", bottom: "16mm", left: "10mm" } }));
+    } finally { await browser.close(); }
+  } catch (error) {
+    console.warn("[technical-audit-report] PDF fallback", error instanceof Error ? error.message : error);
+    return buildTextPdf([title, "Relatório técnico-crítico de auditoria."]);
+  }
+}
+
 function formatFallbackDate(value: string) {
   if (!value) return "-";
   const date = new Date(value);

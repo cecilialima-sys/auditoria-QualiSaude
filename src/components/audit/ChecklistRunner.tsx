@@ -43,6 +43,8 @@ type GeneratedReport = {
   downloadUrl: string;
 };
 
+type GeneratedTechnicalReport = { id: string; auditCode: string; status: string; editUrl: string };
+
 type ChecklistQuestion = {
   id: string;
   text: string;
@@ -155,6 +157,7 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
   const [reportError, setReportError] = useState("");
   const [draftMessage, setDraftMessage] = useState("");
   const [lastReport, setLastReport] = useState<GeneratedReport | null>(null);
+  const [lastTechnicalReport, setLastTechnicalReport] = useState<GeneratedTechnicalReport | null>(null);
   const [improvingEvidenceIds, setImprovingEvidenceIds] = useState<Record<string, boolean>>({});
   const [improvingAllEvidence, setImprovingAllEvidence] = useState(false);
   const [fieldSync, setFieldSync] = useState<Record<string, FieldSync>>({});
@@ -466,6 +469,7 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
     setReportError("");
     setDraftMessage("");
     setLastReport(null);
+    setLastTechnicalReport(null);
 
     if (!auditId) {
       setReportError("Inicie uma auditoria antes de preencher o checklist.");
@@ -502,6 +506,7 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
       setAuditDetails((current) => current ? { ...current, auditoria: data.auditoria } : current);
       setDirty(false);
       setLastReport(data.report);
+      setLastTechnicalReport(data.technicalReport ?? null);
       window.open(data.report.viewUrl, "_blank", "noopener,noreferrer");
     } catch (error) {
       setReportError(error instanceof Error ? error.message : "Erro ao finalizar auditoria.");
@@ -826,6 +831,13 @@ export function ChecklistRunner({ auditId }: { auditId?: string }) {
                 Imprimir
               </button>
             </div>
+          </div>
+        ) : null}
+        {lastTechnicalReport ? (
+          <div className="card" style={{ background: "#fbf8ff", boxShadow: "none", marginTop: 12 }}>
+            <strong>Relatório Técnico-Crítico: {lastTechnicalReport.auditCode}</strong>
+            <p className="muted">Revise as análises geradas por IA antes de emitir o documento técnico.</p>
+            <Link className="button secondary" href={lastTechnicalReport.editUrl}>Gerar e revisar relatório técnico-crítico</Link>
           </div>
         ) : null}
         <label className="inline-check">

@@ -1,0 +1,4 @@
+import { NextRequest, NextResponse } from "next/server";
+import { findTechnicalAuditReport } from "@/backend/infrastructure/reports/technicalAuditReportStore";
+import { requirePermission } from "@/backend/presentation/middlewares/authorization";
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) { const auth = await requirePermission(request, "reports.view"); if (auth.response) return auth.response; const { id } = await context.params; const stored = await findTechnicalAuditReport(id); if (!stored) return NextResponse.json({ error: "Relatório técnico não encontrado." }, { status: 404 }); const download = request.nextUrl.searchParams.get("download") === "1"; return new NextResponse(new Uint8Array(stored.pdf), { headers: { "Content-Type": "application/pdf", "Content-Disposition": `${download ? "attachment" : "inline"}; filename=${stored.report.auditCode}.pdf` } }); }
