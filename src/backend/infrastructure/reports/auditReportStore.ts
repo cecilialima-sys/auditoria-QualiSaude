@@ -31,7 +31,10 @@ function readPersistedReports() {
   if (!existsSync(storePath)) return [];
   try {
     globalState.qualisaudeAuditReportsStoreMtimeMs = statSync(storePath).mtimeMs;
-    return JSON.parse(readFileSync(storePath, "utf8")) as StoredAuditReport[];
+    const parsed: unknown = JSON.parse(readFileSync(storePath, "utf8"));
+    // Versões antigas do arquivo local podem conter null ou um objeto inválido.
+    // O histórico deve continuar carregando como vazio, nunca falhar em .map().
+    return Array.isArray(parsed) ? parsed as StoredAuditReport[] : [];
   } catch {
     return [];
   }
@@ -146,7 +149,7 @@ export async function getStoredAuditReports() {
   }
 
   const dbReports = await readDbReports();
-  if (!dbReports) return globalState.qualisaudeAuditReports;
+  if (!dbReports) return globalState.qualisaudeAuditReports ?? [];
   return mergeReports(dbReports, globalState.qualisaudeAuditReports ?? []);
 }
 
