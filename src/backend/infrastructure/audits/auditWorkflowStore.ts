@@ -563,12 +563,18 @@ export async function resolveAuditIdForStoredReport(input: {
       where: { status: "COMPLETED", checklistId: input.checklistId, auditorId: input.auditorId },
       select: { id: true, sector: true, auditType: true }
     });
-    return result.filter((row: any) => sameSector(row.sector) && (!input.auditType || row.auditType === input.auditType));
+    return result.filter((row: any) =>
+      sameSector(row.sector) &&
+      // Auditorias antigas podem não ter tipo registrado. Nesse caso, o
+      // vínculo continua seguro quando checklist, auditor e setor apontam
+      // para uma única auditoria finalizada.
+      (!input.auditType || !row.auditType || row.auditType === input.auditType)
+    );
   });
   if (rows) return rows.length === 1 ? rows[0].id as string : undefined;
   const candidates = getFileStore().auditorias.filter((audit) =>
     audit.status === "finalizada" && audit.checklistId === input.checklistId && audit.auditorId === input.auditorId &&
-    sameSector(audit.setor) && (!input.auditType || audit.tipoAuditoria === input.auditType)
+    sameSector(audit.setor) && (!input.auditType || !audit.tipoAuditoria || audit.tipoAuditoria === input.auditType)
   );
   return candidates.length === 1 ? candidates[0].id : undefined;
 }

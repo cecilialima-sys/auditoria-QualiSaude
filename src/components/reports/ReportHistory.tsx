@@ -143,7 +143,7 @@ export function ReportHistory() {
                 type="button"
               >
                 <Sparkles size={18} aria-hidden="true" />
-                {creatingTechnicalId === report.id ? "Preparando..." : report.technicalUrl ? "Revisar relatório técnico" : "Gerar relatório técnico"}
+                {creatingTechnicalId === report.id ? "Preparando..." : "Gerar Relatório Técnico"}
               </button>
             ) : null}
             <button
