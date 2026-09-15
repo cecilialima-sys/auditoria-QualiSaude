@@ -34,7 +34,8 @@ export function ReportHistory() {
       .then(async (response) => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error ?? "Não foi possível carregar relatórios.");
-        setReports(data.reports ?? []);
+        // Respostas legadas ou incompletas não podem impedir a exibição da tela.
+        setReports(Array.isArray(data.reports) ? data.reports : []);
       })
       .catch((err) => setError(err instanceof Error ? err.message : "Erro ao carregar relatórios."))
       .finally(() => setLoading(false));

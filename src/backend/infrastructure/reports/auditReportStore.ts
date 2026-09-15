@@ -72,8 +72,9 @@ function dbReportToStored(row: any): StoredAuditReport {
 }
 
 function mergeReports(primary: StoredAuditReport[] | null | undefined, fallback: StoredAuditReport[] | null | undefined) {
-  const primaryReports = primary ?? [];
-  const fallbackReports = fallback ?? [];
+  // Protege o histórico contra formatos legados ou conteúdo corrompido.
+  const primaryReports = Array.isArray(primary) ? primary : [];
+  const fallbackReports = Array.isArray(fallback) ? fallback : [];
   const seen = new Set(primaryReports.map((report) => report.id));
   return [
     ...primaryReports,
@@ -86,7 +87,7 @@ async function readDbReports() {
     const rows = await (prisma as any).auditStoredReport.findMany({
       orderBy: { generatedAt: "desc" }
     });
-    return rows.map(dbReportToStored) as StoredAuditReport[];
+    return Array.isArray(rows) ? rows.map(dbReportToStored) as StoredAuditReport[] : [];
   });
 }
 
@@ -149,8 +150,8 @@ export async function getStoredAuditReports() {
   }
 
   const dbReports = await readDbReports();
-  if (!dbReports) return globalState.qualisaudeAuditReports ?? [];
-  return mergeReports(dbReports, globalState.qualisaudeAuditReports ?? []);
+  if (!dbReports) return Array.isArray(globalState.qualisaudeAuditReports) ? globalState.qualisaudeAuditReports : [];
+  return mergeReports(dbReports, globalState.qualisaudeAuditReports);
 }
 
 export async function findStoredAuditReport(id: string) {

@@ -7,7 +7,8 @@ import { requirePermission } from "@/backend/presentation/middlewares/authorizat
 export async function GET(request: NextRequest) {
   const auth = await requirePermission(request, "reports.view");
   if (auth.response) return auth.response;
-  const reports = await getStoredAuditReports() ?? [];
+  const loadedReports = await getStoredAuditReports();
+  const reports = Array.isArray(loadedReports) ? loadedReports : [];
 
   const items = await Promise.all(reports.map(async (report) => {
     const base = {
