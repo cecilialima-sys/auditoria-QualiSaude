@@ -68,7 +68,7 @@ async function reportForAudit(
   const document = currentDocument;
   return persistTechnicalReport(document);
 }
-function view(document: Awaited<ReturnType<typeof reportForAudit>>) { const items = Array.isArray(document.items) ? document.items : []; return { id: document.id, auditId: document.auditId, auditCode: document.auditCode, status: document.status, completed: items.filter((item) => item.analysisAi || item.aiUnavailable).length, total: items.length, viewUrl: `/technical-reports/${document.id}`, previewUrl: `/api/relatorios-tecnicos/${document.id}/pdf`, downloadUrl: `/api/relatorios-tecnicos/${document.id}/pdf?download=1` }; }
+function view(document: Awaited<ReturnType<typeof reportForAudit>>) { const items = Array.isArray(document.items) ? document.items : []; return { id: document.id, auditId: document.auditId, auditCode: document.auditCode, status: document.status, completed: items.filter((item) => item.analysisAi || item.aiUnavailable).length, unavailable: items.filter((item) => item.aiUnavailable).length, total: items.length, viewUrl: `/technical-reports/${document.id}`, previewUrl: `/api/relatorios-tecnicos/${document.id}/pdf`, downloadUrl: `/api/relatorios-tecnicos/${document.id}/pdf?download=1` }; }
 
 export async function GET(request: NextRequest, context: Params) {
   const auth = await requirePermission(request, "reports.view"); if (auth.response) return auth.response;
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest, context: Params) {
       document.updatedAt = new Date().toISOString();
       return NextResponse.json({ report: view(await generateTechnicalReportBatch(document, 1)) });
     }
-    if (payload.action === "generate") return NextResponse.json({ report: view(await generateTechnicalReportBatch(document, Number(payload.limit) || 2)) });
+    if (payload.action === "generate") return NextResponse.json({ report: view(await generateTechnicalReportBatch(document, Number(payload.limit) || 2, payload.retryUnavailable === true)) });
     // A ação padrão emite imediatamente o PDF institucional; a revisão com IA
     // continua disponível apenas pelas ações explícitas de geração/revisão.
     return NextResponse.json({ report: view(document) });

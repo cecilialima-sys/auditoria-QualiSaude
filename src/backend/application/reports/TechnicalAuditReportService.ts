@@ -70,15 +70,17 @@ export async function persistTechnicalReport(document: TechnicalAuditReportDocum
   await saveTechnicalAuditReport(document, html, pdf); return document;
 }
 
-export async function generateTechnicalReportBatch(document: TechnicalAuditReportDocument, maximum = 2) {
+export async function generateTechnicalReportBatch(document: TechnicalAuditReportDocument, maximum = 2, retryUnavailable = false) {
   // Proteção adicional para documentos legados. A rota normaliza esses registros
   // antes de chegar aqui; esta guarda evita que uma chamada futura os quebre.
   const documentItems = Array.isArray(document.items) ? document.items : [];
-  const ai = new TechnicalAuditAiService(); const pending = documentItems.filter((item) => !item.analysisAi && !item.aiUnavailable).slice(0, Math.max(1, Math.min(maximum, 3)));
+  const ai = new TechnicalAuditAiService(); const pending = documentItems.filter((item) => !item.analysisAi && (retryUnavailable || !item.aiUnavailable)).slice(0, Math.max(1, Math.min(maximum, 3)));
   const next: TechnicalAuditReportDocument = { ...document, status: "processing", items: documentItems.map((item) => ({ ...item })) };
   for (const item of pending) {
     const target = next.items.find((candidate) => candidate.questionId === item.questionId)!;
     try {
+      target.aiUnavailable = false;
+      target.aiError = undefined;
       const result = await ai.analyzeItem({ sector: next.location, auditType: next.auditType, normativeReference: next.normativeReference, item: target });
       target.analysisAi = result.analysis; target.analysisFinal = result.analysis; target.normativeReferences = result.references; target.generatedAt = new Date().toISOString();
     } catch (error) {
