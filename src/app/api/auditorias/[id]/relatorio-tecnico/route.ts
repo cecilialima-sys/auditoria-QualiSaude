@@ -1,19 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createTechnicalReport, generateTechnicalReportBatch, persistTechnicalReport } from "@/backend/application/reports/TechnicalAuditReportService";
+import type { TechnicalAuditReportDocument } from "@/backend/application/reports/technicalAuditReportTypes";
 import { findTechnicalAuditReportByAudit } from "@/backend/infrastructure/reports/technicalAuditReportStore";
 import { getAuditWorkflowDetails } from "@/backend/infrastructure/audits/auditWorkflowStore";
 import { requirePermission } from "@/backend/presentation/middlewares/authorization";
 
 type Params = { params: Promise<{ id: string }> };
-async function reportForAudit(id: string, user: NonNullable<Awaited<ReturnType<typeof requirePermission>>["user"]>) {
+async function reportForAudit(
+  id: string,
+  user: NonNullable<Awaited<ReturnType<typeof requirePermission>>["user"]>,
+  refreshLayout = false
+) {
   const details = await getAuditWorkflowDetails(id, user!);
   if (!details) throw new Error("Auditoria não encontrada.");
   const existing = await findTechnicalAuditReportByAudit(id);
-  if (existing) return existing.document;
-  const document = createTechnicalReport({ auditId: id, checklist: details.checklist as any, audit: details.auditoria, responses: details.respostas });
+  // Relatórios já gerados também devem receber o layout institucional atual
+  // quando o usuário solicitar uma nova emissão.
+  const currentDocument = createTechnicalReport({ auditId: id, checklist: details.checklist as any, audit: details.auditoria, responses: details.respostas });
+  if (existing) {
+    const previousByQuestion = new Map(existing.document.items.map((item) => [item.questionId, item]));
+    const document: TechnicalAuditReportDocument = {
+      ...existing.document,
+      location: currentDocument.location,
+      auditType: currentDocument.auditType,
+      normativeReference: currentDocument.normativeReference,
+      auditTeam: currentDocument.auditTeam,
+      auditDate: currentDocument.auditDate,
+      sectorResponsible: currentDocument.sectorResponsible,
+      items: currentDocument.items.map((item) => {
+        const previous = previousByQuestion.get(item.questionId);
+        return previous
+          ? { ...item, ...previous, requirement: item.requirement, classification: item.classification, evidenceOriginal: item.evidenceOriginal || previous.evidenceOriginal, observation: item.observation || previous.observation, auditGuidance: item.auditGuidance }
+          : item;
+      }),
+      updatedAt: new Date().toISOString()
+    };
+    return refreshLayout ? persistTechnicalReport(document) : document;
+  }
+  const document = currentDocument;
   return persistTechnicalReport(document);
 }
-function view(document: Awaited<ReturnType<typeof reportForAudit>>) { return { id: document.id, auditId: document.auditId, auditCode: document.auditCode, status: document.status, completed: document.items.filter((item) => item.analysisAi).length, total: document.items.length, viewUrl: `/technical-reports/${document.id}`, downloadUrl: `/api/relatorios-tecnicos/${document.id}/pdf?download=1` }; }
+function view(document: Awaited<ReturnType<typeof reportForAudit>>) { return { id: document.id, auditId: document.auditId, auditCode: document.auditCode, status: document.status, completed: document.items.filter((item) => item.analysisAi).length, total: document.items.length, viewUrl: `/technical-reports/${document.id}`, previewUrl: `/api/relatorios-tecnicos/${document.id}/pdf`, downloadUrl: `/api/relatorios-tecnicos/${document.id}/pdf?download=1` }; }
 
 export async function GET(request: NextRequest, context: Params) {
   const auth = await requirePermission(request, "reports.view"); if (auth.response) return auth.response;
@@ -22,7 +49,7 @@ export async function GET(request: NextRequest, context: Params) {
 export async function POST(request: NextRequest, context: Params) {
   const auth = await requirePermission(request, "records.edit"); if (auth.response) return auth.response;
   try {
-    const { id } = await context.params; const payload = await request.json().catch(() => ({})); const document = await reportForAudit(id, auth.user);
+    const { id } = await context.params; const payload = await request.json().catch(() => ({})); const document = await reportForAudit(id, auth.user, payload.action === "render" || !payload.action);
     if (payload.action === "regenerate") {
       const item = document.items.find((candidate) => candidate.questionId === payload.questionId);
       if (!item) throw new Error("Item do relatório técnico não encontrado.");
@@ -31,6 +58,8 @@ export async function POST(request: NextRequest, context: Params) {
       return NextResponse.json({ report: view(await generateTechnicalReportBatch(document, 1)) });
     }
     if (payload.action === "generate") return NextResponse.json({ report: view(await generateTechnicalReportBatch(document, Number(payload.limit) || 2)) });
+    // A ação padrão emite imediatamente o PDF institucional; a revisão com IA
+    // continua disponível apenas pelas ações explícitas de geração/revisão.
     return NextResponse.json({ report: view(document) });
   } catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "Não foi possível gerar a análise técnica. Os dados foram preservados." }, { status: 503 }); }
 }

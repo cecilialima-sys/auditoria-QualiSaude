@@ -66,14 +66,27 @@ export function ReportHistory() {
     setCreatingTechnicalId(report.id);
     setError("");
     try {
+      let generated: { completed: number; total: number } | null = null;
+      do {
+        const response = await fetch(`/api/auditorias/${encodeURIComponent(report.technicalAuditId)}/relatorio-tecnico`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "generate", limit: 2 })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error ?? "Não foi possível gerar as constatações técnicas.");
+        generated = data.report;
+      } while (generated && generated.completed < generated.total);
+
       const response = await fetch(`/api/auditorias/${encodeURIComponent(report.technicalAuditId)}/relatorio-tecnico`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({})
+        body: JSON.stringify({ action: "render" })
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error ?? "Não foi possível preparar o relatório técnico-crítico.");
-      window.location.assign(data.report.viewUrl);
+      if (!response.ok) throw new Error(data.error ?? "Não foi possível emitir o relatório técnico.");
+      // O botão emite e abre diretamente o documento final no padrão institucional.
+      window.open(data.report.previewUrl ?? data.report.downloadUrl, "_blank", "noopener,noreferrer");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Não foi possível preparar o relatório técnico-crítico.");
     } finally {
@@ -144,7 +157,7 @@ export function ReportHistory() {
                 type="button"
               >
                 <Sparkles size={18} aria-hidden="true" />
-                {creatingTechnicalId === report.id ? "Preparando..." : "Gerar Relatório Técnico"}
+                {creatingTechnicalId === report.id ? "Gerando com IA..." : "Gerar Relatório Técnico"}
               </button>
             ) : null}
             <button

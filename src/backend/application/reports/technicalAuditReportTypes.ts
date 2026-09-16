@@ -13,6 +13,8 @@ export type TechnicalReportItem = {
   classification: "Conforme" | "Não conforme" | "Não se aplica";
   evidenceOriginal: string;
   observation: string;
+  /** Orientação do checklist sobre o que o auditor deve verificar. */
+  auditGuidance: string;
   analysisAi: string;
   analysisFinal: string;
   normativeReferences: NormativeReference[];

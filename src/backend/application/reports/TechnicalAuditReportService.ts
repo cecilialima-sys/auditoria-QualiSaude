@@ -18,7 +18,18 @@ export function createTechnicalReport(input: { auditId: string; checklist: Check
   const byQuestion = new Map(input.responses.map((response) => [response.perguntaId, response]));
   const items = input.checklist.questions.map((question) => {
     const answer = byQuestion.get(question.id);
-    return { questionId: question.id, number: question.itemNumber || String(question.ordem), requirement: question.text, classification: (answer?.resposta || "Não se aplica") as TechnicalReportItem["classification"], evidenceOriginal: answer?.evidenciaOriginal || answer?.evidencia || "", observation: answer?.observacao || "", analysisAi: "", analysisFinal: "", normativeReferences: [] };
+    return {
+      questionId: question.id,
+      number: question.itemNumber || String(question.ordem),
+      requirement: question.text,
+      classification: (answer?.resposta || "Não se aplica") as TechnicalReportItem["classification"],
+      evidenceOriginal: answer?.evidenciaOriginal || answer?.evidencia || "",
+      observation: answer?.observacao || "",
+      auditGuidance: question.explanation || question.criterion || "",
+      analysisAi: "",
+      analysisFinal: "",
+      normativeReferences: []
+    };
   });
   const now = new Date().toISOString();
   return { id: crypto.randomUUID(), auditId: input.auditId, auditCode: `RLAUDIINT-${now.slice(0, 10).replaceAll("-", "")}-${input.auditId.slice(0, 6).toUpperCase()}`, status: "pending", institution: "QualiSaúde Hospitalar", objective: input.audit.observacoesIniciais?.trim() || "Avaliar a conformidade dos requisitos aplicáveis ao setor auditado.", scope: `Avaliação dos requisitos do checklist ${input.checklist.category}.`, location: input.audit.setor, planNumber: "Não informado", auditType: input.audit.tipoAuditoria || "Auditoria interna", normativeReference: input.checklist.category, auditTeam: input.audit.auditorNome, auditDate: input.audit.dataInicio, sectorResponsible: input.audit.responsavelSetor, items, summary: calculate(items), createdAt: now, updatedAt: now } satisfies TechnicalAuditReportDocument;
