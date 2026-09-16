@@ -24,6 +24,19 @@ function clean(value: string) {
     .slice(0, 12000);
 }
 
+function providerMessage(status: number, body: unknown) {
+  const code = typeof (body as { error?: { code?: unknown } } | null)?.error?.code === "string"
+    ? (body as { error: { code: string } }).error.code
+    : "";
+  if (status === 429) {
+    return code === "insufficient_quota"
+      ? "Os créditos da integração de IA foram esgotados. O relatório pode ser emitido com as evidências originais."
+      : "A IA atingiu o limite temporário de uso. O relatório pode ser emitido com as evidências originais.";
+  }
+  if (status === 401 || status === 403) return "A configuração da integração de IA foi recusada. O relatório pode ser emitido com as evidências originais.";
+  return "Não foi possível concluir a análise por IA neste momento. O relatório pode ser emitido com as evidências originais.";
+}
+
 function normalized(value: string) {
   return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
@@ -72,7 +85,11 @@ export class TechnicalAuditAiService {
       const referenceText = references.map((reference) => reference.label).join("\n") || "Nenhuma referência normativa específica validada.";
       const response = await fetch("https://api.openai.com/v1/responses", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` }, signal: controller.signal, body: JSON.stringify({ model: process.env.OPENAI_MODEL?.trim() || "gpt-5-mini", instructions: INSTRUCTIONS, input: `Setor: ${context.sector}\nTipo de auditoria: ${context.auditType}\nNorma/checklist de referência: ${context.normativeReference}\nNúmero do requisito: ${item.number}\nRequisito: ${item.requirement}\nOrientação para auditoria: ${item.auditGuidance || "Não informada"}\nClassificação definida pelo auditor: ${item.classification}\nEvidência original do auditor: ${item.evidenceOriginal || "Não informada"}\nObservações adicionais: ${item.observation || "Não informadas"}\nReferências normativas validadas (use apenas se pertinentes):\n${referenceText}\n\nElabore somente a constatação técnica no formato solicitado.`, max_output_tokens: 1100, temperature: 0.15, store: false }) });
       const body = await response.json().catch(() => null);
-      if (!response.ok) { console.warn("[technical-audit-ai] OpenAI failure", { status: response.status }); throw new TechnicalAuditAiError("Não foi possível concluir a análise por IA neste momento. Os dados da auditoria estão preservados. Tente novamente."); }
+      if (!response.ok) {
+        const code = typeof body?.error?.code === "string" ? body.error.code : undefined;
+        console.warn("[technical-audit-ai] OpenAI failure", { status: response.status, code });
+        throw new TechnicalAuditAiError(providerMessage(response.status, body));
+      }
       const analysis = clean(outputText(body));
       if (!analysis) throw new TechnicalAuditAiError("A IA não retornou uma análise válida. Tente novamente.");
       return { analysis, references };

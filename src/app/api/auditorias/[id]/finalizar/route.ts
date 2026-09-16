@@ -92,12 +92,14 @@ export async function POST(request: NextRequest, context: Params) {
     let technicalReport: { id: string; auditCode: string; status: string; editUrl: string } | null = null;
     try {
       const existingTechnical = await findTechnicalAuditReportByAudit(id);
-      const technical = existingTechnical?.document ?? await persistTechnicalReport(createTechnicalReport({
-        auditId: id,
-        checklist: details.checklist as any,
-        audit: details.auditoria,
-        responses: details.respostas
-      }));
+      const technical = existingTechnical?.document && Array.isArray(existingTechnical.document.items)
+        ? existingTechnical.document
+        : await persistTechnicalReport(createTechnicalReport({
+            auditId: id,
+            checklist: details.checklist as any,
+            audit: details.auditoria,
+            responses: details.respostas
+          }));
       technicalReport = { id: technical.id, auditCode: technical.auditCode, status: technical.status, editUrl: `/technical-reports/${technical.id}` };
     } catch (technicalError) {
       console.warn("[technical-audit-report] Pending report could not be initialized", technicalError instanceof Error ? technicalError.message : technicalError);

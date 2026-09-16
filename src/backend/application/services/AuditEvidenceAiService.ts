@@ -64,6 +64,20 @@ function responseText(data: unknown) {
     .join("\n");
 }
 
+function providerErrorMessage(status: number, body: unknown) {
+  const code = typeof (body as { error?: { code?: unknown } } | null)?.error?.code === "string"
+    ? (body as { error: { code: string } }).error.code
+    : "";
+  if (status === 429) {
+    return code === "insufficient_quota"
+      ? "Os créditos disponíveis para a IA foram esgotados. Verifique o faturamento da integração e tente novamente."
+      : "A IA atingiu o limite temporário de uso. Aguarde alguns instantes e tente novamente.";
+  }
+  if (status === 401 || status === 403) return "A integração de IA recusou a configuração atual. Verifique a chave configurada no ambiente do servidor.";
+  if (status === 400 || status === 404) return "A configuração do modelo de IA não foi aceita. Verifique o modelo definido no ambiente do servidor.";
+  return "A melhoria por IA está temporariamente indisponível. Você pode continuar utilizando a evidência original.";
+}
+
 export class AuditEvidenceAiService {
   async improveEvidence(input: EvidenceImprovementInput) {
     const evidenceOriginal = input.evidenceOriginal.trim();
@@ -97,8 +111,11 @@ export class AuditEvidenceAiService {
 
       const body = await response.json().catch(() => null);
       if (!response.ok) {
-        console.error("[audit-evidence-ai] OpenAI request failed", { status: response.status });
-        throw new EvidenceAiError("A melhoria por IA está temporariamente indisponível. Você pode continuar utilizando a evidência original.");
+        const code = typeof (body as { error?: { code?: unknown } } | null)?.error?.code === "string"
+          ? (body as { error: { code: string } }).error.code
+          : undefined;
+        console.error("[audit-evidence-ai] OpenAI request failed", { status: response.status, code });
+        throw new EvidenceAiError(providerErrorMessage(response.status, body), response.status);
       }
 
       return sanitizeEvidenceSuggestion(responseText(body));

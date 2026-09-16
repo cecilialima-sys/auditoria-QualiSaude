@@ -53,6 +53,8 @@ async function reportForAudit(
               analysisAi: typeof previous.analysisAi === "string" ? previous.analysisAi : "",
               analysisFinal: typeof previous.analysisFinal === "string" ? previous.analysisFinal : "",
               normativeReferences: Array.isArray(previous.normativeReferences) ? previous.normativeReferences : [],
+              aiUnavailable: previous.aiUnavailable === true,
+              aiError: typeof previous.aiError === "string" ? previous.aiError : undefined,
               generatedAt: typeof previous.generatedAt === "string" ? previous.generatedAt : undefined,
               approvedAt: typeof previous.approvedAt === "string" ? previous.approvedAt : undefined,
               approvedBy: typeof previous.approvedBy === "string" ? previous.approvedBy : undefined
@@ -66,7 +68,7 @@ async function reportForAudit(
   const document = currentDocument;
   return persistTechnicalReport(document);
 }
-function view(document: Awaited<ReturnType<typeof reportForAudit>>) { return { id: document.id, auditId: document.auditId, auditCode: document.auditCode, status: document.status, completed: document.items.filter((item) => item.analysisAi).length, total: document.items.length, viewUrl: `/technical-reports/${document.id}`, previewUrl: `/api/relatorios-tecnicos/${document.id}/pdf`, downloadUrl: `/api/relatorios-tecnicos/${document.id}/pdf?download=1` }; }
+function view(document: Awaited<ReturnType<typeof reportForAudit>>) { const items = Array.isArray(document.items) ? document.items : []; return { id: document.id, auditId: document.auditId, auditCode: document.auditCode, status: document.status, completed: items.filter((item) => item.analysisAi || item.aiUnavailable).length, total: items.length, viewUrl: `/technical-reports/${document.id}`, previewUrl: `/api/relatorios-tecnicos/${document.id}/pdf`, downloadUrl: `/api/relatorios-tecnicos/${document.id}/pdf?download=1` }; }
 
 export async function GET(request: NextRequest, context: Params) {
   const auth = await requirePermission(request, "reports.view"); if (auth.response) return auth.response;
@@ -79,7 +81,7 @@ export async function POST(request: NextRequest, context: Params) {
     if (payload.action === "regenerate") {
       const item = document.items.find((candidate) => candidate.questionId === payload.questionId);
       if (!item) throw new Error("Item do relatório técnico não encontrado.");
-      item.analysisAi = ""; item.analysisFinal = ""; item.normativeReferences = [];
+      item.analysisAi = ""; item.analysisFinal = ""; item.normativeReferences = []; item.aiUnavailable = false; item.aiError = undefined;
       document.updatedAt = new Date().toISOString();
       return NextResponse.json({ report: view(await generateTechnicalReportBatch(document, 1)) });
     }

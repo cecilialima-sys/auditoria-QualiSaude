@@ -18,6 +18,9 @@ export type TechnicalReportItem = {
   analysisAi: string;
   analysisFinal: string;
   normativeReferences: NormativeReference[];
+  /** A IA não pôde atender esta tentativa; a evidência original permanece disponível. */
+  aiUnavailable?: boolean;
+  aiError?: string;
   generatedAt?: string;
   approvedAt?: string;
   approvedBy?: string;
