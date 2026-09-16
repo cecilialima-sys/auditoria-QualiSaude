@@ -142,9 +142,20 @@ function validateInput(input: AuditReportInput) {
   return null;
 }
 
-function browserExecutablePath() {
+async function browserExecutablePath() {
+  // Em ambientes Linux gerenciados, o Puppeteer informa o caminho do Chrome
+  // baixado durante o deploy. Nos computadores Windows, mantemos as opções
+  // locais já utilizadas pelo projeto.
+  let bundledChrome: string | undefined;
+  try {
+    const path = await puppeteer.executablePath();
+    if (path && existsSync(path)) bundledChrome = path;
+  } catch {
+    bundledChrome = undefined;
+  }
   const candidates = [
     process.env.PUPPETEER_EXECUTABLE_PATH,
+    bundledChrome,
     "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
     "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
     "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
@@ -249,7 +260,7 @@ export class AuditReportPdfService {
   }
 
   private async renderPdfWithBrowser(report: AuditReportDocument) {
-    const executablePath = browserExecutablePath();
+    const executablePath = await browserExecutablePath();
     const browser = await puppeteer.launch({
       headless: true,
       ...(executablePath ? { executablePath } : {}),
@@ -408,7 +419,7 @@ export class AuditReportPdfService {
 /** Shared server-side renderer used by the independently stored technical report. */
 export async function renderAuditHtmlToPdf(html: string, title = "relatorio") {
   try {
-    const executablePath = browserExecutablePath();
+    const executablePath = await browserExecutablePath();
     const browser = await puppeteer.launch({
       headless: true,
       ...(executablePath ? { executablePath } : {}),
