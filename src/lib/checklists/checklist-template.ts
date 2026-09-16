@@ -1,6 +1,7 @@
 ﻿export type ChecklistResponseType = "sim_nao" | "multipla_escolha" | "texto" | "numero" | "data";
 
 import { importedChecklistGroups } from "@/lib/checklists/imported-checklists";
+import { cmeChecklistItems as transcribedCmeChecklistItems } from "@/lib/cme/cmeForm";
 
 export type ChecklistQuestion = {
   id: string;
@@ -8644,7 +8645,7 @@ export const checklistTemplateGroups: ChecklistGroup[] = [
     }
 ];
 
-const cmeChecklistItems: Array<{ pergunta: string; explicacao: string }> = [
+const legacyCmeChecklistItems: Array<{ pergunta: string; explicacao: string }> = [
   {
     pergunta: "O CME possui identificação do serviço, responsável técnico e equipe com atribuições formalizadas?",
     explicacao: "Verifique a identificação da Central de Material e Esterilização, a designação do responsável técnico e os registros de qualificação e atribuições dos profissionais."
@@ -8746,6 +8747,15 @@ const cmeChecklistItems: Array<{ pergunta: string; explicacao: string }> = [
     explicacao: "Avalie rondas, auditorias internas, análise de riscos, planos de ação, registros de acompanhamento e revisão de processos."
   }
 ];
+
+// Esta é a fonte usada pelo fluxo de criação de Auditorias. Ela utiliza a
+// transcrição integral da lista CME enviada, e não a tela auxiliar /cme.
+const cmeChecklistItems: Array<{ pergunta: string; explicacao: string }> = transcribedCmeChecklistItems.length
+  ? transcribedCmeChecklistItems.map((item) => ({
+      pergunta: item.requirement,
+      explicacao: `${item.guidance}\n\nSugestão de evidências: ${item.evidenceSuggestion}`
+    }))
+  : legacyCmeChecklistItems;
 
 checklistTemplateGroups.push({
   id: "cme-central-material-esterilizacao",
