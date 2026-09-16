@@ -18,9 +18,27 @@ async function reportForAudit(
   // quando o usuário solicitar uma nova emissão.
   const currentDocument = createTechnicalReport({ auditId: id, checklist: details.checklist as any, audit: details.auditoria, responses: details.respostas });
   if (existing) {
-    const previousByQuestion = new Map(existing.document.items.map((item) => [item.questionId, item]));
+    // Registros emitidos por versões anteriores podem não ter a coleção `items`.
+    // Não descartamos o relatório: partimos sempre da auditoria atual e reaproveitamos
+    // apenas as análises válidas que ainda possam ser associadas a uma pergunta.
+    const legacyDocument = existing.document && typeof existing.document === "object"
+      ? existing.document
+      : null;
+    const legacyItems = Array.isArray(legacyDocument?.items) ? legacyDocument.items : [];
+    const previousByQuestion = new Map(
+      legacyItems
+        .filter((item): item is TechnicalAuditReportDocument["items"][number] => Boolean(item && typeof item.questionId === "string"))
+        .map((item) => [item.questionId, item])
+    );
     const document: TechnicalAuditReportDocument = {
-      ...existing.document,
+      // A estrutura base é recriada para que campos obrigatórios adicionados depois
+      // (itens, resumo e orientações) sejam restaurados sem apagar a auditoria.
+      ...currentDocument,
+      id: typeof legacyDocument?.id === "string" ? legacyDocument.id : existing.report.id,
+      createdAt: typeof legacyDocument?.createdAt === "string" ? legacyDocument.createdAt : currentDocument.createdAt,
+      objective: typeof legacyDocument?.objective === "string" ? legacyDocument.objective : currentDocument.objective,
+      scope: typeof legacyDocument?.scope === "string" ? legacyDocument.scope : currentDocument.scope,
+      planNumber: typeof legacyDocument?.planNumber === "string" ? legacyDocument.planNumber : currentDocument.planNumber,
       location: currentDocument.location,
       auditType: currentDocument.auditType,
       normativeReference: currentDocument.normativeReference,
@@ -30,7 +48,15 @@ async function reportForAudit(
       items: currentDocument.items.map((item) => {
         const previous = previousByQuestion.get(item.questionId);
         return previous
-          ? { ...item, ...previous, requirement: item.requirement, classification: item.classification, evidenceOriginal: item.evidenceOriginal || previous.evidenceOriginal, observation: item.observation || previous.observation, auditGuidance: item.auditGuidance }
+          ? {
+              ...item,
+              analysisAi: typeof previous.analysisAi === "string" ? previous.analysisAi : "",
+              analysisFinal: typeof previous.analysisFinal === "string" ? previous.analysisFinal : "",
+              normativeReferences: Array.isArray(previous.normativeReferences) ? previous.normativeReferences : [],
+              generatedAt: typeof previous.generatedAt === "string" ? previous.generatedAt : undefined,
+              approvedAt: typeof previous.approvedAt === "string" ? previous.approvedAt : undefined,
+              approvedBy: typeof previous.approvedBy === "string" ? previous.approvedBy : undefined
+            }
           : item;
       }),
       updatedAt: new Date().toISOString()
