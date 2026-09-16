@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer";
-import { existsSync } from "fs";
+import { existsSync, readdirSync } from "fs";
+import { join } from "path";
 import type { AccessUser } from "@/backend/infrastructure/auth/accessStore";
 import { checklistTemplateGroups } from "@/lib/checklists/checklist-template";
 import { generateAuditInterventions } from "@/backend/application/reports/auditInterventionRules";
@@ -153,9 +154,12 @@ async function browserExecutablePath() {
   } catch {
     bundledChrome = undefined;
   }
+
+  const projectChrome = findProjectChrome();
   const candidates = [
     process.env.PUPPETEER_EXECUTABLE_PATH,
     bundledChrome,
+    projectChrome,
     "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
     "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
     "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
@@ -163,6 +167,30 @@ async function browserExecutablePath() {
   ].filter((item): item is string => Boolean(item));
 
   return candidates.find((candidate) => existsSync(candidate));
+}
+
+function findProjectChrome() {
+  const root = join(process.cwd(), ".cache", "puppeteer");
+  const executableNames = process.platform === "win32" ? ["chrome.exe", "chrome"] : ["chrome"];
+
+  function find(directory: string, depth: number): string | undefined {
+    if (depth < 0 || !existsSync(directory)) return undefined;
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const fullPath = join(directory, entry.name);
+      if (entry.isFile() && executableNames.includes(entry.name)) return fullPath;
+      if (entry.isDirectory()) {
+        const candidate = find(fullPath, depth - 1);
+        if (candidate) return candidate;
+      }
+    }
+    return undefined;
+  }
+
+  try {
+    return find(root, 5);
+  } catch {
+    return undefined;
+  }
 }
 
 export class AuditReportPdfService {
