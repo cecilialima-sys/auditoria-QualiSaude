@@ -326,6 +326,7 @@ model CmeForm {
   nonConformities            Json     @default("[]") @map("non_conformities")
   nonConformityOther         String?  @map("non_conformity_other")
   generalNotes               String?  @map("general_notes")
+  checklistResponses         Json     @default("[]") @map("checklist_responses")
   signerName                 String   @map("signer_name")
   signerRole                 String   @map("signer_role")
   signatureDate              DateTime @map("signature_date")
