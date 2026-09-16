@@ -71,10 +71,21 @@ function dbReportToStored(row: any): StoredAuditReport {
   };
 }
 
+function validReports(value: unknown): StoredAuditReport[] {
+  if (!Array.isArray(value)) return [];
+
+  const reports: StoredAuditReport[] = [];
+  for (const report of value) {
+    if (!report || typeof report !== "object" || typeof (report as { id?: unknown }).id !== "string") continue;
+    reports.push(report as StoredAuditReport);
+  }
+  return reports;
+}
+
 function mergeReports(primary: StoredAuditReport[] | null | undefined, fallback: StoredAuditReport[] | null | undefined) {
   // Protege o histórico contra formatos legados ou conteúdo corrompido.
-  const primaryReports = Array.isArray(primary) ? primary : [];
-  const fallbackReports = Array.isArray(fallback) ? fallback : [];
+  const primaryReports = validReports(primary);
+  const fallbackReports = validReports(fallback);
   const seen = new Set(primaryReports.map((report) => report.id));
   return [
     ...primaryReports,
@@ -87,7 +98,20 @@ async function readDbReports() {
     const rows = await (prisma as any).auditStoredReport.findMany({
       orderBy: { generatedAt: "desc" }
     });
-    return Array.isArray(rows) ? rows.map(dbReportToStored) as StoredAuditReport[] : [];
+    if (!Array.isArray(rows)) return [];
+
+    const reports: StoredAuditReport[] = [];
+    for (const row of rows) {
+      try {
+        reports.push(dbReportToStored(row));
+      } catch (error) {
+        console.warn("[audit-report-store] Relatório inválido ignorado ao carregar histórico.", {
+          reportId: row?.id,
+          message: error instanceof Error ? error.message : String(error)
+        });
+      }
+    }
+    return reports;
   });
 }
 
@@ -150,7 +174,7 @@ export async function getStoredAuditReports() {
   }
 
   const dbReports = await readDbReports();
-  if (!dbReports) return Array.isArray(globalState.qualisaudeAuditReports) ? globalState.qualisaudeAuditReports : [];
+  if (!dbReports) return validReports(globalState.qualisaudeAuditReports);
   return mergeReports(dbReports, globalState.qualisaudeAuditReports);
 }
 

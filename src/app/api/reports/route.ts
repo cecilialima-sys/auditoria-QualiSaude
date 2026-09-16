@@ -7,48 +7,60 @@ import { requirePermission } from "@/backend/presentation/middlewares/authorizat
 export async function GET(request: NextRequest) {
   const auth = await requirePermission(request, "reports.view");
   if (auth.response) return auth.response;
-  const loadedReports = await getStoredAuditReports();
-  const reports = Array.isArray(loadedReports) ? loadedReports : [];
 
-  const items = await Promise.all(reports.map(async (report) => {
-    const base = {
-      id: report.id,
-      auditCode: report.auditCode,
-      sector: report.sector,
-      auditType: report.auditType,
-      auditorName: report.auditorName,
-      compliancePercentage: report.compliancePercentage,
-      result: report.result,
-      generatedAt: report.generatedAt,
-      viewUrl: `/reports/${report.id}`,
-      downloadUrl: `/api/reports/${report.id}/pdf?download=1`
-    };
+  try {
+    const loadedReports = await getStoredAuditReports();
+    const reports = Array.isArray(loadedReports)
+      ? loadedReports.filter((report) => report && typeof report.id === "string")
+      : [];
 
-    try {
-      const stored = await readStoredAuditReportDocument(report.id);
-      const auditId = stored?.document.auditId ?? await resolveAuditIdForStoredReport({
-        checklistId: report.checklistId,
-        auditorId: report.auditorId,
+    const settledItems = await Promise.allSettled(reports.map(async (report) => {
+      const base = {
+        id: report.id,
+        auditCode: report.auditCode,
+        sector: report.sector,
         auditType: report.auditType,
-        sector: report.sector
-      });
-      const technical = auditId ? await findTechnicalAuditReportByAudit(auditId) : null;
-      return {
-        ...base,
-        technicalAuditId: auditId,
-        technicalUrl: technical ? `/technical-reports/${technical.report.id}` : undefined
+        auditorName: report.auditorName,
+        compliancePercentage: report.compliancePercentage,
+        result: report.result,
+        generatedAt: report.generatedAt,
+        viewUrl: `/reports/${report.id}`,
+        downloadUrl: `/api/reports/${report.id}/pdf?download=1`
       };
-    } catch (error) {
-      // A disponibilidade do novo relatório técnico não pode impedir que os
-      // relatórios originais continuem visíveis, inclusive antes da migration.
-      console.warn("[reports] Technical report lookup skipped", {
-        reportId: report.id,
-        message: error instanceof Error ? error.message : String(error)
-      });
-      return base;
-    }
-  }));
-  return NextResponse.json({
-    reports: items
-  });
+
+      try {
+        const stored = await readStoredAuditReportDocument(report.id);
+        const auditId = stored?.document.auditId ?? await resolveAuditIdForStoredReport({
+          checklistId: report.checklistId,
+          auditorId: report.auditorId,
+          auditType: report.auditType,
+          sector: report.sector
+        });
+        const technical = auditId ? await findTechnicalAuditReportByAudit(auditId) : null;
+        return {
+          ...base,
+          technicalAuditId: auditId,
+          technicalUrl: technical ? `/technical-reports/${technical.report.id}` : undefined
+        };
+      } catch (error) {
+        // A disponibilidade do novo relatório técnico não pode impedir que os
+        // relatórios originais continuem visíveis, inclusive antes da migration.
+        console.warn("[reports] Technical report lookup skipped", {
+          reportId: report.id,
+          message: error instanceof Error ? error.message : String(error)
+        });
+        return base;
+      }
+    }));
+
+    const items = settledItems.flatMap((item) => item.status === "fulfilled" ? [item.value] : []);
+    return NextResponse.json({ reports: items });
+  } catch (error) {
+    // O histórico é opcional para o restante da aplicação. Nunca exponha uma
+    // exceção interna ao usuário nem interrompa a tela por dados legados.
+    console.error("[reports] Falha ao carregar histórico", {
+      message: error instanceof Error ? error.message : String(error)
+    });
+    return NextResponse.json({ reports: [] });
+  }
 }
