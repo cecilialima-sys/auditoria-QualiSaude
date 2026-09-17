@@ -66,17 +66,27 @@ export function ReportHistory() {
     setCreatingTechnicalId(report.id);
     setError("");
     try {
-      let generated: { completed: number; total: number } | null = null;
-      do {
+      const initialResponse = await fetch(`/api/auditorias/${encodeURIComponent(report.technicalAuditId)}/relatorio-tecnico`);
+      const initialData = await initialResponse.json();
+      if (!initialResponse.ok) throw new Error(initialData.error ?? "Não foi possível preparar o relatório técnico.");
+
+      const retryUnavailable = Number(initialData.report?.unavailable ?? 0) > 0;
+      const totalToProcess = retryUnavailable
+        ? Number(initialData.report.unavailable)
+        : Math.max(0, Number(initialData.report?.total ?? 0) - Number(initialData.report?.completed ?? 0));
+      const batches = Math.max(1, Math.ceil(totalToProcess / 2));
+
+      for (let batch = 0; batch < batches; batch += 1) {
         const response = await fetch(`/api/auditorias/${encodeURIComponent(report.technicalAuditId)}/relatorio-tecnico`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "generate", limit: 2 })
+          body: JSON.stringify({ action: "generate", limit: 2, retryUnavailable })
         });
         const data = await response.json();
         if (!response.ok) throw new Error(data.error ?? "Não foi possível gerar as constatações técnicas.");
-        generated = data.report;
-      } while (generated && generated.completed < generated.total);
+        if (!retryUnavailable && data.report.completed >= data.report.total) break;
+        if (retryUnavailable && data.report.unavailable === 0) break;
+      }
 
       const response = await fetch(`/api/auditorias/${encodeURIComponent(report.technicalAuditId)}/relatorio-tecnico`, {
         method: "POST",

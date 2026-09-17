@@ -104,12 +104,52 @@ export class TechnicalAuditAiService {
   async synthesize(summary: TechnicalReportSummary, items: TechnicalReportItem[]) {
     const positives = items.filter((item) => item.classification === "Conforme" && item.analysisFinal).slice(0, 4).map((item) => item.analysisFinal);
     const critical = items.filter((item) => item.classification === "Não conforme" && item.analysisFinal).slice(0, 5).map((item) => item.analysisFinal);
-    return {
+    const fallback = {
       ...summary,
       generalOpinion: `Durante a auditoria interna, foram avaliados ${summary.total} requisitos: ${summary.conforming} conforme(s) (${summary.conformityPercentage}%), ${summary.nonConforming} não conforme(s) (${summary.nonConformityPercentage}%) e ${summary.notApplicable} não aplicável(eis). O parecer foi consolidado a partir das classificações e constatações registradas, devendo ser validado pelo auditor responsável antes da emissão definitiva.`,
       positivePoints: positives.length ? positives : ["Não foram registradas evidências suficientes para destacar pontos positivos adicionais."],
       criticalPoints: critical.length ? critical : ["Não foram identificados pontos críticos classificados como não conformes."],
       improvementPoints: critical.length ? critical.map((text) => `Recomenda-se acompanhar o achado relacionado a: ${text}`) : ["Manter o monitoramento periódico dos requisitos avaliados."]
     };
+    const key = process.env.OPENAI_API_KEY?.trim();
+    if (!key || !items.some((item) => item.analysisAi)) return fallback;
+
+    const source = items
+      .filter((item) => item.analysisFinal)
+      .slice(0, 30)
+      .map((item) => `Requisito ${item.number} | ${item.classification}\n${item.analysisFinal}`)
+      .join("\n\n");
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), Math.max(5000, Number(process.env.OPENAI_AI_TIMEOUT_MS || 30000)));
+    try {
+      const response = await fetch("https://api.openai.com/v1/responses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
+        signal: controller.signal,
+        body: JSON.stringify({
+          model: process.env.OPENAI_MODEL?.trim() || "gpt-5-mini",
+          instructions: `Você é um Enfermeiro Auditor Sênior. Consolide exclusivamente as constatações técnicas fornecidas, sem inventar fatos, documentos, datas, normas ou conclusões. Retorne somente JSON válido com as chaves generalOpinion (texto), positivePoints (até 4 textos), criticalPoints (até 5 textos) e improvementPoints (até 5 textos). Use português brasileiro formal. Os pontos de melhoria devem ser proporcionais aos achados e não criar exigências novas.`,
+          input: `Resumo numérico: ${summary.conforming} conformes, ${summary.nonConforming} não conformes, ${summary.notApplicable} não aplicáveis, de ${summary.total} requisitos.\n\nConstatações:\n${source}`,
+          max_output_tokens: 1100,
+          store: false
+        })
+      });
+      const body = await response.json().catch(() => null);
+      if (!response.ok) return fallback;
+      const parsed = JSON.parse(outputText(body));
+      const list = (value: unknown, limit: number) => Array.isArray(value)
+        ? value.filter((entry): entry is string => typeof entry === "string" && entry.trim().length > 0).map((entry) => clean(entry)).filter(Boolean).slice(0, limit)
+        : [];
+      const generalOpinion = typeof parsed?.generalOpinion === "string" ? clean(parsed.generalOpinion) : "";
+      const positivePoints = list(parsed?.positivePoints, 4);
+      const criticalPoints = list(parsed?.criticalPoints, 5);
+      const improvementPoints = list(parsed?.improvementPoints, 5);
+      if (!generalOpinion || !positivePoints.length || !criticalPoints.length || !improvementPoints.length) return fallback;
+      return { ...summary, generalOpinion, positivePoints, criticalPoints, improvementPoints };
+    } catch {
+      return fallback;
+    } finally {
+      clearTimeout(timer);
+    }
   }
 }
