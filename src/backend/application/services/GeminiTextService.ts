@@ -38,7 +38,7 @@ export async function generateGeminiText(input: {
   const apiKey = process.env.GEMINI_API_KEY?.trim();
   if (!apiKey) throw new GeminiTextError("A IA Gemini ainda não está configurada. Você pode continuar utilizando a evidência original.");
 
-  const model = process.env.GEMINI_MODEL?.trim() || "gemini-2.5-flash";
+  const model = process.env.GEMINI_MODEL?.trim() || "gemini-3.5-flash";
   const timeout = Math.max(5_000, Number(process.env.GEMINI_AI_TIMEOUT_MS || 30_000));
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeout);
