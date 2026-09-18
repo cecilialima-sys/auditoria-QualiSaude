@@ -14,9 +14,19 @@ export class EvidenceAiError extends Error {
   }
 }
 
-const SYSTEM_INSTRUCTIONS = `Você é um assistente especializado em redação técnica de relatórios de auditoria hospitalar. Sua função é aprimorar a redação da evidência fornecida, tornando o texto claro, profissional, coeso, objetivo e apropriado para um relatório formal.
+import { GeminiTextError, generateGeminiText } from "./GeminiTextService";
 
-Use exclusivamente as informações fornecidas pelo auditor. É proibido inventar, presumir ou acrescentar fatos, datas, documentos, pessoas, locais, equipamentos, causas, consequências, conclusões ou evidências que não estejam no texto original ou no contexto explicitamente enviado. Não altere o significado, a classificação ou a gravidade da evidência. Não transforme suposições em afirmações. Não crie recomendações, planos de ação ou soluções. Se a evidência for curta, amplie somente sua organização e redação, sem criar novos fatos. Produza somente um texto em português do Brasil, em parágrafo, sem título, lista, HTML ou observações sobre sua resposta.`;
+const SYSTEM_INSTRUCTIONS = `Você é um Enfermeiro Auditor Sênior especializado em auditoria hospitalar, qualidade assistencial, segurança do paciente e gestão de riscos. Sua única tarefa é reescrever a evidência registrada pelo auditor em português brasileiro técnico, claro, coeso, objetivo e formal.
+
+REGRAS INEGOCIÁVEIS:
+1. Use exclusivamente fatos explicitamente informados na evidência original. O checklist serve apenas para compreender o assunto, nunca como prova de que algo ocorreu.
+2. É proibido criar, supor ou completar datas, nomes, cargos, documentos, registros, equipamentos, locais, entrevistas, causas, consequências, resultados, normas, leis, recomendações ou ações corretivas.
+3. Não cite legislação ou número de norma. Não altere a classificação, a gravidade, o sentido ou o grau de certeza do registro.
+4. Se a evidência usar termos como “não apresentou”, “informou”, “aparenta” ou “sem documento”, preserve o mesmo grau de certeza: escreva “não foi apresentado”, “foi informado” ou equivalente; não transforme em fato comprovado.
+5. Não acrescente conclusão técnica, diagnóstico, recomendação, plano de ação ou juízo de valor.
+6. Se houver pouca informação, melhore apenas gramática, pontuação e organização; não aumente artificialmente o texto.
+
+Produza somente um único parágrafo em texto puro, sem título, lista, HTML, introduções nem observações sobre a resposta.`;
 
 function styleInstruction(style: EvidenceImprovementInput["style"]) {
   const styles = {
@@ -51,83 +61,22 @@ export function sanitizeEvidenceSuggestion(value: string) {
   return plainText;
 }
 
-function responseText(data: unknown) {
-  const response = data as {
-    output_text?: string;
-    output?: Array<{ content?: Array<{ type?: string; text?: string }> }>;
-  };
-  if (typeof response.output_text === "string") return response.output_text;
-  return (response.output ?? [])
-    .flatMap((output) => output.content ?? [])
-    .filter((content) => content.type === "output_text")
-    .map((content) => content.text ?? "")
-    .join("\n");
-}
-
-function providerErrorMessage(status: number, body: unknown) {
-  const code = typeof (body as { error?: { code?: unknown } } | null)?.error?.code === "string"
-    ? (body as { error: { code: string } }).error.code
-    : "";
-  if (status === 429) {
-    return code === "insufficient_quota"
-      ? "Os créditos disponíveis para a IA foram esgotados. Verifique o faturamento da integração e tente novamente."
-      : "A IA atingiu o limite temporário de uso. Aguarde alguns instantes e tente novamente.";
-  }
-  if (status === 401 || status === 403) return "A integração de IA recusou a configuração atual. Verifique a chave configurada no ambiente do servidor.";
-  if (status === 400 || status === 404) return "A configuração do modelo de IA não foi aceita. Verifique o modelo definido no ambiente do servidor.";
-  return "A melhoria por IA está temporariamente indisponível. Você pode continuar utilizando a evidência original.";
-}
-
 export class AuditEvidenceAiService {
   async improveEvidence(input: EvidenceImprovementInput) {
     const evidenceOriginal = input.evidenceOriginal.trim();
     if (!evidenceOriginal) throw new EvidenceAiError("Adicione uma evidência antes de utilizar a melhoria por IA.", 400);
 
-    const apiKey = process.env.OPENAI_API_KEY?.trim();
-    if (!apiKey) {
-      throw new EvidenceAiError("A melhoria por IA ainda não está configurada. Você pode continuar usando a evidência original.");
-    }
-
-    const controller = new AbortController();
-    const timeout = Math.max(5_000, Number(process.env.OPENAI_AI_TIMEOUT_MS || 20_000));
-    const timer = setTimeout(() => controller.abort(), timeout);
-
     try {
-      const response = await fetch("https://api.openai.com/v1/responses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-          model: process.env.OPENAI_MODEL?.trim() || "gpt-5-mini",
-          instructions: SYSTEM_INSTRUCTIONS,
-          input: buildEvidenceImprovementPrompt({ ...input, evidenceOriginal }),
-          max_output_tokens: 500,
-          store: false
-        }),
-        signal: controller.signal
+      const suggestion = await generateGeminiText({
+        instruction: SYSTEM_INSTRUCTIONS,
+        prompt: buildEvidenceImprovementPrompt({ ...input, evidenceOriginal }),
+        maxOutputTokens: 500
       });
-
-      const body = await response.json().catch(() => null);
-      if (!response.ok) {
-        const code = typeof (body as { error?: { code?: unknown } } | null)?.error?.code === "string"
-          ? (body as { error: { code: string } }).error.code
-          : undefined;
-        console.error("[audit-evidence-ai] OpenAI request failed", { status: response.status, code });
-        throw new EvidenceAiError(providerErrorMessage(response.status, body), response.status);
-      }
-
-      return sanitizeEvidenceSuggestion(responseText(body));
+      return sanitizeEvidenceSuggestion(suggestion);
     } catch (error) {
       if (error instanceof EvidenceAiError) throw error;
-      if (error instanceof DOMException && error.name === "AbortError") {
-        throw new EvidenceAiError("A melhoria por IA demorou mais que o esperado. Tente novamente ou continue com a evidência original.");
-      }
-      console.error("[audit-evidence-ai] Unexpected failure", error instanceof Error ? error.message : error);
-      throw new EvidenceAiError("A melhoria por IA está temporariamente indisponível. Você pode continuar utilizando a evidência original.");
-    } finally {
-      clearTimeout(timer);
+      if (error instanceof GeminiTextError) throw new EvidenceAiError(error.message, error.status);
+      throw new EvidenceAiError("A IA Gemini está temporariamente indisponível. Você pode continuar utilizando a evidência original.");
     }
   }
 }

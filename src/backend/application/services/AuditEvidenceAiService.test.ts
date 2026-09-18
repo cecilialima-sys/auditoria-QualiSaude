@@ -27,8 +27,8 @@ test("rejeita sugestão vazia", () => {
 });
 
 test("sem chave de API a auditoria pode seguir sem IA", async () => {
-  const previous = process.env.OPENAI_API_KEY;
-  delete process.env.OPENAI_API_KEY;
+  const previous = process.env.GEMINI_API_KEY;
+  delete process.env.GEMINI_API_KEY;
   await assert.rejects(
     new AuditEvidenceAiService().improveEvidence({
       checklistTitle: "Checklist de teste",
@@ -38,5 +38,5 @@ test("sem chave de API a auditoria pode seguir sem IA", async () => {
     }),
     /não está configurada/
   );
-  if (previous) process.env.OPENAI_API_KEY = previous;
+  if (previous) process.env.GEMINI_API_KEY = previous;
 });

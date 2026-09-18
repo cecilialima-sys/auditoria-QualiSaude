@@ -1,19 +1,16 @@
 import type { NormativeReference, TechnicalReportItem, TechnicalReportSummary } from "@/backend/application/reports/technicalAuditReportTypes";
+import { GeminiTextError, generateGeminiText } from "./GeminiTextService";
 
 export class TechnicalAuditAiError extends Error {}
 
 const INSTRUCTIONS = `Você é um Enfermeiro Auditor Sênior especializado em auditoria hospitalar, qualidade assistencial, segurança do paciente e gestão de riscos. Redija uma constatação técnica em português brasileiro formal, clara, detalhada e proporcional, pronta para um Relatório de Auditoria Interna no padrão institucional.
 
-Use exclusivamente o requisito, a orientação de auditoria, a classificação e as evidências fornecidas. Nunca invente entrevistas, documentos, datas, nomes, normas, procedimentos, consequências, causas ou ações. Não altere a classificação nem transforme ausência de evidência em certeza. Quando algo não foi apresentado, use “não foi evidenciado” ou “não foi apresentado”.
+Use exclusivamente o requisito, a orientação de auditoria, a classificação e as evidências fornecidas. O requisito e a orientação não comprovam fatos: servem somente como contexto. Nunca invente ou complete entrevistas, documentos, datas, nomes, normas, procedimentos, consequências, causas, ações, resultados ou evidências. Não altere a classificação nem transforme ausência de evidência em certeza. Quando algo não foi apresentado, use “não foi evidenciado” ou “não foi apresentado”. Não cite legislação nem números de normas, exceto quando ela constar expressamente na lista validada e for diretamente pertinente ao achado.
 
 Produza de dois a quatro parágrafos curtos, usando marcador “•” no início de cada parágrafo: primeiro descreva a constatação; depois explique a aderência ou fragilidade em linguagem técnico-assistencial; para itens não conformes, inclua um “Ponto de atenção:” com recomendação proporcional e vinculada ao achado. Para itens conformes, descreva a evidência de aderência sem criar elogios ou controles não observados.
 
 Mencione legislação, regulamento ou manual somente quando ele estiver na lista de referências normativas validadas recebida no contexto. Não cite números de normas não fornecidos. Ao utilizar uma referência validada, mencione-a de forma objetiva e apenas se for diretamente pertinente ao requisito. Não use HTML, títulos, linguagem acusatória nem listas de documentos inexistentes.`;
 
-function outputText(body: any) {
-  if (typeof body?.output_text === "string") return body.output_text;
-  return (body?.output ?? []).flatMap((item: any) => item.content ?? []).filter((item: any) => item.type === "output_text").map((item: any) => item.text ?? "").join("\n");
-}
 function clean(value: string) {
   return value
     .replace(/<[^>]*>/g, " ")
@@ -22,19 +19,6 @@ function clean(value: string) {
     .filter(Boolean)
     .join("\n")
     .slice(0, 12000);
-}
-
-function providerMessage(status: number, body: unknown) {
-  const code = typeof (body as { error?: { code?: unknown } } | null)?.error?.code === "string"
-    ? (body as { error: { code: string } }).error.code
-    : "";
-  if (status === 429) {
-    return code === "insufficient_quota"
-      ? "Os créditos da integração de IA foram esgotados. O relatório pode ser emitido com as evidências originais."
-      : "A IA atingiu o limite temporário de uso. O relatório pode ser emitido com as evidências originais.";
-  }
-  if (status === 401 || status === 403) return "A configuração da integração de IA foi recusada. O relatório pode ser emitido com as evidências originais.";
-  return "Não foi possível concluir a análise por IA neste momento. O relatório pode ser emitido com as evidências originais.";
 }
 
 function normalized(value: string) {
@@ -78,27 +62,17 @@ export class TechnicalAuditAiService {
     const evidence = [item.evidenceOriginal, item.observation].filter(Boolean).join("\nObservações: ");
     const references = validatedReferences(item, context.normativeReference);
     if (!evidence.trim()) return { analysis: "• Não foi registrada evidência ou observação complementar para este requisito.\n• Ponto de atenção: a constatação deve ser revisada pelo auditor antes da emissão do relatório.", references };
-    const key = process.env.OPENAI_API_KEY?.trim();
-    if (!key) throw new TechnicalAuditAiError("A análise técnica por IA ainda não está configurada. Os dados da auditoria foram preservados.");
-    const controller = new AbortController(); const timer = setTimeout(() => controller.abort(), Math.max(5000, Number(process.env.OPENAI_AI_TIMEOUT_MS || 30000)));
     try {
       const referenceText = references.map((reference) => reference.label).join("\n") || "Nenhuma referência normativa específica validada.";
-      // Modelos GPT-5 não aceitam o parâmetro `temperature` na Responses API.
-      // A consistência é obtida pelas instruções específicas e pelo limite de saída.
-      const response = await fetch("https://api.openai.com/v1/responses", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` }, signal: controller.signal, body: JSON.stringify({ model: process.env.OPENAI_MODEL?.trim() || "gpt-5-mini", instructions: INSTRUCTIONS, input: `Setor: ${context.sector}\nTipo de auditoria: ${context.auditType}\nNorma/checklist de referência: ${context.normativeReference}\nNúmero do requisito: ${item.number}\nRequisito: ${item.requirement}\nOrientação para auditoria: ${item.auditGuidance || "Não informada"}\nClassificação definida pelo auditor: ${item.classification}\nEvidência original do auditor: ${item.evidenceOriginal || "Não informada"}\nObservações adicionais: ${item.observation || "Não informadas"}\nReferências normativas validadas (use apenas se pertinentes):\n${referenceText}\n\nElabore somente a constatação técnica no formato solicitado.`, max_output_tokens: 1100, store: false }) });
-      const body = await response.json().catch(() => null);
-      if (!response.ok) {
-        const code = typeof body?.error?.code === "string" ? body.error.code : undefined;
-        console.warn("[technical-audit-ai] OpenAI failure", { status: response.status, code });
-        throw new TechnicalAuditAiError(providerMessage(response.status, body));
-      }
-      const analysis = clean(outputText(body));
+      const generated = await generateGeminiText({ instruction: INSTRUCTIONS, prompt: `Setor: ${context.sector}\nTipo de auditoria: ${context.auditType}\nNorma/checklist de referência: ${context.normativeReference}\nNúmero do requisito: ${item.number}\nRequisito: ${item.requirement}\nOrientação para auditoria: ${item.auditGuidance || "Não informada"}\nClassificação definida pelo auditor: ${item.classification}\nEvidência original do auditor: ${item.evidenceOriginal || "Não informada"}\nObservações adicionais: ${item.observation || "Não informadas"}\nReferências normativas validadas (use apenas se pertinentes):\n${referenceText}\n\nElabore somente a constatação técnica no formato solicitado.`, maxOutputTokens: 1100 });
+      const analysis = clean(generated);
       if (!analysis) throw new TechnicalAuditAiError("A IA não retornou uma análise válida. Tente novamente.");
       return { analysis, references };
     } catch (error) {
       if (error instanceof TechnicalAuditAiError) throw error;
+      if (error instanceof GeminiTextError) throw new TechnicalAuditAiError(error.message);
       throw new TechnicalAuditAiError("Não foi possível concluir a análise por IA neste momento. Os dados da auditoria estão preservados. Tente novamente.");
-    } finally { clearTimeout(timer); }
+    }
   }
 
   async synthesize(summary: TechnicalReportSummary, items: TechnicalReportItem[]) {
@@ -111,32 +85,21 @@ export class TechnicalAuditAiService {
       criticalPoints: critical.length ? critical : ["Não foram identificados pontos críticos classificados como não conformes."],
       improvementPoints: critical.length ? critical.map((text) => `Recomenda-se acompanhar o achado relacionado a: ${text}`) : ["Manter o monitoramento periódico dos requisitos avaliados."]
     };
-    const key = process.env.OPENAI_API_KEY?.trim();
-    if (!key || !items.some((item) => item.analysisAi)) return fallback;
+    if (!process.env.GEMINI_API_KEY?.trim() || !items.some((item) => item.analysisAi)) return fallback;
 
     const source = items
       .filter((item) => item.analysisFinal)
       .slice(0, 30)
       .map((item) => `Requisito ${item.number} | ${item.classification}\n${item.analysisFinal}`)
       .join("\n\n");
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), Math.max(5000, Number(process.env.OPENAI_AI_TIMEOUT_MS || 30000)));
     try {
-      const response = await fetch("https://api.openai.com/v1/responses", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
-        signal: controller.signal,
-        body: JSON.stringify({
-          model: process.env.OPENAI_MODEL?.trim() || "gpt-5-mini",
-          instructions: `Você é um Enfermeiro Auditor Sênior. Consolide exclusivamente as constatações técnicas fornecidas, sem inventar fatos, documentos, datas, normas ou conclusões. Retorne somente JSON válido com as chaves generalOpinion (texto), positivePoints (até 4 textos), criticalPoints (até 5 textos) e improvementPoints (até 5 textos). Use português brasileiro formal. Os pontos de melhoria devem ser proporcionais aos achados e não criar exigências novas.`,
-          input: `Resumo numérico: ${summary.conforming} conformes, ${summary.nonConforming} não conformes, ${summary.notApplicable} não aplicáveis, de ${summary.total} requisitos.\n\nConstatações:\n${source}`,
-          max_output_tokens: 1100,
-          store: false
-        })
+      const response = await generateGeminiText({
+        instruction: `Você é um Enfermeiro Auditor Sênior. Consolide exclusivamente as constatações técnicas fornecidas, sem inventar fatos, documentos, datas, normas ou conclusões. Retorne somente JSON válido com as chaves generalOpinion (texto), positivePoints (até 4 textos), criticalPoints (até 5 textos) e improvementPoints (até 5 textos). Use português brasileiro formal. Os pontos de melhoria devem ser proporcionais aos achados e não criar exigências novas.`,
+        prompt: `Resumo numérico: ${summary.conforming} conformes, ${summary.nonConforming} não conformes, ${summary.notApplicable} não aplicáveis, de ${summary.total} requisitos.\n\nConstatações:\n${source}`,
+        maxOutputTokens: 1100,
+        responseMimeType: "application/json"
       });
-      const body = await response.json().catch(() => null);
-      if (!response.ok) return fallback;
-      const parsed = JSON.parse(outputText(body));
+      const parsed = JSON.parse(response);
       const list = (value: unknown, limit: number) => Array.isArray(value)
         ? value.filter((entry): entry is string => typeof entry === "string" && entry.trim().length > 0).map((entry) => clean(entry)).filter(Boolean).slice(0, limit)
         : [];
@@ -148,8 +111,6 @@ export class TechnicalAuditAiService {
       return { ...summary, generalOpinion, positivePoints, criticalPoints, improvementPoints };
     } catch {
       return fallback;
-    } finally {
-      clearTimeout(timer);
     }
   }
 }
