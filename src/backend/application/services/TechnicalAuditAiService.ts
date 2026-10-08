@@ -3,13 +3,17 @@ import { OpenAiTextError, generateOpenAiText } from "./OpenAiTextService";
 
 export class TechnicalAuditAiError extends Error {}
 
-const INSTRUCTIONS = `Você é um Enfermeiro Auditor Sênior especializado em auditoria hospitalar, qualidade assistencial, segurança do paciente e gestão de riscos. Redija uma constatação técnica em português brasileiro formal, clara, detalhada e proporcional, pronta para um Relatório de Auditoria Interna no padrão institucional.
+const INSTRUCTIONS = `Você é um Enfermeiro Auditor Sênior, especialista em auditoria hospitalar, qualidade assistencial, segurança do paciente e gestão de riscos. Redija uma constatação técnico-auditiva em português brasileiro formal, clara, objetiva e pronta para integrar um Relatório Técnico de Auditoria.
 
-Use exclusivamente o requisito, a orientação de auditoria, a classificação e as evidências fornecidas. O requisito e a orientação não comprovam fatos: servem somente como contexto. Nunca invente ou complete entrevistas, documentos, datas, nomes, normas, procedimentos, consequências, causas, ações, resultados ou evidências. Não altere a classificação nem transforme ausência de evidência em certeza. Quando algo não foi apresentado, use “não foi evidenciado” ou “não foi apresentado”. Não cite legislação nem números de normas, exceto quando ela constar expressamente na lista validada e for diretamente pertinente ao achado.
+Use exclusivamente a evidência do auditor para declarar fatos. O requisito, a orientação e as referências normativas contextualizam a análise, mas não provam que algo ocorreu. É proibido inventar, completar ou presumir entrevistas, documentos, datas, nomes, locais, equipamentos, processos, causas, consequências, resultados ou evidências. Não altere a classificação nem aumente ou reduza a gravidade. Quando não houver apresentação de evidência, use “não foi evidenciado” ou “não foi apresentado”, sem afirmar que inexiste.
 
-Produza de dois a quatro parágrafos curtos, usando marcador “•” no início de cada parágrafo: primeiro descreva a constatação; depois explique a aderência ou fragilidade em linguagem técnico-assistencial; para itens não conformes, inclua um “Ponto de atenção:” com recomendação proporcional e vinculada ao achado. Para itens conformes, descreva a evidência de aderência sem criar elogios ou controles não observados.
+Produza entre três e quatro parágrafos curtos, iniciados por “•”, obrigatoriamente nesta ordem:
+1. “Constatação:” descreva fielmente o achado ou a evidência disponível.
+2. “Análise técnico-assistencial:” relacione o achado ao requisito avaliado, sem extrapolar os fatos.
+3. “Referencial técnico-normativo:” mencione apenas as referências que vierem na lista validada e que forem diretamente pertinentes. Se nenhuma for pertinente, escreva “não indicado para este achado”.
+4. Para classificação “Não conforme”, inclua “Oportunidade de melhoria:” com encaminhamento proporcional ao fato registrado; para “Conforme”, descreva a aderência registrada sem criar elogios, controles ou resultados não observados; para “Não se aplica”, registre somente a justificativa disponível.
 
-Mencione legislação, regulamento ou manual somente quando ele estiver na lista de referências normativas validadas recebida no contexto. Não cite números de normas não fornecidos. Ao utilizar uma referência validada, mencione-a de forma objetiva e apenas se for diretamente pertinente ao requisito. Não use HTML, títulos, linguagem acusatória nem listas de documentos inexistentes.`;
+Não use HTML, títulos adicionais, linguagem acusatória, ameaças de sanção, listas de documentos inexistentes nem recomendações não relacionadas ao achado.`;
 
 function clean(value: string) {
   return value
@@ -46,6 +50,37 @@ function validatedReferences(item: TechnicalReportItem, normativeReference: stri
     });
   }
 
+  if (/(enfermagem|equipe de enfermagem|assistencia de enfermagem|profissional de enfermagem)/.test(subject)) {
+    references.push(
+      {
+        label: "Lei nº 7.498/1986 — Regulamenta o exercício da Enfermagem",
+        sourceUrl: "https://www.planalto.gov.br/ccivil_03/leis/l7498.htm"
+      },
+      {
+        label: "Decreto nº 94.406/1987 — Regulamenta a Lei nº 7.498/1986",
+        sourceUrl: "https://www.planalto.gov.br/ccivil_03/decreto/1980-1989/d94406.htm"
+      },
+      {
+        label: "Resolução Cofen nº 564/2017 — Código de Ética dos Profissionais de Enfermagem",
+        sourceUrl: "https://www.cofen.gov.br/resolucao-cofen-no-5642017/"
+      }
+    );
+  }
+
+  if (/(registro|prontuario|prontuário|anotacao|anotação|processo de enfermagem|sistematiza)/.test(subject)) {
+    references.push({
+      label: "Resolução Cofen nº 736/2024 — Implementação do Processo de Enfermagem",
+      sourceUrl: "https://www.cofen.gov.br/resolucao-cofen-no-736-de-17-de-janeiro-de-2024/"
+    });
+  }
+
+  if (/(responsavel tecnico|responsável técnico|anotacao de responsabilidade tecnica|anotação de responsabilidade técnica|\bart\b|\bert\b)/.test(subject)) {
+    references.push({
+      label: "Resolução Cofen nº 782/2025 — Anotação de Responsabilidade Técnica e atribuições do Enfermeiro Responsável Técnico",
+      sourceUrl: "https://www.cofen.gov.br/cofen-define-novas-regras-para-anotacao-de-responsabilidade-tecnica-e-especifica-atribuicoes-de-responsaveis-tecnicos/"
+    });
+  }
+
   if (/(cme|esteriliz|processamento de produtos|autoclave|termodesinfectadora)/.test(subject)) {
     references.push({
       label: "RDC Anvisa nº 15/2012 — Boas Práticas para o Processamento de Produtos para Saúde",
@@ -53,7 +88,7 @@ function validatedReferences(item: TechnicalReportItem, normativeReference: stri
     });
   }
 
-  return references;
+  return references.filter((reference, index, all) => all.findIndex((candidate) => candidate.label === reference.label) === index);
 }
 
 export class TechnicalAuditAiService {
