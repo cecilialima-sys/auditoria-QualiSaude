@@ -14,7 +14,7 @@ export class EvidenceAiError extends Error {
   }
 }
 
-import { GeminiTextError, generateGeminiText } from "./GeminiTextService";
+import { OpenAiTextError, generateOpenAiText } from "./OpenAiTextService";
 
 const SYSTEM_INSTRUCTIONS = `Você é um Enfermeiro Auditor Sênior especializado em auditoria hospitalar, qualidade assistencial, segurança do paciente e gestão de riscos. Sua única tarefa é reescrever a evidência registrada pelo auditor em português brasileiro técnico, claro, coeso, objetivo e formal.
 
@@ -67,7 +67,7 @@ export class AuditEvidenceAiService {
     if (!evidenceOriginal) throw new EvidenceAiError("Adicione uma evidência antes de utilizar a melhoria por IA.", 400);
 
     try {
-      const suggestion = await generateGeminiText({
+      const suggestion = await generateOpenAiText({
         instruction: SYSTEM_INSTRUCTIONS,
         prompt: buildEvidenceImprovementPrompt({ ...input, evidenceOriginal }),
         maxOutputTokens: 500
@@ -75,8 +75,8 @@ export class AuditEvidenceAiService {
       return sanitizeEvidenceSuggestion(suggestion);
     } catch (error) {
       if (error instanceof EvidenceAiError) throw error;
-      if (error instanceof GeminiTextError) throw new EvidenceAiError(error.message, error.status);
-      throw new EvidenceAiError("A IA Gemini está temporariamente indisponível. Você pode continuar utilizando a evidência original.");
+      if (error instanceof OpenAiTextError) throw new EvidenceAiError(error.message, error.status);
+      throw new EvidenceAiError("A IA OpenAI está temporariamente indisponível. Você pode continuar utilizando a evidência original.");
     }
   }
 }

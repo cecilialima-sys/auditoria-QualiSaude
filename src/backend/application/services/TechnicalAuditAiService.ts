@@ -1,5 +1,5 @@
 import type { NormativeReference, TechnicalReportItem, TechnicalReportSummary } from "@/backend/application/reports/technicalAuditReportTypes";
-import { GeminiTextError, generateGeminiText } from "./GeminiTextService";
+import { OpenAiTextError, generateOpenAiText } from "./OpenAiTextService";
 
 export class TechnicalAuditAiError extends Error {}
 
@@ -64,13 +64,13 @@ export class TechnicalAuditAiService {
     if (!evidence.trim()) return { analysis: "• Não foi registrada evidência ou observação complementar para este requisito.\n• Ponto de atenção: a constatação deve ser revisada pelo auditor antes da emissão do relatório.", references };
     try {
       const referenceText = references.map((reference) => reference.label).join("\n") || "Nenhuma referência normativa específica validada.";
-      const generated = await generateGeminiText({ instruction: INSTRUCTIONS, prompt: `Setor: ${context.sector}\nTipo de auditoria: ${context.auditType}\nNorma/checklist de referência: ${context.normativeReference}\nNúmero do requisito: ${item.number}\nRequisito: ${item.requirement}\nOrientação para auditoria: ${item.auditGuidance || "Não informada"}\nClassificação definida pelo auditor: ${item.classification}\nEvidência original do auditor: ${item.evidenceOriginal || "Não informada"}\nObservações adicionais: ${item.observation || "Não informadas"}\nReferências normativas validadas (use apenas se pertinentes):\n${referenceText}\n\nElabore somente a constatação técnica no formato solicitado.`, maxOutputTokens: 1100 });
+      const generated = await generateOpenAiText({ instruction: INSTRUCTIONS, prompt: `Setor: ${context.sector}\nTipo de auditoria: ${context.auditType}\nNorma/checklist de referência: ${context.normativeReference}\nNúmero do requisito: ${item.number}\nRequisito: ${item.requirement}\nOrientação para auditoria: ${item.auditGuidance || "Não informada"}\nClassificação definida pelo auditor: ${item.classification}\nEvidência original do auditor: ${item.evidenceOriginal || "Não informada"}\nObservações adicionais: ${item.observation || "Não informadas"}\nReferências normativas validadas (use apenas se pertinentes):\n${referenceText}\n\nElabore somente a constatação técnica no formato solicitado.`, maxOutputTokens: 1100 });
       const analysis = clean(generated);
       if (!analysis) throw new TechnicalAuditAiError("A IA não retornou uma análise válida. Tente novamente.");
       return { analysis, references };
     } catch (error) {
       if (error instanceof TechnicalAuditAiError) throw error;
-      if (error instanceof GeminiTextError) throw new TechnicalAuditAiError(error.message);
+      if (error instanceof OpenAiTextError) throw new TechnicalAuditAiError(error.message);
       throw new TechnicalAuditAiError("Não foi possível concluir a análise por IA neste momento. Os dados da auditoria estão preservados. Tente novamente.");
     }
   }
@@ -85,7 +85,7 @@ export class TechnicalAuditAiService {
       criticalPoints: critical.length ? critical : ["Não foram identificados pontos críticos classificados como não conformes."],
       improvementPoints: critical.length ? critical.map((text) => `Recomenda-se acompanhar o achado relacionado a: ${text}`) : ["Manter o monitoramento periódico dos requisitos avaliados."]
     };
-    if (!process.env.GEMINI_API_KEY?.trim() || !items.some((item) => item.analysisAi)) return fallback;
+    if (!process.env.OPENAI_API_KEY?.trim() || !items.some((item) => item.analysisAi)) return fallback;
 
     const source = items
       .filter((item) => item.analysisFinal)
@@ -93,11 +93,10 @@ export class TechnicalAuditAiService {
       .map((item) => `Requisito ${item.number} | ${item.classification}\n${item.analysisFinal}`)
       .join("\n\n");
     try {
-      const response = await generateGeminiText({
+      const response = await generateOpenAiText({
         instruction: `Você é um Enfermeiro Auditor Sênior. Consolide exclusivamente as constatações técnicas fornecidas, sem inventar fatos, documentos, datas, normas ou conclusões. Retorne somente JSON válido com as chaves generalOpinion (texto), positivePoints (até 4 textos), criticalPoints (até 5 textos) e improvementPoints (até 5 textos). Use português brasileiro formal. Os pontos de melhoria devem ser proporcionais aos achados e não criar exigências novas.`,
         prompt: `Resumo numérico: ${summary.conforming} conformes, ${summary.nonConforming} não conformes, ${summary.notApplicable} não aplicáveis, de ${summary.total} requisitos.\n\nConstatações:\n${source}`,
-        maxOutputTokens: 1100,
-        responseMimeType: "application/json"
+        maxOutputTokens: 1100
       });
       const parsed = JSON.parse(response);
       const list = (value: unknown, limit: number) => Array.isArray(value)
