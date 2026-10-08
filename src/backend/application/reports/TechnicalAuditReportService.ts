@@ -94,3 +94,21 @@ export async function generateTechnicalReportBatch(document: TechnicalAuditRepor
   if (!next.items.some((item) => !item.analysisAi && !item.aiUnavailable)) { next.summary = await ai.synthesize(calculate(next.items), next.items); next.status = "ready"; next.closingDate = new Date().toISOString(); }
   next.updatedAt = new Date().toISOString(); return persistTechnicalReport(next);
 }
+
+/**
+ * Recria o parecer e os quadros de síntese a partir das análises já salvas.
+ * Essa etapa também atende relatórios emitidos antes da existência da síntese.
+ */
+export async function refreshTechnicalReportSummary(document: TechnicalAuditReportDocument) {
+  const items = Array.isArray(document.items) ? document.items : [];
+  const ai = new TechnicalAuditAiService();
+  const next: TechnicalAuditReportDocument = {
+    ...document,
+    items: items.map((item) => ({ ...item })),
+    summary: await ai.synthesize(calculate(items), items),
+    status: "ready",
+    closingDate: document.closingDate || new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+  return persistTechnicalReport(next);
+}

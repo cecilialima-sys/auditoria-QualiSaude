@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createTechnicalReport, generateTechnicalReportBatch, persistTechnicalReport } from "@/backend/application/reports/TechnicalAuditReportService";
+import { createTechnicalReport, generateTechnicalReportBatch, persistTechnicalReport, refreshTechnicalReportSummary } from "@/backend/application/reports/TechnicalAuditReportService";
 import type { TechnicalAuditReportDocument } from "@/backend/application/reports/technicalAuditReportTypes";
 import { findTechnicalAuditReportByAudit } from "@/backend/infrastructure/reports/technicalAuditReportStore";
 import { getAuditWorkflowDetails } from "@/backend/infrastructure/audits/auditWorkflowStore";
@@ -25,6 +25,7 @@ async function reportForAudit(
       ? existing.document
       : null;
     const legacyItems = Array.isArray(legacyDocument?.items) ? legacyDocument.items : [];
+    const legacySummary = legacyDocument?.summary;
     const previousByQuestion = new Map(
       legacyItems
         .filter((item): item is TechnicalAuditReportDocument["items"][number] => Boolean(item && typeof item.questionId === "string"))
@@ -61,6 +62,17 @@ async function reportForAudit(
             }
           : item;
       }),
+      // A reemissão do PDF não pode apagar o parecer, os pontos positivos,
+      // negativos e oportunidades já consolidados pela IA.
+      summary: legacySummary && typeof legacySummary === "object"
+        ? {
+            ...currentDocument.summary,
+            generalOpinion: typeof legacySummary.generalOpinion === "string" ? legacySummary.generalOpinion : currentDocument.summary.generalOpinion,
+            positivePoints: Array.isArray(legacySummary.positivePoints) ? legacySummary.positivePoints.filter((item): item is string => typeof item === "string") : currentDocument.summary.positivePoints,
+            criticalPoints: Array.isArray(legacySummary.criticalPoints) ? legacySummary.criticalPoints.filter((item): item is string => typeof item === "string") : currentDocument.summary.criticalPoints,
+            improvementPoints: Array.isArray(legacySummary.improvementPoints) ? legacySummary.improvementPoints.filter((item): item is string => typeof item === "string") : currentDocument.summary.improvementPoints
+          }
+        : currentDocument.summary,
       updatedAt: new Date().toISOString()
     };
     return refreshLayout ? persistTechnicalReport(document) : document;
@@ -86,9 +98,9 @@ export async function POST(request: NextRequest, context: Params) {
       return NextResponse.json({ report: view(await generateTechnicalReportBatch(document, 1)) });
     }
     if (payload.action === "generate") return NextResponse.json({ report: view(await generateTechnicalReportBatch(document, Number(payload.limit) || 2, payload.retryUnavailable === true)) });
-    // A ação padrão emite imediatamente o PDF institucional; a revisão com IA
-    // continua disponível apenas pelas ações explícitas de geração/revisão.
-    return NextResponse.json({ report: view(document) });
+    // Antes de emitir, consolida as análises já geradas. Assim, reemitir o PDF
+    // não remove o parecer nem deixa os quadros de síntese vazios.
+    return NextResponse.json({ report: view(await refreshTechnicalReportSummary(document)) });
   } catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "Não foi possível gerar a análise técnica. Os dados foram preservados." }, { status: 503 }); }
 }
 export async function PATCH(request: NextRequest, context: Params) {
