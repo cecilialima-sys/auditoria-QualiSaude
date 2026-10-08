@@ -22,6 +22,17 @@ function formatDate(value: string) {
   return new Intl.DateTimeFormat("pt-BR", { dateStyle: "short", timeStyle: "short" }).format(new Date(value));
 }
 
+async function readApiJson(response: Response): Promise<Record<string, unknown>> {
+  const body = await response.text();
+  if (!body.trim()) return { error: `O servidor não respondeu ao processamento do relatório (HTTP ${response.status}). Tente novamente em instantes.` };
+  try {
+    const data: unknown = JSON.parse(body);
+    return data && typeof data === "object" ? data as Record<string, unknown> : { error: "O servidor retornou uma resposta inválida ao processar o relatório." };
+  } catch {
+    return { error: `O servidor retornou uma resposta inválida ao processar o relatório (HTTP ${response.status}).` };
+  }
+}
+
 export function ReportHistory() {
   const [reports, setReports] = useState<ReportListItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,10 +43,10 @@ export function ReportHistory() {
   useEffect(() => {
     fetch("/api/reports")
       .then(async (response) => {
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error ?? "Não foi possível carregar relatórios.");
+        const data = await readApiJson(response);
+        if (!response.ok) throw new Error(typeof data.error === "string" ? data.error : "Não foi possível carregar relatórios.");
         // Respostas legadas ou incompletas não podem impedir a exibição da tela.
-        setReports(Array.isArray(data.reports) ? data.reports : []);
+        setReports(Array.isArray(data.reports) ? data.reports as ReportListItem[] : []);
       })
       .catch((err) => setError(err instanceof Error ? err.message : "Erro ao carregar relatórios."))
       .finally(() => setLoading(false));
@@ -67,13 +78,14 @@ export function ReportHistory() {
     setError("");
     try {
       const initialResponse = await fetch(`/api/auditorias/${encodeURIComponent(report.technicalAuditId)}/relatorio-tecnico`);
-      const initialData = await initialResponse.json();
-      if (!initialResponse.ok) throw new Error(initialData.error ?? "Não foi possível preparar o relatório técnico.");
+      const initialData = await readApiJson(initialResponse);
+      if (!initialResponse.ok) throw new Error(typeof initialData.error === "string" ? initialData.error : "Não foi possível preparar o relatório técnico.");
 
-      const retryUnavailable = Number(initialData.report?.unavailable ?? 0) > 0;
+      const initialReport = initialData.report as { unavailable?: number; total?: number; completed?: number } | undefined;
+      const retryUnavailable = Number(initialReport?.unavailable ?? 0) > 0;
       const totalToProcess = retryUnavailable
-        ? Number(initialData.report.unavailable)
-        : Math.max(0, Number(initialData.report?.total ?? 0) - Number(initialData.report?.completed ?? 0));
+        ? Number(initialReport?.unavailable ?? 0)
+        : Math.max(0, Number(initialReport?.total ?? 0) - Number(initialReport?.completed ?? 0));
       const batches = Math.max(1, Math.ceil(totalToProcess / 2));
 
       for (let batch = 0; batch < batches; batch += 1) {
@@ -82,10 +94,12 @@ export function ReportHistory() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ action: "generate", limit: 2, retryUnavailable })
         });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error ?? "Não foi possível gerar as constatações técnicas.");
-        if (!retryUnavailable && data.report.completed >= data.report.total) break;
-        if (retryUnavailable && data.report.unavailable === 0) break;
+        const data = await readApiJson(response);
+        if (!response.ok) throw new Error(typeof data.error === "string" ? data.error : "Não foi possível gerar as constatações técnicas.");
+        const generatedReport = data.report as { completed?: number; total?: number; unavailable?: number } | undefined;
+        if (!generatedReport) throw new Error("O servidor não retornou o estado do relatório técnico.");
+        if (!retryUnavailable && Number(generatedReport.completed) >= Number(generatedReport.total)) break;
+        if (retryUnavailable && Number(generatedReport.unavailable) === 0) break;
       }
 
       const response = await fetch(`/api/auditorias/${encodeURIComponent(report.technicalAuditId)}/relatorio-tecnico`, {
@@ -93,10 +107,12 @@ export function ReportHistory() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "render" })
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error ?? "Não foi possível emitir o relatório técnico.");
+      const data = await readApiJson(response);
+      if (!response.ok) throw new Error(typeof data.error === "string" ? data.error : "Não foi possível emitir o relatório técnico.");
+      const renderedReport = data.report as { previewUrl?: string; downloadUrl?: string } | undefined;
+      if (!renderedReport?.previewUrl && !renderedReport?.downloadUrl) throw new Error("O relatório foi processado, mas o endereço do documento não foi retornado.");
       // O botão emite e abre diretamente o documento final no padrão institucional.
-      window.open(data.report.previewUrl ?? data.report.downloadUrl, "_blank", "noopener,noreferrer");
+      window.open(renderedReport.previewUrl ?? renderedReport.downloadUrl, "_blank", "noopener,noreferrer");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Não foi possível preparar o relatório técnico-crítico.");
     } finally {
